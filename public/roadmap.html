@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning Roadmaps — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Track Tabs ─────────────────────────────────────────── */
+    .track-tabs {
+      display: flex; gap: .5rem; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 3rem;
+    }
+    .track-tab {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .65rem 1.25rem; border-radius: 9999px;
+      border: 1.5px solid var(--border); background: var(--bg-card);
+      cursor: pointer; font-size: .875rem; font-weight: 600;
+      color: var(--text-muted); transition: all .2s; font-family: inherit;
+    }
+    .track-tab:hover { border-color: var(--accent); color: var(--text); }
+    .track-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .track-tab .tt-icon { width: 22px; text-align: center; }
+
+    /* ── Track Header ────────────────────────────────────────── */
+    .track-header {
+      text-align: center; max-width: 640px; margin: 0 auto 3rem;
+    }
+    .track-meta {
+      display: flex; gap: 1rem; justify-content: center;
+      flex-wrap: wrap; margin-top: 1.25rem;
+    }
+    .track-chip {
+      display: flex; align-items: center; gap: .4rem;
+      font-size: .82rem; color: var(--text-muted);
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: .3rem .85rem; border-radius: 9999px;
+    }
+    .track-chip i { color: var(--accent); font-size: .78rem; }
+
+    /* ── Roadmap Layout ──────────────────────────────────────── */
+    .roadmap-track { display: none; }
+    .roadmap-track.active { display: block; }
+
+    .rm-phases {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0;
+      max-width: 860px; margin: 0 auto;
+    }
+
+    .rm-phase {
+      width: 100%;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem 2rem;
+      position: relative;
+    }
+    .rm-phase:hover { border-color: rgba(108,99,255,.4); }
+
+    .rm-phase-top {
+      display: flex; align-items: flex-start; gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .rm-num {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: .95rem; flex-shrink: 0;
+    }
+    .rm-phase-info { flex: 1; }
+    .rm-phase-name  { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .3rem; }
+    .rm-phase-summary { font-size: .85rem; color: var(--text-sub); line-height: 1.6; }
+
+    /* ── Topic Pills ─────────────────────────────────────────── */
+    .rm-topics { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    .rm-topic {
+      display: flex; align-items: center; gap: .4rem;
+      padding: .45rem 1rem; border-radius: 8px;
+      font-size: .82rem; font-weight: 600; cursor: default;
+      border: 1.5px solid; transition: transform .15s;
+      position: relative;
+    }
+    .rm-topic:hover { transform: translateY(-2px); }
+    .rm-topic .rm-tip {
+      display: none; position: absolute; bottom: calc(100% + 8px);
+      left: 50%; transform: translateX(-50%);
+      background: var(--bg-card2); border: 1px solid var(--border);
+      border-radius: 8px; padding: .5rem .75rem;
+      font-size: .78rem; font-weight: 400; color: var(--text-sub);
+      white-space: nowrap; max-width: 240px; white-space: normal;
+      z-index: 10; line-height: 1.5; min-width: 180px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.4);
+      pointer-events: none;
+    }
+    .rm-topic:hover .rm-tip { display: block; }
+
+    .rm-topic.core     { background: rgba(108,99,255,.1); border-color: var(--accent);    color: var(--accent); }
+    .rm-topic.deep     { background: rgba(67,233,123,.08); border-color: var(--green);    color: var(--green); }
+    .rm-topic.optional { background: rgba(166,173,200,.08); border-color: var(--border);  color: var(--text-muted); }
+    .rm-topic.tool     { background: rgba(249,226,175,.08); border-color: var(--yellow);  color: var(--yellow); }
+
+    /* ── Phase Connectors ────────────────────────────────────── */
+    .rm-connector {
+      width: 2px; height: 36px;
+      background: linear-gradient(to bottom, var(--accent), var(--border));
+      position: relative; flex-shrink: 0;
+    }
+    .rm-connector::after {
+      content: '';
+      position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--border);
+    }
+
+    /* ── Legend ──────────────────────────────────────────────── */
+    .rm-legend {
+      display: flex; gap: .75rem; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 2rem;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: .4rem;
+      font-size: .78rem; color: var(--text-muted);
+    }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 3px;
+    }
+    .legend-dot.core     { background: var(--accent); }
+    .legend-dot.deep     { background: var(--green); }
+    .legend-dot.tool     { background: var(--yellow); }
+    .legend-dot.optional { background: var(--border); }
+
+    /* ── Resources Section ───────────────────────────────────── */
+    .rm-resources {
+      max-width: 860px; margin: 3rem auto 0;
+    }
+    .rm-resources h3 {
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .resources-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 1rem;
+    }
+    .res-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.1rem 1.25rem;
+      text-decoration: none; color: var(--text-sub);
+      transition: all .2s; display: flex; flex-direction: column; gap: .4rem;
+    }
+    .res-card:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+    .res-card-name { font-weight: 700; font-size: .9rem; color: var(--text); display: flex; align-items: center; gap: .4rem; }
+    .res-card:hover .res-card-name { color: var(--accent); }
+    .res-card-desc { font-size: .8rem; line-height: 1.5; }
+    .res-card-url  { font-size: .73rem; color: var(--text-muted); margin-top: auto; }
+
+    /* ── Loading ─────────────────────────────────────────────── */
+    #roadmap-loading { text-align: center; padding: 4rem; }
+
+    @media (max-width: 600px) {
+      .rm-phase { padding: 1.25rem; }
+      .rm-connector { height: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="roadmap.html" class="active">Roadmap</a>
+      <a href="compiler.html">Compiler</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- Hero -->
+    <div class="page-hero">
+      <span class="section-tag">Your Learning Path</span>
+      <h1>Developer Roadmaps</h1>
+      <p>Step-by-step guides for every career path. Pick a track, follow the phases, and know exactly what to learn next.</p>
+    </div>
+
+    <section>
+      <div class="container">
+
+        <!-- Track selector tabs (rendered by JS) -->
+        <div class="track-tabs" id="track-tabs">
+          <div class="loading-container"><div class="spinner"></div></div>
+        </div>
+
+        <!-- Legend -->
+        <div class="rm-legend">
+          <div class="legend-item"><div class="legend-dot core"></div> Must Learn</div>
+          <div class="legend-item"><div class="legend-dot deep"></div> Important (go deep)</div>
+          <div class="legend-item"><div class="legend-dot tool"></div> Tools to Install/Use</div>
+          <div class="legend-item"><div class="legend-dot optional"></div> Optional / Pick One</div>
+        </div>
+
+        <!-- Track roadmaps (rendered by JS) -->
+        <div id="roadmap-area">
+          <div id="roadmap-loading" class="loading-container"><div class="spinner"></div></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- "Don't know where to start?" section -->
+    <section style="background:var(--bg-card); border-top:1px solid var(--border);">
+      <div class="container" style="max-width:860px;">
+        <div class="section-header">
+          <span class="section-tag">Not Sure?</span>
+          <h2>Which track should I pick?</h2>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.25rem;">
+
+          <div class="card">
+            <div style="font-size:1.6rem; margin-bottom:.75rem;"><i class="fas fa-palette" style="color:#e44d26;"></i></div>
+            <h4 style="margin-bottom:.5rem;">I want to build websites</h4>
+            <p style="color:var(--text-sub); font-size:.875rem; line-height:1.6; margin-bottom:1rem;">You can see your work immediately. HTML, CSS, JavaScript — the most beginner-friendly path.</p>
+            <button class="btn btn-secondary" style="font-size:.82rem; padding:.45rem 1rem;" onclick="switchTrack('frontend')">
+              <i class="fas fa-arrow-right"></i> Frontend Roadmap
+            </button>
+          </div>
+
+          <div class="card">
+            <div style="font-size:1.6rem; margin-bottom:.75rem;"><i class="fab fa-python" style="color:#3776AB;"></i></div>
+            <h4 style="margin-bottom:.5rem;">I want to learn programming</h4>
+            <p style="color:var(--text-sub); font-size:.875rem; line-height:1.6; margin-bottom:1rem;">Python is the easiest first language. Used for automation, data science, AI, and web development.</p>
+            <button class="btn btn-secondary" style="font-size:.82rem; padding:.45rem 1rem;" onclick="switchTrack('python')">
+              <i class="fas fa-arrow-right"></i> Python Roadmap
+            </button>
+          </div>
+
+          <div class="card">
+            <div style="font-size:1.6rem; margin-bottom:.75rem;"><i class="fas fa-server" style="color:#68a063;"></i></div>
+            <h4 style="margin-bottom:.5rem;">I want to build apps & APIs</h4>
+            <p style="color:var(--text-sub); font-size:.875rem; line-height:1.6; margin-bottom:1rem;">Build the invisible parts that power apps. Databases, servers, auth — this is where the complexity is.</p>
+            <button class="btn btn-secondary" style="font-size:.82rem; padding:.45rem 1rem;" onclick="switchTrack('backend')">
+              <i class="fas fa-arrow-right"></i> Backend Roadmap
+            </button>
+          </div>
+
+          <div class="card">
+            <div style="font-size:1.6rem; margin-bottom:.75rem;"><i class="fas fa-microchip" style="color:#a78bfa;"></i></div>
+            <h4 style="margin-bottom:.5rem;">I want to crack Big Tech interviews</h4>
+            <p style="color:var(--text-sub); font-size:.875rem; line-height:1.6; margin-bottom:1rem;">Data structures, algorithms, system design. Hard work but this is the path to FAANG.</p>
+            <button class="btn btn-secondary" style="font-size:.82rem; padding:.45rem 1rem;" onclick="switchTrack('cs')">
+              <i class="fas fa-arrow-right"></i> CS Fundamentals
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Honest advice section -->
+    <section>
+      <div class="container" style="max-width:720px;">
+        <div class="section-header">
+          <span class="section-tag">Real Talk</span>
+          <h2>Advice Nobody Tells You</h2>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+
+          <div class="card" style="display:flex; gap:1rem; align-items:flex-start;">
+            <div style="width:36px; height:36px; border-radius:8px; background:rgba(108,99,255,.15); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:.15rem;">
+              <i class="fas fa-exclamation" style="color:var(--accent); font-size:.85rem;"></i>
+            </div>
+            <div>
+              <h4 style="margin-bottom:.35rem;">One language, one year</h4>
+              <p style="color:var(--text-sub); font-size:.875rem; line-height:1.65;">Don't switch languages every month. Every language looks interesting when you're a beginner. Pick one and get genuinely good at it first. The concepts transfer. The time doesn't.</p>
+            </div>
+          </div>
+
+          <div class="card" style="display:flex; gap:1rem; align-items:flex-start;">
+            <div style="width:36px; height:36px; border-radius:8px; background:rgba(67,233,123,.12); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:.15rem;">
+              <i class="fas fa-hammer" style="color:var(--green); font-size:.85rem;"></i>
+            </div>
+            <div>
+              <h4 style="margin-bottom:.35rem;">Build things, even broken ones</h4>
+              <p style="color:var(--text-sub); font-size:.875rem; line-height:1.65;">Tutorials give you comfort. Projects give you skill. After every phase of this roadmap, build something with those skills — a to-do app, a calculator, a tiny game. It doesn't matter if it's ugly.</p>
+            </div>
+          </div>
+
+          <div class="card" style="display:flex; gap:1rem; align-items:flex-start;">
+            <div style="width:36px; height:36px; border-radius:8px; background:rgba(249,226,175,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:.15rem;">
+              <i class="fas fa-search" style="color:var(--yellow); font-size:.85rem;"></i>
+            </div>
+            <div>
+              <h4 style="margin-bottom:.35rem;">Google is not cheating</h4>
+              <p style="color:var(--text-sub); font-size:.875rem; line-height:1.65;">Every developer, every day, searches Stack Overflow, MDN, and GitHub. The skill is knowing what to search for. You're not supposed to memorize everything. Use the documentation.</p>
+            </div>
+          </div>
+
+          <div class="card" style="display:flex; gap:1rem; align-items:flex-start;">
+            <div style="width:36px; height:36px; border-radius:8px; background:rgba(243,139,168,.1); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:.15rem;">
+              <i class="fas fa-clock" style="color:var(--red); font-size:.85rem;"></i>
+            </div>
+            <div>
+              <h4 style="margin-bottom:.35rem;">It takes longer than you think</h4>
+              <p style="color:var(--text-sub); font-size:.875rem; line-height:1.65;">People say "learn to code in 3 months." That's marketing. Getting your first job realistically takes 1–2 years of consistent effort. That's not discouraging — it's just reality. Start now, keep going.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background:var(--bg-card); border-top:1px solid var(--border);">
+      <div class="container" style="text-align:center; max-width:600px;">
+        <span class="section-tag">Start Now</span>
+        <h2 style="font-size:1.8rem; font-weight:800; margin-bottom:1rem;">The Best Time to Start Was Yesterday</h2>
+        <p style="color:var(--text-sub); margin-bottom:2rem;">The second best time is right now. Pick a track above, open the compiler, and write your first line of code today.</p>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <a href="courses.html" class="btn btn-primary btn-lg"><i class="fas fa-play"></i> Start a Course</a>
+          <a href="resources.html" class="btn btn-secondary btn-lg"><i class="fas fa-link"></i> Free Resources</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Learn</h4><ul>
+          <li><a href="courses.html">All Courses</a></li>
+          <li><a href="roadmap.html" class="active">Roadmaps</a></li>
+          <li><a href="resources.html">Free Resources</a></li>
+          <li><a href="compiler.html">Compiler</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Company</h4><ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="leaderboard.html">Leaderboard</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Coder. All rights reserved.</p>
+        <p>Built with <i class="fas fa-heart" style="color:var(--red)"></i> in Dubai, UAE</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    let roadmapData = null;
+
+    /* ── Build the tab bar ─────────────────────────────────── */
+    function buildTabs(tracks) {
+      const tabBar = document.getElementById('track-tabs');
+      tabBar.innerHTML = tracks.map(t => `
+        <button class="track-tab" data-id="${t.id}" onclick="switchTrack('${t.id}')">
+          <i class="${t.icon} tt-icon"></i> ${t.title}
+        </button>`).join('');
+    }
+
+    /* ── Render a single phase ─────────────────────────────── */
+    function renderPhase(phase) {
+      const topics = phase.topics.map(topic => {
+        const link = topic.link
+          ? `<a href="${topic.link}" style="color:inherit; text-decoration:none;">${topic.name} <i class="fas fa-external-link-alt" style="font-size:.68rem; opacity:.6;"></i></a>`
+          : topic.name;
+        return `
+          <div class="rm-topic ${topic.type}">
+            ${link}
+            <span class="rm-tip">${escapeHtml(topic.desc)}</span>
+          </div>`;
+      }).join('');
+
+      return `
+        <div class="rm-phase">
+          <div class="rm-phase-top">
+            <div class="rm-num">${phase.id}</div>
+            <div class="rm-phase-info">
+              <div class="rm-phase-name">${escapeHtml(phase.name)}</div>
+              <div class="rm-phase-summary">${escapeHtml(phase.summary)}</div>
+            </div>
+          </div>
+          <div class="rm-topics">${topics}</div>
+        </div>`;
+    }
+
+    /* ── Render one full track ─────────────────────────────── */
+    function renderTrack(track) {
+      const phases = track.phases.map((p, i) => {
+        const connector = i < track.phases.length - 1
+          ? '<div class="rm-connector"></div>'
+          : '';
+        return renderPhase(p) + connector;
+      }).join('');
+
+      const resources = track.resources.map(r => `
+        <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="res-card">
+          <div class="res-card-name">
+            <i class="fas fa-external-link-alt" style="font-size:.72rem; color:var(--accent);"></i>
+            ${escapeHtml(r.name)}
+          </div>
+          <div class="res-card-desc">${escapeHtml(r.desc)}</div>
+          <div class="res-card-url">${r.url.replace('https://','')}</div>
+        </a>`).join('');
+
+      return `
+        <div class="roadmap-track" id="track-${track.id}">
+          <div class="track-header">
+            <span class="section-tag"><i class="${track.icon}"></i> ${escapeHtml(track.title)}</span>
+            <p style="color:var(--text-sub); margin-top:.5rem;">${escapeHtml(track.subtitle)}</p>
+            <div class="track-meta">
+              <div class="track-chip"><i class="fas fa-clock"></i> ${escapeHtml(track.duration)}</div>
+              <div class="track-chip"><i class="fas fa-layer-group"></i> ${track.phases.length} phases</div>
+              ${track.jobs.slice(0,2).map(j => `<div class="track-chip"><i class="fas fa-briefcase"></i> ${escapeHtml(j)}</div>`).join('')}
+            </div>
+          </div>
+          <div class="rm-phases">${phases}</div>
+          <div class="rm-resources">
+            <h3><i class="fas fa-link" style="color:var(--accent);"></i> Free Resources for This Track</h3>
+            <div class="resources-grid">${resources}</div>
+          </div>
+        </div>`;
+    }
+
+    /* ── Switch the active track ───────────────────────────── */
+    function switchTrack(id) {
+      document.querySelectorAll('.roadmap-track').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.track-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.id === id);
+      });
+      const el = document.getElementById('track-' + id);
+      if (el) {
+        el.classList.add('active');
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    /* ── Load data/roadmaps.json (static file, not a DB API) ─ */
+    async function loadRoadmaps() {
+      try {
+        const res  = await fetch('/data/roadmaps.json');
+        roadmapData = await res.json();
+        const tracks = roadmapData.tracks;
+
+        buildTabs(tracks);
+
+        const area = document.getElementById('roadmap-area');
+        area.innerHTML = tracks.map(renderTrack).join('');
+
+        /* activate first track */
+        switchTrack(tracks[0].id);
+      } catch (err) {
+        document.getElementById('roadmap-area').innerHTML =
+          '<p style="text-align:center;color:var(--red);padding:3rem;">Could not load roadmap data. Make sure the server is running.</p>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadRoadmaps);
+  </script>
+</body>
+</html>

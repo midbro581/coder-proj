@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coder — Learn to Code. One Lesson at a Time.</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="active">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="compiler.html">Compiler</a>
+      <a href="team.html">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- Hero -->
+    <section class="hero">
+      <!-- Animated floating code snippets -->
+      <div class="hero-floats" aria-hidden="true">
+        <span class="hero-float">print("Hello, World!")</span>
+        <span class="hero-float">const x = 42;</span>
+        <span class="hero-float">for i in range(10):</span>
+        <span class="hero-float">System.out.println();</span>
+        <span class="hero-float">function greet(name) {</span>
+        <span class="hero-float">SELECT * FROM users;</span>
+        <span class="hero-float">int main() {</span>
+        <span class="hero-float">console.log("Coder!");</span>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-badge"><i class="fas fa-bolt"></i> #1 Coding Platform in the Middle East</div>
+        <h1>Learn to <span class="highlight">Code.</span><br/>One Lesson at a Time.</h1>
+        <p>Master Python, JavaScript, Java, C++, HTML and SQL through interactive bite-sized lessons, a live in-browser compiler, and real projects.</p>
+        <div class="hero-buttons">
+          <a href="courses.html" class="btn btn-primary"><i class="fas fa-rocket"></i> Start Learning Free</a>
+          <a href="compiler.html" class="btn btn-secondary"><i class="fas fa-code"></i> Try the Compiler</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">50K+</div>
+            <div class="stat-label">Students</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Courses</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">45+</div>
+            <div class="stat-label">Countries</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">4.9<i class="fas fa-star" style="font-size:1.3rem;"></i></div>
+            <div class="stat-label">Rating</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Strip -->
+    <div class="features-strip">
+      <div class="features-row">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
+          <h4>Live Compiler</h4>
+          <p>Code in your browser instantly. No setup needed.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+          <h4>Expert Instructors</h4>
+          <p>Learn from engineers with industry experience.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-certificate"></i></div>
+          <h4>Earn XP &amp; Certs</h4>
+          <p>Track progress with XP points and earn certificates.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-users"></i></div>
+          <h4>Community</h4>
+          <p>Join 50,000+ learners worldwide.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h4>Learn Anywhere</h4>
+          <p>Fully responsive — desktop, tablet, or phone.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Courses Section -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Learning Paths</span>
+          <h2>Pick Your Language</h2>
+          <p>From beginner to advanced — structured paths to take you from zero to job-ready.</p>
+        </div>
+        <div class="courses-grid" id="home-courses">
+          <div class="loading-container"><div class="spinner"></div></div>
+        </div>
+        <div style="text-align:center; margin-top:2.5rem;">
+          <a href="courses.html" class="btn btn-secondary">View All Courses <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section style="background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Simple Process</span>
+          <h2>How Coder Works</h2>
+          <p>Three steps to go from zero to writing real code.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:2rem; text-align:center;">
+          <div class="card">
+            <div style="font-size:2.5rem; margin-bottom:0.75rem;">
+              <span style="background:linear-gradient(135deg,var(--accent),#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; font-weight:800;">01</span>
+            </div>
+            <h3 style="margin-bottom:0.5rem;">Choose a Course</h3>
+            <p style="color:var(--text-sub); font-size:0.875rem;">Pick from Python, JavaScript, Java, C++, HTML, or SQL — whatever your goal is.</p>
+          </div>
+          <div class="card">
+            <div style="font-size:2.5rem; margin-bottom:0.75rem;">
+              <span style="background:linear-gradient(135deg,var(--accent),#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; font-weight:800;">02</span>
+            </div>
+            <h3 style="margin-bottom:0.5rem;">Learn Step by Step</h3>
+            <p style="color:var(--text-sub); font-size:0.875rem;">Read bite-sized lessons, study code examples, and practice in the live compiler.</p>
+          </div>
+          <div class="card">
+            <div style="font-size:2.5rem; margin-bottom:0.75rem;">
+              <span style="background:linear-gradient(135deg,var(--accent),#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; font-weight:800;">03</span>
+            </div>
+            <h3 style="margin-bottom:0.5rem;">Earn XP &amp; Level Up</h3>
+            <p style="color:var(--text-sub); font-size:0.875rem;">Complete lessons to earn XP, maintain your streak, and track progress on your profile.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Student Stories</span>
+          <h2>What Our Students Say</h2>
+          <p>Real results from real learners who changed their careers with Coder.</p>
+        </div>
+        <div class="testimonials-grid" id="home-testimonials">
+          <div class="loading-container"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background: var(--bg-card); border-top: 1px solid var(--border); text-align:center;">
+      <div class="container" style="max-width:640px;">
+        <span class="section-tag">Get Started Today</span>
+        <h2 style="font-size:2.1rem; font-weight:800; margin-bottom:1rem; margin-top:0.5rem;">Ready to Start Your Coding Journey?</h2>
+        <p style="color:var(--text-sub); margin-bottom:2rem; font-size:1.05rem;">Join 50,000+ students already learning on Coder. It's completely free to start.</p>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <a href="register.html" class="btn btn-primary" style="font-size:1rem; padding:0.9rem 2.5rem;">Create Free Account <i class="fas fa-arrow-right"></i></a>
+          <a href="courses.html" class="btn btn-secondary" style="font-size:1rem; padding:0.9rem 2.5rem;">Browse Courses</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond. Learn to code, build real projects, and launch your career.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="courses.html">All Courses</a></li>
+            <li><a href="roadmap.html">Roadmaps</a></li>
+            <li><a href="resources.html">Free Resources</a></li>
+            <li><a href="compiler.html">Compiler</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="contact.html">Contact</a></li>
+
+            <li><a href="leaderboard.html">Leaderboard</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="sitemap.html">Sitemap</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Coder. All rights reserved.</p>
+        <p>Built with <i class="fas fa-heart" style="color:var(--red)"></i> in Dubai, UAE</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/courses.js"></script>
+</body>
+</html>

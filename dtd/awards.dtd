@@ -1,0 +1,7 @@
+<!ELEMENT awards (award+)>
+<!ELEMENT award (title, organization, year, description)>
+<!ATTLIST award id ID #REQUIRED>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT organization (#PCDATA)>
+<!ELEMENT year (#PCDATA)>
+<!ELEMENT description (#PCDATA)>

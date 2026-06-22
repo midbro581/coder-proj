@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Team — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="compiler.html">Compiler</a>
+      <a href="team.html" class="active">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <div class="page-hero">
+      <span class="section-tag">The People Behind Coder</span>
+      <h1>Meet Our Team</h1>
+      <p>Three Computer Science students at the <strong>University of Wollongong in Dubai</strong> who started Coder in 2026 — their first company — to help people truly understand coding from scratch.</p>
+    </div>
+
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Founders</span>
+          <h2>The UOWD Founding Team</h2>
+          <p>Built by students, for students. Coder is our first company and we write every line of it ourselves.</p>
+        </div>
+        <div class="team-grid" id="team-grid">
+          <div class="loading-container"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Where We Are — UOWD -->
+    <section style="background:var(--bg-card); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Where We Are</span>
+          <h2>Based at UOWD</h2>
+          <p>Coder was founded and is built at the University of Wollongong in Dubai.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.25rem; max-width:780px; margin:0 auto;">
+          <div class="card" style="text-align:center;">
+            <div style="font-size:1.8rem; color:var(--accent); margin-bottom:0.5rem;"><i class="fas fa-university"></i></div>
+            <h4 style="margin-bottom:0.3rem;">University of Wollongong in Dubai</h4>
+            <p style="color:var(--text-sub); font-size:0.85rem;">Knowledge Park, Dubai, UAE</p>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div style="font-size:1.8rem; color:var(--accent); margin-bottom:0.5rem;"><i class="fas fa-laptop-code"></i></div>
+            <h4 style="margin-bottom:0.3rem;">Built Online</h4>
+            <p style="color:var(--text-sub); font-size:0.85rem;">Every lesson, the compiler, and the platform — written by 3 students from their laptops.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Table -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Growth</span>
+          <h2>Company Progress Timeline</h2>
+          <p>Key milestones from our founding to today.</p>
+        </div>
+        <div style="overflow-x:auto;">
+          <table id="progress-table" style="width:100%; border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);">
+                <th style="padding:1rem; text-align:left; color:var(--text-muted); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Year</th>
+                <th style="padding:1rem; text-align:left; color:var(--text-muted); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Milestone</th>
+                <th style="padding:1rem; text-align:left; color:var(--text-muted); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Details</th>
+              </tr>
+            </thead>
+            <tbody id="progress-tbody">
+              <tr><td colspan="3" style="padding:2rem; text-align:center;"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Learn</h4><ul>
+          <li><a href="courses.html">All Courses</a></li>
+          <li><a href="roadmap.html">Roadmaps</a></li>
+          <li><a href="resources.html">Free Resources</a></li>
+          <li><a href="compiler.html">Compiler</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Company</h4><ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+
+          <li><a href="leaderboard.html">Leaderboard</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 Coder. All rights reserved.</p></div>
+    </footer>
+
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/team.js"></script>
+</body>
+</html>

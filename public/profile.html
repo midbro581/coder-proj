@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="compiler.html">Compiler</a>
+      <a href="team.html">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link active" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+    <!-- Not-logged-in gate -->
+    <div id="profile-gate" style="display:none; min-height:calc(100vh - 64px); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1.5rem; padding:2rem; text-align:center;">
+      <i class="fas fa-lock" style="font-size:3rem; color:var(--text-muted);"></i>
+      <h2 style="font-size:1.5rem;">Sign in to view your profile</h2>
+      <p style="color:var(--text-sub);">Track your progress, XP, and streaks — all in one place.</p>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+        <a href="login.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Log In</a>
+        <a href="register.html" class="btn btn-secondary">Create Account</a>
+      </div>
+    </div>
+
+    <!-- Profile content (shown when logged in) -->
+    <div id="profile-content" style="display:none;">
+      <div class="profile-layout">
+
+        <!-- Left: Profile Card -->
+        <aside>
+          <div class="profile-card">
+            <div class="profile-avatar" id="profile-avatar">A</div>
+            <div class="profile-username" id="profile-username">Loading...</div>
+            <div class="profile-email" id="profile-email"></div>
+
+            <div class="profile-stats-row">
+              <div class="profile-stat-box">
+                <div class="profile-stat-val" id="stat-xp">0</div>
+                <div class="profile-stat-lbl">Total XP</div>
+              </div>
+              <div class="profile-stat-box">
+                <div class="profile-stat-val" id="stat-streak">0</div>
+                <div class="profile-stat-lbl">Day Streak</div>
+              </div>
+              <div class="profile-stat-box">
+                <div class="profile-stat-val" id="stat-lessons">0</div>
+                <div class="profile-stat-lbl">Lessons Done</div>
+              </div>
+              <div class="profile-stat-box">
+                <div class="profile-stat-val" id="stat-courses">0</div>
+                <div class="profile-stat-lbl">Courses Started</div>
+              </div>
+            </div>
+
+            <!-- XP level bar -->
+            <div class="xp-bar-container">
+              <div class="xp-bar-label">
+                <span id="xp-level-label">Level 1</span>
+                <span id="xp-next-label">0 / 100 XP</span>
+              </div>
+              <div class="xp-bar">
+                <div class="xp-bar-fill" id="xp-bar-fill" style="width:0%"></div>
+              </div>
+            </div>
+
+            <div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.6rem;">
+              <a href="courses.html" class="btn btn-primary btn-full"><i class="fas fa-rocket"></i> Continue Learning</a>
+            </div>
+          </div>
+
+          <!-- Streak badge -->
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem; margin-top:1rem; text-align:center;">
+            <div style="font-size:2rem; margin-bottom:0.5rem;">🔥</div>
+            <div style="font-size:1.5rem; font-weight:800; color:var(--yellow);" id="streak-display">0 days</div>
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.2rem;">Current Streak</div>
+          </div>
+        </aside>
+
+        <!-- Right: Main content -->
+        <div>
+
+          <!-- Course Progress -->
+          <div style="margin-bottom:2.5rem;">
+            <h2 style="font-size:1.2rem; font-weight:700; margin-bottom:1.25rem; display:flex; align-items:center; gap:0.5rem;">
+              <i class="fas fa-chart-bar" style="color:var(--accent);"></i> Course Progress
+            </h2>
+            <div class="profile-courses-grid" id="profile-courses-grid">
+              <div class="loading-container" style="grid-column:1/-1;"><div class="spinner"></div></div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div>
+            <h2 style="font-size:1.2rem; font-weight:700; margin-bottom:1.25rem; display:flex; align-items:center; gap:0.5rem;">
+              <i class="fas fa-history" style="color:var(--accent);"></i> Recent Activity
+            </h2>
+            <div class="activity-feed" id="activity-feed">
+              <div class="loading-container"><div class="spinner"></div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Learn</h4><ul>
+          <li><a href="courses.html">All Courses</a></li>
+          <li><a href="roadmap.html">Roadmaps</a></li>
+          <li><a href="resources.html">Free Resources</a></li>
+          <li><a href="compiler.html">Compiler</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Company</h4><ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+
+          <li><a href="leaderboard.html">Leaderboard</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 Coder. All rights reserved.</p></div>
+    </footer>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

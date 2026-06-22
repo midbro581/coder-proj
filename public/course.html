@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html" class="active">Courses</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="compiler.html">Compiler</a>
+      <a href="team.html">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- Breadcrumb -->
+    <div style="padding: 1.25rem 2rem; border-bottom: 1px solid var(--border); background: var(--bg-card2);">
+      <div class="container">
+        <span style="color:var(--text-muted); font-size:0.85rem;">
+          <a href="courses.html" style="color:var(--text-muted);">Courses</a>
+          <i class="fas fa-chevron-right" style="font-size:0.65rem; margin:0 0.5rem;"></i>
+          <span id="breadcrumb-course" style="color:var(--text);">Loading...</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="course-detail-layout">
+
+      <!-- Sidebar: lesson list -->
+      <aside class="course-sidebar-panel" id="course-sidebar">
+        <div class="course-sidebar-panel-header">
+          <h3><i class="fas fa-list" style="color:var(--accent); margin-right:0.4rem;"></i> Lessons</h3>
+        </div>
+        <div id="sidebar-lesson-list">
+          <div class="loading-container" style="padding:1.5rem;"><div class="spinner"></div></div>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main id="course-main">
+        <div class="loading-container"><div class="spinner"></div></div>
+      </main>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond.</p>
+        </div>
+        <div class="footer-col"><h4>Learn</h4><ul>
+          <li><a href="courses.html">All Courses</a></li>
+          <li><a href="roadmap.html">Roadmaps</a></li>
+          <li><a href="resources.html">Free Resources</a></li>
+          <li><a href="compiler.html">Compiler</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Company</h4><ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+
+          <li><a href="leaderboard.html">Leaderboard</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 Coder. All rights reserved.</p></div>
+    </footer>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ── course.html inline script ── */
+
+    const LANG_GRADIENTS = {
+      python:     'linear-gradient(135deg, #1a6fa8 0%, #2196f3 100%)',
+      java:       'linear-gradient(135deg, #b5451b 0%, #f57c00 100%)',
+      javascript: 'linear-gradient(135deg, #857600 0%, #f0c000 100%)',
+      cpp:        'linear-gradient(135deg, #003366 0%, #005fa3 100%)',
+      html:       'linear-gradient(135deg, #a02010 0%, #e44d26 100%)',
+      sql:        'linear-gradient(135deg, #1a2f50 0%, #336791 100%)',
+    };
+
+    const BADGE_CLASS = { Beginner: 'badge-beginner', Intermediate: 'badge-intermediate', Advanced: 'badge-advanced' };
+
+    async function loadCoursePage() {
+      const params   = new URLSearchParams(window.location.search);
+      const courseId = params.get('id');
+      if (!courseId) { showError('No course ID provided.'); return; }
+
+      try {
+        // Load course info and lessons in parallel
+        const [course, lessons] = await Promise.all([
+          apiFetch('/api/courses/' + courseId),
+          apiFetch('/api/lessons/' + courseId)
+        ]);
+
+        // Load user progress if logged in
+        let completedIds = [];
+        const user = getUser();
+        if (user && user.id) {
+          try {
+            completedIds = await apiFetch('/api/progress/' + user.id);
+          } catch (e) { /* ignore */ }
+        }
+
+        document.title = course.title + ' — Coder';
+        document.getElementById('breadcrumb-course').textContent = course.title;
+
+        renderCourseBanner(course, lessons, completedIds);
+        renderLessonSidebar(course, lessons, completedIds, courseId);
+      } catch (err) {
+        showError('Failed to load course. Make sure the server is running.');
+      }
+    }
+
+    function renderCourseBanner(course, lessons, completedIds) {
+      const gradient = LANG_GRADIENTS[course.language] || 'linear-gradient(135deg, #3d3d5c 0%, var(--accent) 100%)';
+      const completed = lessons.filter(l => completedIds.includes(l.id)).length;
+      const pct = lessons.length > 0 ? Math.round((completed / lessons.length) * 100) : 0;
+
+      const main = document.getElementById('course-main');
+      main.innerHTML = `
+        <div class="course-info-card">
+          <div class="course-info-banner" style="background:${gradient};">
+            <div>
+              <i class="${course.icon} course-info-banner-icon"></i>
+            </div>
+            <div>
+              <h1>${escapeHtml(course.title)}</h1>
+              <p>${escapeHtml(course.description)}</p>
+            </div>
+          </div>
+          <div class="course-info-body">
+            <div class="course-stats-row">
+              <div class="course-stat"><i class="fas fa-layer-group"></i> <span class="course-badge ${BADGE_CLASS[course.level] || 'badge-beginner'}">${course.level}</span></div>
+              <div class="course-stat"><i class="fas fa-clock"></i> ${escapeHtml(course.duration)}</div>
+              <div class="course-stat"><i class="fas fa-book-open"></i> ${lessons.length} lessons</div>
+              ${completed > 0 ? `<div class="course-stat"><i class="fas fa-check-circle" style="color:var(--green)"></i> ${completed} completed</div>` : ''}
+            </div>
+            ${lessons.length > 0 ? `
+              <div style="margin-bottom:1.5rem;">
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-muted); margin-bottom:0.4rem;">
+                  <span>Your Progress</span>
+                  <span>${pct}%</span>
+                </div>
+                <div class="course-progress-bar">
+                  <div class="course-progress-fill" style="width:${pct}%"></div>
+                </div>
+              </div>
+            ` : ''}
+            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+              ${lessons.length > 0 ? `
+                <a href="lesson.html?course=${encodeURIComponent(course.language)}&lesson=${lessons[0].id}" class="btn btn-primary">
+                  <i class="fas fa-play"></i> ${completed > 0 ? 'Continue Learning' : 'Start Course'}
+                </a>
+              ` : ''}
+              <a href="compiler.html?lang=${encodeURIComponent(course.language)}" class="btn btn-secondary">
+                <i class="fas fa-terminal"></i> Open Compiler
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lesson list table -->
+        <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;">
+          <div style="padding:1.25rem 1.5rem; border-bottom:1px solid var(--border); background:var(--bg-card2); display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="font-size:1.1rem; font-weight:700;">Course Lessons</h2>
+            <span style="color:var(--text-muted); font-size:0.875rem;">${lessons.length} lessons total</span>
+          </div>
+          ${lessons.length === 0
+            ? '<p style="padding:2rem; text-align:center; color:var(--text-muted);">No lessons available yet for this course.</p>'
+            : lessons.map((lesson, idx) => {
+                const done = completedIds.includes(lesson.id);
+                return `
+                  <a href="lesson.html?course=${encodeURIComponent(course.language)}&lesson=${lesson.id}"
+                     class="lesson-list-item${done ? ' completed' : ''}"
+                     style="text-decoration:none;">
+                    <div class="lesson-list-num">${done ? '<i class="fas fa-check"></i>' : (idx + 1)}</div>
+                    <div style="flex:1;">
+                      <div style="font-weight:600; font-size:0.875rem;">${escapeHtml(lesson.title)}</div>
+                      <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.15rem;">
+                        <i class="fas fa-bolt" style="color:var(--yellow);"></i> ${lesson.xp_reward} XP
+                      </div>
+                    </div>
+                    ${done ? '<i class="fas fa-check-circle lesson-check"></i>' : '<i class="fas fa-chevron-right" style="color:var(--text-muted); font-size:0.75rem;"></i>'}
+                  </a>`;
+              }).join('')
+          }
+        </div>`;
+    }
+
+    function renderLessonSidebar(course, lessons, completedIds, courseId) {
+      const sidebar = document.getElementById('sidebar-lesson-list');
+      if (lessons.length === 0) {
+        sidebar.innerHTML = '<p style="padding:1rem; color:var(--text-muted); font-size:0.85rem; text-align:center;">No lessons yet.</p>';
+        return;
+      }
+      const completed = lessons.filter(l => completedIds.includes(l.id)).length;
+      const pct = Math.round((completed / lessons.length) * 100);
+      sidebar.innerHTML = `
+        <div style="padding:0.75rem 1.25rem; border-bottom:1px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.3rem;">
+            <span>${completed}/${lessons.length} complete</span>
+            <span>${pct}%</span>
+          </div>
+          <div class="course-progress-bar">
+            <div class="course-progress-fill" style="width:${pct}%"></div>
+          </div>
+        </div>
+        ${lessons.map((l, idx) => {
+          const done = completedIds.includes(l.id);
+          return `
+            <a href="lesson.html?course=${encodeURIComponent(course.language)}&lesson=${l.id}"
+               class="lesson-list-item${done ? ' completed' : ''}"
+               style="text-decoration:none;">
+              <div class="lesson-list-num">${done ? '<i class="fas fa-check"></i>' : (idx + 1)}</div>
+              <span style="flex:1; font-size:0.85rem;">${escapeHtml(l.title)}</span>
+              ${done ? '<i class="fas fa-check lesson-check" style="font-size:0.75rem;"></i>' : ''}
+            </a>`;
+        }).join('')}`;
+    }
+
+    function showError(msg) {
+      document.getElementById('course-main').innerHTML =
+        `<div style="padding:3rem; text-align:center; color:var(--red);">
+          <i class="fas fa-exclamation-circle" style="font-size:2rem; margin-bottom:1rem; display:block;"></i>
+          ${msg}
+        </div>`;
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCoursePage);
+  </script>
+</body>
+</html>

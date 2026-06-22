@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Billing Toggle ─────────────────────────────────────────── */
+    .billing-wrapper { text-align:center; margin-bottom:3rem; }
+    .billing-switch {
+      display:inline-flex; background:var(--bg-card2);
+      border:1px solid var(--border); border-radius:9999px; padding:4px; gap:4px;
+    }
+    .billing-btn {
+      padding:.5rem 1.4rem; border-radius:9999px; border:none; cursor:pointer;
+      font-size:.875rem; font-weight:600; background:transparent;
+      color:var(--text-muted); transition:all .2s; font-family:inherit;
+    }
+    .billing-btn.active { background:var(--accent); color:#fff; }
+    .save-chip {
+      display:inline-block; margin-left:.4rem; background:var(--green); color:#000;
+      font-size:.68rem; font-weight:700; padding:2px 7px; border-radius:9999px; vertical-align:middle;
+    }
+
+    /* ── Pricing Cards ──────────────────────────────────────────── */
+    .pricing-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:1.5rem; align-items:start; max-width:1020px; margin:0 auto;
+    }
+    .pc {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:16px; padding:2rem; position:relative;
+    }
+    .pc.featured {
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px var(--accent),0 8px 40px rgba(108,99,255,.28);
+      transform:translateY(-10px);
+    }
+    .pc-badge {
+      position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+      background:var(--accent); color:#fff; font-size:.7rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:1px; padding:4px 18px; border-radius:9999px;
+    }
+    .pc-name {
+      font-size:.82rem; font-weight:700; text-transform:uppercase;
+      letter-spacing:1.5px; color:var(--text-muted); margin-bottom:1rem;
+    }
+    .pc.featured .pc-name { color:var(--accent); }
+    .pc-price { display:flex; align-items:baseline; gap:3px; margin-bottom:.25rem; }
+    .pc-currency { font-size:1.3rem; font-weight:700; color:var(--text); margin-top:6px; }
+    .pc-amount { font-size:3.2rem; font-weight:800; color:var(--text); line-height:1; }
+    .pc-period { font-size:.83rem; color:var(--text-muted); }
+    .pc-tagline { color:var(--text-sub); font-size:.875rem; margin:.75rem 0 1.5rem; line-height:1.5; min-height:2.5rem; }
+    .pc-btn {
+      display:block; text-align:center; padding:.75rem 1.5rem;
+      border-radius:var(--radius); font-weight:700; font-size:.95rem;
+      cursor:pointer; border:none; width:100%; transition:all .2s;
+      text-decoration:none; font-family:inherit;
+    }
+    .pc-btn-primary { background:var(--accent); color:#fff; }
+    .pc-btn-primary:hover { background:var(--accent-hover); transform:translateY(-1px); }
+    .pc-btn-outline { background:transparent; border:1.5px solid var(--border); color:var(--text); }
+    .pc-btn-outline:hover { border-color:var(--accent); color:var(--accent); }
+    hr.pc-divider { border:none; border-top:1px solid var(--border); margin:1.5rem 0; }
+    .pc-features { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.7rem; }
+    .pc-features li { display:flex; align-items:center; gap:.6rem; font-size:.875rem; color:var(--text-sub); }
+    .fi { width:18px; text-align:center; flex-shrink:0; }
+    .fi-yes { color:var(--green); }
+    .fi-no  { color:var(--text-muted); opacity:.35; }
+
+    /* ── Comparison Table ───────────────────────────────────────── */
+    .compare-table { width:100%; border-collapse:collapse; font-size:.875rem; }
+    .compare-table th {
+      padding:1rem; text-align:center; border-bottom:2px solid var(--border); font-weight:700;
+    }
+    .compare-table th:first-child {
+      text-align:left; color:var(--text-muted); font-size:.78rem;
+      text-transform:uppercase; letter-spacing:1px;
+    }
+    .compare-table th.col-pro { color:var(--accent); }
+    .compare-table td {
+      padding:.8rem 1rem; border-bottom:1px solid var(--border);
+      text-align:center; color:var(--text-sub);
+    }
+    .compare-table td:first-child { text-align:left; color:var(--text); }
+    .compare-table tbody tr:hover { background:rgba(255,255,255,.02); }
+    .ct-check { color:var(--green); }
+    .ct-cross { color:var(--text-muted); opacity:.3; }
+    .ct-val { font-weight:600; color:var(--text); }
+    .compare-table tfoot td { padding:1.25rem 1rem; border-bottom:none; }
+
+    /* ── Payment icons ──────────────────────────────────────────── */
+    .pay-icons { display:flex; gap:.75rem; flex-wrap:wrap; align-items:center; justify-content:center; }
+    .pay-icon {
+      background:var(--bg-card2); border:1px solid var(--border);
+      border-radius:8px; padding:.4rem 1rem; font-size:.82rem;
+      font-weight:600; color:var(--text-sub); display:flex; align-items:center; gap:.4rem;
+    }
+
+    /* ── FAQ ────────────────────────────────────────────────────── */
+    .faq-item { border-bottom:1px solid var(--border); }
+    .faq-q {
+      width:100%; display:flex; align-items:center; justify-content:space-between;
+      padding:1.25rem 0; background:none; border:none; cursor:pointer; text-align:left;
+      color:var(--text); font-size:1rem; font-weight:600; font-family:inherit; gap:1rem;
+    }
+    .faq-q .faq-icon { color:var(--accent); transition:transform .25s; flex-shrink:0; }
+    .faq-item.open .faq-icon { transform:rotate(45deg); }
+    .faq-a {
+      max-height:0; overflow:hidden; transition:max-height .3s ease, padding .2s;
+      color:var(--text-sub); font-size:.9rem; line-height:1.75; padding-bottom:0;
+    }
+    .faq-item.open .faq-a { max-height:300px; padding-bottom:1.25rem; }
+
+    /* ── Modal ──────────────────────────────────────────────────── */
+    .pay-modal {
+      position:fixed; inset:0; background:rgba(0,0,0,.72);
+      display:none; align-items:center; justify-content:center;
+      z-index:9999; padding:1rem;
+    }
+    .pay-modal.open { display:flex; animation:fadeIn .2s; }
+    .pay-modal-box {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:16px; padding:2rem; width:100%; max-width:440px; position:relative;
+    }
+    .pay-modal-close {
+      position:absolute; top:1rem; right:1rem; background:none;
+      border:none; cursor:pointer; color:var(--text-muted); font-size:1.1rem; padding:4px;
+    }
+    .pay-modal-close:hover { color:var(--text); }
+    .card-row { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+    .demo-notice {
+      background:rgba(249,226,175,.08); border:1px solid rgba(249,226,175,.3);
+      border-radius:8px; padding:.7rem 1rem; font-size:.8rem;
+      color:var(--yellow); margin-top:1rem; text-align:center;
+    }
+    .order-summary {
+      background:var(--bg-card2); border:1px solid var(--border);
+      border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.5rem;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .order-summary .plan { font-weight:700; color:var(--text); }
+    .order-summary .price { font-size:1.4rem; font-weight:800; color:var(--accent); }
+
+    /* ── Toast ──────────────────────────────────────────────────── */
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .toast {
+      position:fixed; bottom:2rem; right:2rem;
+      background:var(--green); color:#000; padding:1rem 1.5rem;
+      border-radius:12px; font-weight:700; z-index:99999;
+      animation:slideUp .3s ease; display:flex; align-items:center; gap:.6rem;
+      box-shadow:0 4px 20px rgba(67,233,123,.35);
+    }
+    @media (max-width:768px) {
+      .pc.featured { transform:none; }
+      .pricing-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="compiler.html">Compiler</a>
+      <a href="team.html">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- Hero -->
+    <div class="page-hero">
+      <span class="section-tag">Plans &amp; Pricing</span>
+      <h1>Invest in Your Future</h1>
+      <p>Start free forever. Upgrade when you're ready to unlock everything Coder has to offer.</p>
+    </div>
+
+    <!-- Billing Toggle + Cards -->
+    <section>
+      <div class="container">
+
+        <div class="billing-wrapper">
+          <div class="billing-switch">
+            <button class="billing-btn active" data-billing="monthly" onclick="setBilling('monthly')">Monthly</button>
+            <button class="billing-btn" data-billing="yearly" onclick="setBilling('yearly')">
+              Yearly <span class="save-chip">Save 20%</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="pricing-grid">
+
+          <!-- Starter -->
+          <div class="pc">
+            <div class="pc-name">Starter</div>
+            <div class="pc-price">
+              <span class="pc-currency">$</span>
+              <span class="pc-amount">0</span>
+              <span class="pc-period">&nbsp;/ forever</span>
+            </div>
+            <p class="pc-tagline">Perfect for beginners just getting started. No credit card ever required.</p>
+            <a href="register.html" class="pc-btn pc-btn-outline"><i class="fas fa-rocket"></i> Get Started Free</a>
+            <hr class="pc-divider" />
+            <ul class="pc-features">
+              <li><i class="fas fa-check fi fi-yes"></i> 6 programming language courses</li>
+              <li><i class="fas fa-check fi fi-yes"></i> First 3 lessons per course (free preview)</li>
+              <li><i class="fas fa-check fi fi-yes"></i> In-browser compiler (Python, Java, JS, C++)</li>
+              <li><i class="fas fa-check fi fi-yes"></i> XP &amp; progress tracking</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Leaderboard ranking</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Community access</li>
+              <li><i class="fas fa-times fi fi-no"></i> Full course access (250+ lessons)</li>
+              <li><i class="fas fa-times fi fi-no"></i> Completion certificates</li>
+              <li><i class="fas fa-times fi fi-no"></i> Code challenges &amp; quizzes</li>
+            </ul>
+          </div>
+
+          <!-- Pro (featured) -->
+          <div class="pc featured">
+            <div class="pc-badge"><i class="fas fa-star"></i> Most Popular</div>
+            <div class="pc-name">Pro</div>
+            <div class="pc-price">
+              <span class="pc-currency">$</span>
+              <span class="pc-amount" id="pro-price">9.99</span>
+              <span class="pc-period" id="pro-period">&nbsp;/ month</span>
+            </div>
+            <p class="pc-tagline">Everything unlocked. Advance your career with verified certificates.</p>
+            <button class="pc-btn pc-btn-primary"
+              onclick="openPayModal('Pro', document.getElementById('pro-price').textContent)">
+              <i class="fas fa-bolt"></i> Get Pro Access
+            </button>
+            <hr class="pc-divider" />
+            <ul class="pc-features">
+              <li><i class="fas fa-check fi fi-yes"></i> Everything in Starter</li>
+              <li><i class="fas fa-check fi fi-yes"></i> <strong style="color:var(--text)">All 250+ lessons unlocked</strong></li>
+              <li><i class="fas fa-check fi fi-yes"></i> Completion certificates (PDF + LinkedIn)</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Weekly code challenges &amp; quizzes</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Priority support (24 h response)</li>
+              <li><i class="fas fa-check fi fi-yes"></i> No advertisements</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Download code examples</li>
+              <li><i class="fas fa-times fi fi-no"></i> Team dashboard &amp; analytics</li>
+              <li><i class="fas fa-times fi fi-no"></i> Custom learning paths</li>
+            </ul>
+          </div>
+
+          <!-- Team -->
+          <div class="pc">
+            <div class="pc-name">Team</div>
+            <div class="pc-price">
+              <span class="pc-currency">$</span>
+              <span class="pc-amount" id="team-price">19.99</span>
+              <span class="pc-period" id="team-period">&nbsp;/ user / month</span>
+            </div>
+            <p class="pc-tagline">For businesses and coding bootcamps training multiple developers. Min 5 users.</p>
+            <button class="pc-btn pc-btn-outline"
+              onclick="openPayModal('Team', document.getElementById('team-price').textContent)">
+              <i class="fas fa-envelope"></i> Contact Sales
+            </button>
+            <hr class="pc-divider" />
+            <ul class="pc-features">
+              <li><i class="fas fa-check fi fi-yes"></i> Everything in Pro</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Team progress dashboard</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Analytics &amp; detailed reporting</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Custom learning paths</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Bulk certificate generation</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Dedicated account manager</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Custom branding &amp; SSO</li>
+              <li><i class="fas fa-check fi fi-yes"></i> Invoice billing available</li>
+            </ul>
+          </div>
+
+        </div><!-- /pricing-grid -->
+
+        <!-- Payment methods -->
+        <div style="text-align:center; margin-top:2.5rem;">
+          <p style="color:var(--text-muted); font-size:.82rem; margin-bottom:.75rem;">
+            <i class="fas fa-lock"></i>&nbsp; Secure payment — 256-bit SSL · PCI DSS compliant
+          </p>
+          <div class="pay-icons">
+            <div class="pay-icon"><i class="fab fa-cc-visa" style="font-size:1.2rem;color:#1a1f71;"></i> Visa</div>
+            <div class="pay-icon"><i class="fab fa-cc-mastercard" style="font-size:1.2rem;color:#eb001b;"></i> Mastercard</div>
+            <div class="pay-icon"><i class="fab fa-cc-paypal" style="font-size:1.2rem;color:#003087;"></i> PayPal</div>
+            <div class="pay-icon"><i class="fab fa-apple-pay" style="font-size:1.3rem;"></i> Apple Pay</div>
+            <div class="pay-icon"><i class="fab fa-google-pay" style="font-size:1.3rem;"></i> Google Pay</div>
+            <div class="pay-icon"><i class="fas fa-university" style="font-size:.95rem;color:var(--accent);"></i> Bank Transfer</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Feature Comparison Table -->
+    <section style="background:var(--bg-card); border-top:1px solid var(--border);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Full Comparison</span>
+          <h2>What's Included in Each Plan</h2>
+          <p>Everything side by side, so you can pick with confidence.</p>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th style="min-width:220px;">Feature</th>
+                <th>Starter</th>
+                <th class="col-pro">Pro</th>
+                <th>Team</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Courses available</strong></td><td class="ct-val">6</td><td class="ct-val">6</td><td class="ct-val">6</td></tr>
+              <tr><td>Lessons accessible</td><td>3 per course</td><td class="ct-val">All 250+</td><td class="ct-val">All 250+</td></tr>
+              <tr><td>In-browser compiler</td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Progress tracking &amp; XP</td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Leaderboard ranking</td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Community messaging</td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Completion certificates</td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Code challenges &amp; quizzes</td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Download code examples</td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Priority support</td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Ad-free experience</td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-check ct-check"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Team progress dashboard</td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Analytics &amp; reporting</td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Custom learning paths</td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+              <tr><td>Custom branding &amp; SSO</td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-times ct-cross"></i></td><td><i class="fas fa-check ct-check"></i></td></tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td><a href="register.html" class="btn btn-secondary" style="font-size:.83rem;padding:.5rem 1.1rem;">Get Free</a></td>
+                <td><button class="btn btn-primary" style="font-size:.83rem;padding:.5rem 1.1rem;" onclick="openPayModal('Pro','9.99')">Get Pro</button></td>
+                <td><button class="btn btn-secondary" style="font-size:.83rem;padding:.5rem 1.1rem;" onclick="openPayModal('Team','19.99')">Contact Sales</button></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certificates section -->
+    <section>
+      <div class="container">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
+          <div>
+            <span class="section-tag">Pro Benefit</span>
+            <h2 style="font-size:1.8rem; font-weight:800; margin:1rem 0;">Earn Verified Certificates</h2>
+            <p style="color:var(--text-sub); line-height:1.75; margin-bottom:1.5rem;">
+              Complete any course and instantly download a verified PDF certificate. Each certificate includes your name, course title, completion date, and a unique QR code for instant verification by employers.
+            </p>
+            <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:.75rem;">
+              <li style="display:flex; gap:.75rem; align-items:flex-start;">
+                <i class="fas fa-check-circle" style="color:var(--green); margin-top:2px; flex-shrink:0;"></i>
+                <span style="color:var(--text-sub); font-size:.9rem;">Shareable link for LinkedIn profiles and resumes</span>
+              </li>
+              <li style="display:flex; gap:.75rem; align-items:flex-start;">
+                <i class="fas fa-check-circle" style="color:var(--green); margin-top:2px; flex-shrink:0;"></i>
+                <span style="color:var(--text-sub); font-size:.9rem;">Digitally signed by our CEO — tamper-proof</span>
+              </li>
+              <li style="display:flex; gap:.75rem; align-items:flex-start;">
+                <i class="fas fa-check-circle" style="color:var(--green); margin-top:2px; flex-shrink:0;"></i>
+                <span style="color:var(--text-sub); font-size:.9rem;">QR code verification in seconds</span>
+              </li>
+              <li style="display:flex; gap:.75rem; align-items:flex-start;">
+                <i class="fas fa-check-circle" style="color:var(--green); margin-top:2px; flex-shrink:0;"></i>
+                <span style="color:var(--text-sub); font-size:.9rem;">Available for all 6 programming language courses</span>
+              </li>
+            </ul>
+            <button class="btn btn-primary" style="margin-top:1.5rem;" onclick="openPayModal('Pro','9.99')">
+              <i class="fas fa-certificate"></i> Unlock Certificates
+            </button>
+          </div>
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:2rem; text-align:center;">
+            <div style="border:2px solid var(--accent); border-radius:12px; padding:2rem; position:relative; overflow:hidden;">
+              <div style="position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--accent),var(--green));"></div>
+              <div style="font-size:2rem; margin-bottom:1rem;"><i class="fas fa-certificate" style="color:var(--accent);"></i></div>
+              <div style="font-size:.7rem; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); margin-bottom:.5rem;">Certificate of Completion</div>
+              <div style="font-size:1.2rem; font-weight:800; color:var(--text); margin-bottom:.25rem;">Python for Beginners</div>
+              <div style="font-size:.8rem; color:var(--text-sub); margin-bottom:1.25rem;">This certifies that</div>
+              <div style="font-size:1rem; font-weight:700; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:.75rem; margin-bottom:.75rem;">Ahmed Al Marouf</div>
+              <div style="font-size:.78rem; color:var(--text-muted);">has successfully completed all lessons<br/>June 2026 · Coder Platform</div>
+              <div style="margin-top:1rem; display:flex; justify-content:space-between; align-items:center;">
+                <div style="width:50px; height:50px; background:var(--bg-card2); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:.6rem; color:var(--text-muted);">QR</div>
+                <div style="font-size:.68rem; color:var(--text-muted);">ID: CDR-2026-PY-00142</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section style="background:var(--bg-card); border-top:1px solid var(--border);">
+      <div class="container" style="max-width:740px;">
+        <div class="section-header">
+          <span class="section-tag">Got Questions?</span>
+          <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q">Can I try Pro for free? <i class="fas fa-plus faq-icon"></i></button>
+            <div class="faq-a">Yes! Every new Pro signup includes a 14-day free trial — no credit card required. You'll only be charged when the trial ends, and you can cancel any time before that with one click.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">What payment methods do you accept? <i class="fas fa-plus faq-icon"></i></button>
+            <div class="faq-a">We accept Visa, Mastercard, PayPal, Apple Pay, and Google Pay. For Team plans we also support bank transfer and invoice billing. All transactions are secured by 256-bit SSL encryption and are PCI DSS compliant.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">Can I switch plans or cancel anytime? <i class="fas fa-plus faq-icon"></i></button>
+            <div class="faq-a">Absolutely. You can upgrade, downgrade, or cancel your subscription at any time from your account settings. If you cancel, you keep Pro access until the end of your current billing period — no proration or surprises.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">What does a completion certificate include? <i class="fas fa-plus faq-icon"></i></button>
+            <div class="faq-a">Coder certificates are PDF documents containing your full name, the course completed, the completion date, a unique certificate ID, and a QR code for instant employer verification. They are digitally signed by our CEO and can be shared directly to your LinkedIn profile.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">Is there a student or group discount? <i class="fas fa-plus faq-icon"></i></button>
+            <div class="faq-a">Yes! Students with a valid .edu or university email address get 50% off any Pro plan. Coding bootcamps and universities enrolling 10+ students should contact us — we offer special institutional pricing and can set up a branded Team account for your cohort.</div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">What happens to my progress if I downgrade? <i class="fas fa-plus faq-icon"></i></button>
+            <div class="faq-a">Your XP, completed lessons, and streak data are always saved permanently — they never disappear. If you downgrade to Starter, you'll lose access to lessons beyond the first 3, but all your completed progress and any earned certificates remain in your profile forever.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background:linear-gradient(135deg,var(--bg-card) 0%,rgba(108,99,255,.1) 100%); border-top:1px solid var(--border);">
+      <div class="container" style="text-align:center; max-width:620px;">
+        <span class="section-tag">Ready?</span>
+        <h2 style="font-size:2rem; font-weight:800; margin-bottom:1rem;">Start Learning for Free</h2>
+        <p style="color:var(--text-sub); margin-bottom:2rem;">Join 50,000+ learners. Create your free account and start any course today — no credit card needed, forever.</p>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <a href="register.html" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Start Free Today</a>
+          <a href="courses.html" class="btn btn-secondary btn-lg"><i class="fas fa-book-open"></i> Browse Courses</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Learn</h4><ul>
+          <li><a href="courses.html">All Courses</a></li>
+          <li><a href="roadmap.html">Roadmaps</a></li>
+          <li><a href="resources.html">Free Resources</a></li>
+          <li><a href="compiler.html">Compiler</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Company</h4><ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+
+          <li><a href="leaderboard.html">Leaderboard</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Coder. All rights reserved.</p>
+        <p>Built with <i class="fas fa-heart" style="color:var(--red)"></i> in Dubai, UAE</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Payment Modal -->
+  <div class="pay-modal" id="pay-modal">
+    <div class="pay-modal-box">
+      <button class="pay-modal-close" onclick="closePayModal()"><i class="fas fa-times"></i></button>
+      <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:1.25rem;">
+        <i class="fas fa-lock" style="color:var(--accent); margin-right:.4rem;"></i>
+        Upgrade to <span id="modal-plan-name">Pro</span>
+      </h3>
+      <div class="order-summary">
+        <div>
+          <div class="plan" id="modal-plan-label">Coder Pro</div>
+          <div style="font-size:.8rem; color:var(--text-muted); margin-top:.2rem;">Billed monthly · cancel anytime</div>
+        </div>
+        <div class="price">$<span id="modal-price">9.99</span></div>
+      </div>
+
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" class="form-control" id="pay-email" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Card number</label>
+        <div style="position:relative;">
+          <input type="text" class="form-control" id="pay-card" placeholder="4242 4242 4242 4242" maxlength="19" />
+          <div style="position:absolute; right:.75rem; top:50%; transform:translateY(-50%); display:flex; gap:.3rem;">
+            <i class="fab fa-cc-visa" style="color:#1a1f71; font-size:1.1rem;"></i>
+            <i class="fab fa-cc-mastercard" style="color:#eb001b; font-size:1.1rem;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="card-row">
+        <div class="form-group">
+          <label>Expiry date</label>
+          <input type="text" class="form-control" placeholder="MM / YY" maxlength="7" />
+        </div>
+        <div class="form-group">
+          <label>CVV <i class="fas fa-question-circle" style="font-size:.75rem; color:var(--text-muted);"></i></label>
+          <input type="text" class="form-control" placeholder="•••" maxlength="4" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Cardholder name</label>
+        <input type="text" class="form-control" placeholder="Full name as shown on card" />
+      </div>
+
+      <button class="btn btn-primary btn-full" style="margin-top:.25rem;" onclick="handlePaySubmit()">
+        <i class="fas fa-lock"></i> Complete Purchase
+      </button>
+      <div class="demo-notice"><i class="fas fa-flask"></i> Demo mode — no real payment is processed in this environment</div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ── Billing toggle ──────────────────────────────────────── */
+    function setBilling(type) {
+      document.querySelectorAll('.billing-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.billing === type));
+      const y = type === 'yearly';
+      document.getElementById('pro-price').textContent  = y ? '7.99'  : '9.99';
+      document.getElementById('team-price').textContent = y ? '15.99' : '19.99';
+      document.getElementById('pro-period').textContent  = y ? ' / month (billed yearly)' : ' / month';
+      document.getElementById('team-period').textContent = y ? ' / user / month (yearly)' : ' / user / month';
+    }
+
+    /* ── Payment modal ───────────────────────────────────────── */
+    function openPayModal(plan, price) {
+      document.getElementById('modal-plan-name').textContent  = plan;
+      document.getElementById('modal-plan-label').textContent = 'Coder ' + plan;
+      document.getElementById('modal-price').textContent      = price;
+      const user = getUser();
+      if (user) document.getElementById('pay-email').value = user.email || '';
+      document.getElementById('pay-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePayModal() {
+      document.getElementById('pay-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handlePaySubmit() {
+      closePayModal();
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = '<i class="fas fa-check-circle"></i> Demo: Payment successful! Welcome to Pro!';
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity .4s';
+        setTimeout(() => document.body.removeChild(toast), 400);
+      }, 3000);
+    }
+
+    document.getElementById('pay-modal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closePayModal();
+    });
+
+    /* ── FAQ accordion ───────────────────────────────────────── */
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        document.querySelectorAll('.faq-item.open').forEach(o => {
+          if (o !== item) o.classList.remove('open');
+        });
+        item.classList.toggle('open');
+      });
+    });
+
+    /* ── Card number auto-formatting ─────────────────────────── */
+    document.getElementById('pay-card')?.addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '').slice(0, 16);
+      this.value = v.replace(/(.{4})/g, '$1 ').trim();
+    });
+  </script>
+</body>
+</html>

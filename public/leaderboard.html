@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Podium ─────────────────────────────────────────────── */
+    .podium {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .pod {
+      display: flex; flex-direction: column; align-items: center;
+      flex: 1; max-width: 220px;
+    }
+    .pod-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; font-weight: 800; color: #000;
+      margin-bottom: .75rem; position: relative;
+    }
+    .pod-crown {
+      position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+      font-size: 1.3rem;
+    }
+    .pod-name  { font-weight: 700; font-size: .9rem; text-align: center; margin-bottom: .25rem; }
+    .pod-xp    { font-size: .8rem; color: var(--text-muted); margin-bottom: .5rem; }
+    .pod-block {
+      width: 100%; border-radius: 12px 12px 0 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 800;
+    }
+    /* rank 1 */
+    .pod-1 .pod-avatar  { background: linear-gradient(135deg,#f9e2af,#f0a500); box-shadow: 0 0 0 3px #f9e2af; }
+    .pod-1 .pod-block   { background: linear-gradient(180deg,rgba(249,226,175,.18) 0%,rgba(249,226,175,.06) 100%); border: 1px solid rgba(249,226,175,.3); height: 130px; color: var(--yellow); }
+    /* rank 2 */
+    .pod-2 .pod-avatar  { background: linear-gradient(135deg,#cdd6f4,#a6adc8); box-shadow: 0 0 0 3px #cdd6f4; }
+    .pod-2 .pod-block   { background: linear-gradient(180deg,rgba(205,214,244,.12) 0%,rgba(205,214,244,.04) 100%); border: 1px solid rgba(205,214,244,.2); height: 100px; color: var(--text); }
+    /* rank 3 */
+    .pod-3 .pod-avatar  { background: linear-gradient(135deg,#f38ba8,#c45c6a); box-shadow: 0 0 0 3px rgba(243,139,168,.5); }
+    .pod-3 .pod-block   { background: linear-gradient(180deg,rgba(243,139,168,.12) 0%,rgba(243,139,168,.04) 100%); border: 1px solid rgba(243,139,168,.2); height: 80px; color: var(--red); }
+
+    /* ── Leaderboard Table ──────────────────────────────────── */
+    .lb-table { width: 100%; border-collapse: collapse; }
+    .lb-table thead th {
+      padding: .75rem 1rem; text-align: left;
+      border-bottom: 2px solid var(--border);
+      font-size: .78rem; text-transform: uppercase;
+      letter-spacing: .8px; color: var(--text-muted); font-weight: 700;
+    }
+    .lb-table thead th:nth-child(3),
+    .lb-table thead th:nth-child(4) { text-align: center; }
+    .lb-row {
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+    .lb-row:hover { background: rgba(108,99,255,.04); }
+    .lb-row.me    { background: rgba(108,99,255,.08); }
+    .lb-row.me:hover { background: rgba(108,99,255,.12); }
+    .lb-row td    { padding: .9rem 1rem; }
+    .lb-rank {
+      font-size: 1rem; font-weight: 800;
+      width: 48px; text-align: center;
+    }
+    .lb-rank.r1 { color: var(--yellow); }
+    .lb-rank.r2 { color: var(--text-sub); }
+    .lb-rank.r3 { color: var(--red); }
+    .lb-user    { display: flex; align-items: center; gap: .75rem; }
+    .lb-avatar  {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 700; color: #000; flex-shrink: 0;
+    }
+    .lb-username { font-weight: 600; font-size: .9rem; }
+    .lb-you      { font-size: .7rem; color: var(--accent); font-weight: 700; margin-left: .4rem; background: rgba(108,99,255,.15); padding: 2px 7px; border-radius: 9999px; }
+    .lb-xp       { text-align: center; font-weight: 700; color: var(--yellow); }
+    .lb-lessons  { text-align: center; color: var(--text-sub); }
+    .lb-badge    {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-size: .72rem; font-weight: 700; padding: 3px 9px;
+      border-radius: 9999px;
+    }
+    .badge-gold   { background: rgba(249,226,175,.15); color: var(--yellow); border: 1px solid rgba(249,226,175,.3); }
+    .badge-silver { background: rgba(205,214,244,.1);  color: var(--text-sub); border: 1px solid var(--border); }
+    .badge-bronze { background: rgba(243,139,168,.1);  color: var(--red);      border: 1px solid rgba(243,139,168,.3); }
+    .badge-novice { background: rgba(108,99,255,.1);   color: var(--accent);   border: 1px solid rgba(108,99,255,.25); }
+
+    /* ── Empty / loading ────────────────────────────────────── */
+    .lb-empty { padding: 3rem; text-align: center; color: var(--text-muted); font-size: .9rem; }
+
+    @media (max-width: 600px) {
+      .podium { flex-direction: column; align-items: center; }
+      .pod    { max-width: 100%; width: 100%; }
+      .pod-block { height: 60px !important; border-radius: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="compiler.html">Compiler</a>
+      <a href="team.html">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <div class="page-hero">
+      <span class="section-tag">Hall of Fame</span>
+      <h1><i class="fas fa-trophy" style="color:var(--yellow);"></i> Leaderboard</h1>
+      <p>The top learners on Coder, ranked by XP earned. Complete lessons to climb the ranks.</p>
+    </div>
+
+    <section>
+      <div class="container">
+
+        <!-- Top 3 Podium (rendered by JS) -->
+        <div class="podium" id="podium">
+          <div class="loading-container"><div class="spinner"></div></div>
+        </div>
+
+        <!-- Full table -->
+        <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;">
+          <div style="padding:1rem 1.5rem; background:var(--bg-card2); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem;">
+            <h3 style="font-size:1rem; font-weight:700;">
+              <i class="fas fa-list-ol" style="color:var(--accent); margin-right:.4rem;"></i>
+              Full Rankings
+            </h3>
+            <span id="lb-meta" style="font-size:.8rem; color:var(--text-muted);"></span>
+          </div>
+          <table class="lb-table">
+            <thead>
+              <tr>
+                <th style="width:60px; text-align:center;">Rank</th>
+                <th>Learner</th>
+                <th>XP Earned</th>
+                <th>Lessons</th>
+                <th>Badge</th>
+              </tr>
+            </thead>
+            <tbody id="lb-tbody">
+              <tr><td colspan="5" class="lb-empty"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Current user callout (rendered by JS if logged in) -->
+        <div id="my-rank-box" style="display:none; margin-top:1.5rem; background:rgba(108,99,255,.08); border:1px solid rgba(108,99,255,.3); border-radius:var(--radius); padding:1.25rem 1.5rem; display:none; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+          <div style="display:flex; align-items:center; gap:.75rem;">
+            <i class="fas fa-user-circle" style="font-size:1.5rem; color:var(--accent);"></i>
+            <div>
+              <div style="font-weight:700; font-size:.95rem;" id="my-rank-text">Your ranking</div>
+              <div style="font-size:.8rem; color:var(--text-muted);">Keep completing lessons to climb higher!</div>
+            </div>
+          </div>
+          <a href="courses.html" class="btn btn-primary" style="font-size:.85rem; padding:.5rem 1.1rem;">
+            <i class="fas fa-rocket"></i> Keep Learning
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- How XP works -->
+    <section style="background:var(--bg-card); border-top:1px solid var(--border);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">XP System</span>
+          <h2>How to Earn XP</h2>
+          <p>Every action on Coder earns you experience points that rank you on the leaderboard.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.25rem;">
+          <div class="card" style="text-align:center;">
+            <div style="font-size:1.8rem; margin-bottom:.6rem;"><i class="fas fa-book-open" style="color:var(--accent);"></i></div>
+            <h4 style="margin-bottom:.4rem;">Complete a Lesson</h4>
+            <p style="color:var(--text-sub); font-size:.85rem;">Earn <strong style="color:var(--yellow);">10–30 XP</strong> per lesson depending on difficulty</p>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div style="font-size:1.8rem; margin-bottom:.6rem;"><i class="fas fa-graduation-cap" style="color:var(--yellow);"></i></div>
+            <h4 style="margin-bottom:.4rem;">Finish a Course</h4>
+            <p style="color:var(--text-sub); font-size:.85rem;">Bonus <strong style="color:var(--yellow);">200 XP</strong> when you complete all lessons in a course</p>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div style="font-size:1.8rem; margin-bottom:.6rem;"><i class="fas fa-fire" style="color:var(--red);"></i></div>
+            <h4 style="margin-bottom:.4rem;">Daily Streak</h4>
+            <p style="color:var(--text-sub); font-size:.85rem;">Maintain a streak to earn <strong style="color:var(--yellow);">2× XP</strong> multiplier on all lessons</p>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div style="font-size:1.8rem; margin-bottom:.6rem;"><i class="fas fa-terminal" style="color:var(--green);"></i></div>
+            <h4 style="margin-bottom:.4rem;">Run Code</h4>
+            <p style="color:var(--text-sub); font-size:.85rem;">Use the compiler from a lesson to earn a <strong style="color:var(--yellow);">5 XP</strong> practice bonus</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badge tiers -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Ranks</span>
+          <h2>Badge Tiers</h2>
+          <p>Your badge reflects your total XP. Earn more to level up.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem;">
+          <div class="card" style="display:flex; align-items:center; gap:.75rem;">
+            <div style="font-size:1.5rem;"><i class="fas fa-seedling" style="color:var(--accent);"></i></div>
+            <div>
+              <div style="font-weight:700; font-size:.9rem;">Novice</div>
+              <div style="font-size:.78rem; color:var(--text-muted);">0 – 199 XP</div>
+            </div>
+          </div>
+          <div class="card" style="display:flex; align-items:center; gap:.75rem;">
+            <div style="font-size:1.5rem;"><i class="fas fa-medal" style="color:#cd7f32;"></i></div>
+            <div>
+              <div style="font-weight:700; font-size:.9rem;">Bronze</div>
+              <div style="font-size:.78rem; color:var(--text-muted);">200 – 499 XP</div>
+            </div>
+          </div>
+          <div class="card" style="display:flex; align-items:center; gap:.75rem;">
+            <div style="font-size:1.5rem;"><i class="fas fa-medal" style="color:var(--text-sub);"></i></div>
+            <div>
+              <div style="font-weight:700; font-size:.9rem;">Silver</div>
+              <div style="font-size:.78rem; color:var(--text-muted);">500 – 999 XP</div>
+            </div>
+          </div>
+          <div class="card" style="display:flex; align-items:center; gap:.75rem;">
+            <div style="font-size:1.5rem;"><i class="fas fa-medal" style="color:var(--yellow);"></i></div>
+            <div>
+              <div style="font-weight:700; font-size:.9rem;">Gold</div>
+              <div style="font-size:.78rem; color:var(--text-muted);">1000 – 2499 XP</div>
+            </div>
+          </div>
+          <div class="card" style="display:flex; align-items:center; gap:.75rem;">
+            <div style="font-size:1.5rem;"><i class="fas fa-gem" style="color:#b9f2ff;"></i></div>
+            <div>
+              <div style="font-weight:700; font-size:.9rem;">Diamond</div>
+              <div style="font-size:.78rem; color:var(--text-muted);">2500+ XP</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background:var(--bg-card); border-top:1px solid var(--border);">
+      <div class="container" style="text-align:center; max-width:540px;">
+        <span class="section-tag">Your Turn</span>
+        <h2 style="font-size:1.8rem; font-weight:800; margin-bottom:1rem;">Ready to Climb the Ranks?</h2>
+        <p style="color:var(--text-sub); margin-bottom:2rem;">Pick a course, start earning XP, and see your name on this board.</p>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <a href="courses.html" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Start Earning XP</a>
+          <a href="profile.html" class="btn btn-secondary btn-lg"><i class="fas fa-chart-bar"></i> View My Progress</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Learn</h4><ul>
+          <li><a href="courses.html">All Courses</a></li>
+          <li><a href="roadmap.html">Roadmaps</a></li>
+          <li><a href="resources.html">Free Resources</a></li>
+          <li><a href="compiler.html">Compiler</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Company</h4><ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+
+          <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Coder. All rights reserved.</p>
+        <p>Built with <i class="fas fa-heart" style="color:var(--red)"></i> in Dubai, UAE</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* Avatar gradient colours — cycles through a palette */
+    const AVATAR_COLORS = [
+      'linear-gradient(135deg,#6c63ff,#a78bfa)',
+      'linear-gradient(135deg,#43e97b,#38f9d7)',
+      'linear-gradient(135deg,#f093fb,#f5576c)',
+      'linear-gradient(135deg,#4facfe,#00f2fe)',
+      'linear-gradient(135deg,#f9e2af,#f0a500)',
+      'linear-gradient(135deg,#a8edea,#fed6e3)',
+    ];
+
+    function getBadge(xp) {
+      if (xp >= 2500) return '<span class="lb-badge" style="background:rgba(185,242,255,.1);color:#b9f2ff;border:1px solid rgba(185,242,255,.3);"><i class="fas fa-gem"></i> Diamond</span>';
+      if (xp >= 1000) return '<span class="lb-badge badge-gold"><i class="fas fa-medal"></i> Gold</span>';
+      if (xp >= 500)  return '<span class="lb-badge badge-silver"><i class="fas fa-medal"></i> Silver</span>';
+      if (xp >= 200)  return '<span class="lb-badge badge-bronze"><i class="fas fa-medal"></i> Bronze</span>';
+      return '<span class="lb-badge badge-novice"><i class="fas fa-seedling"></i> Novice</span>';
+    }
+
+    function rankClass(rank) {
+      return rank === 1 ? 'r1' : rank === 2 ? 'r2' : rank === 3 ? 'r3' : '';
+    }
+
+    function rankIcon(rank) {
+      if (rank === 1) return '<i class="fas fa-trophy" style="color:var(--yellow);"></i>';
+      if (rank === 2) return '<i class="fas fa-medal" style="color:var(--text-sub);"></i>';
+      if (rank === 3) return '<i class="fas fa-medal" style="color:var(--red);"></i>';
+      return rank;
+    }
+
+    function renderPodium(data) {
+      const pod = document.getElementById('podium');
+      if (!data || data.length === 0) { pod.innerHTML = ''; return; }
+
+      /* order: 2nd | 1st | 3rd */
+      const ordered = [data[1], data[0], data[2]].filter(Boolean);
+      const podClasses = [
+        { cls: 'pod-2', crown: '',   rank: 2 },
+        { cls: 'pod-1', crown: '👑', rank: 1 },
+        { cls: 'pod-3', crown: '',   rank: 3 },
+      ];
+
+      pod.innerHTML = ordered.map((u, i) => {
+        const cfg = podClasses[i];
+        const color = AVATAR_COLORS[u.id % AVATAR_COLORS.length];
+        return `
+          <div class="pod ${cfg.cls}">
+            <div class="pod-avatar" style="background:${color};">
+              ${cfg.crown ? `<span class="pod-crown">${cfg.crown}</span>` : ''}
+              ${escapeHtml(u.username[0].toUpperCase())}
+            </div>
+            <div class="pod-name">${escapeHtml(u.username)}</div>
+            <div class="pod-xp"><i class="fas fa-bolt" style="color:var(--yellow);"></i> ${u.total_xp} XP</div>
+            <div class="pod-block">#${cfg.rank}</div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderTable(data) {
+      const tbody = document.getElementById('lb-tbody');
+      const meta  = document.getElementById('lb-meta');
+      const me    = getUser();
+
+      if (!data || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="lb-empty">No learners yet — be the first!</td></tr>';
+        return;
+      }
+
+      meta.textContent = `Showing top ${data.length} learners`;
+
+      let myRank = null;
+      tbody.innerHTML = data.map((u, i) => {
+        const rank    = i + 1;
+        const color   = AVATAR_COLORS[u.id % AVATAR_COLORS.length];
+        const isMe    = me && me.username === u.username;
+        if (isMe) myRank = rank;
+
+        return `
+          <tr class="lb-row${isMe ? ' me' : ''}">
+            <td class="lb-rank ${rankClass(rank)}">${rankIcon(rank)}</td>
+            <td>
+              <div class="lb-user">
+                <div class="lb-avatar" style="background:${color};">${escapeHtml(u.username[0].toUpperCase())}</div>
+                <span class="lb-username">${escapeHtml(u.username)}${isMe ? '<span class="lb-you">You</span>' : ''}</span>
+              </div>
+            </td>
+            <td class="lb-xp"><i class="fas fa-bolt" style="color:var(--yellow); font-size:.8rem;"></i> ${u.total_xp}</td>
+            <td class="lb-lessons">${u.lessons_done}</td>
+            <td>${getBadge(u.total_xp)}</td>
+          </tr>`;
+      }).join('');
+
+      /* show "your rank" callout */
+      if (me && myRank) {
+        const box = document.getElementById('my-rank-box');
+        document.getElementById('my-rank-text').textContent = `You are ranked #${myRank} out of ${data.length} learners`;
+        box.style.display = 'flex';
+      }
+    }
+
+    async function loadLeaderboard() {
+      try {
+        const data = await apiFetch('/api/leaderboard');
+        renderPodium(data);
+        renderTable(data);
+      } catch {
+        document.getElementById('podium').innerHTML = '';
+        document.getElementById('lb-tbody').innerHTML =
+          '<tr><td colspan="5" class="lb-empty">Could not load leaderboard. Make sure the server is running.</td></tr>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadLeaderboard);
+  </script>
+</body>
+</html>

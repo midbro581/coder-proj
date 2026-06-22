@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Resources — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Category filter ─────────────────────────────────── */
+    .filter-row {
+      display: flex; gap: .5rem; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 2.5rem;
+    }
+    .cat-btn {
+      padding: .5rem 1.1rem; border-radius: 9999px;
+      border: 1.5px solid var(--border); background: var(--bg-card);
+      cursor: pointer; font-size: .82rem; font-weight: 600;
+      color: var(--text-muted); transition: all .2s; font-family: inherit;
+    }
+    .cat-btn:hover, .cat-btn.active {
+      background: var(--accent); border-color: var(--accent); color: #fff;
+    }
+
+    /* ── Resource Cards ──────────────────────────────────── */
+    .resources-section { margin-bottom: 3rem; }
+    .resources-section h3 {
+      font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: .6rem;
+      padding-bottom: .75rem; border-bottom: 1px solid var(--border);
+    }
+    .res-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .res-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      text-decoration: none; color: var(--text-sub);
+      transition: all .2s; display: flex; flex-direction: column; gap: .5rem;
+      position: relative; overflow: hidden;
+    }
+    .res-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--card-color, var(--accent)); opacity: 0; transition: opacity .2s;
+    }
+    .res-card:hover { border-color: rgba(108,99,255,.5); transform: translateY(-3px); }
+    .res-card:hover::before { opacity: 1; }
+    .res-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; }
+    .res-card-name {
+      font-weight: 700; font-size: .95rem; color: var(--text);
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .res-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; flex-shrink: 0;
+    }
+    .res-tag {
+      font-size: .68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .8px; padding: 3px 8px; border-radius: 9999px;
+      border: 1px solid; flex-shrink: 0;
+    }
+    .tag-free    { color: var(--green);   border-color: rgba(67,233,123,.3);  background: rgba(67,233,123,.08); }
+    .tag-video   { color: var(--red);     border-color: rgba(243,139,168,.3); background: rgba(243,139,168,.08); }
+    .tag-book    { color: var(--yellow);  border-color: rgba(249,226,175,.3); background: rgba(249,226,175,.08); }
+    .tag-tool    { color: var(--accent);  border-color: rgba(108,99,255,.3);  background: rgba(108,99,255,.08); }
+    .tag-ref     { color: var(--text-sub);border-color: var(--border);        background: var(--bg-card2); }
+    .res-desc { font-size: .85rem; line-height: 1.6; }
+    .res-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: .25rem;
+    }
+    .res-url { font-size: .73rem; color: var(--text-muted); }
+    .res-stars { font-size: .72rem; color: var(--yellow); }
+
+    /* ── Top picks banner ────────────────────────────────── */
+    .top-pick-banner {
+      background: linear-gradient(135deg, rgba(108,99,255,.15) 0%, rgba(67,233,123,.08) 100%);
+      border: 1px solid rgba(108,99,255,.3);
+      border-radius: 16px; padding: 1.5rem 2rem;
+      display: flex; align-items: center; gap: 1.5rem;
+      flex-wrap: wrap; margin-bottom: 3rem;
+    }
+    .top-pick-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      background: var(--accent); display: flex; align-items: center;
+      justify-content: center; font-size: 1.4rem; color: #fff; flex-shrink: 0;
+    }
+    .top-pick-text h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: .35rem; }
+    .top-pick-text p  { font-size: .875rem; color: var(--text-sub); line-height: 1.5; max-width: 520px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="compiler.html">Compiler</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <div class="page-hero">
+      <span class="section-tag">100% Free</span>
+      <h1>Free Learning Resources</h1>
+      <p>The best free books, courses, tools and references on the internet — handpicked and organized by topic.</p>
+    </div>
+
+    <section>
+      <div class="container">
+
+        <!-- Editor's picks -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1rem; margin-bottom:3rem;">
+
+          <div class="top-pick-banner" style="grid-column:1/-1;">
+            <div class="top-pick-icon"><i class="fas fa-trophy"></i></div>
+            <div class="top-pick-text">
+              <h4>Our Top 3 Recommendations if You're Just Starting</h4>
+              <p>
+                <strong style="color:var(--text);">1. CS50</strong> (cs50.harvard.edu) — the best first course in computing, free forever. &nbsp;·&nbsp;
+                <strong style="color:var(--text);">2. freeCodeCamp</strong> (freecodecamp.org) — hands-on web dev curriculum, 300+ hours free. &nbsp;·&nbsp;
+                <strong style="color:var(--text);">3. The Odin Project</strong> (theodinproject.com) — opinionated, project-based, full-stack.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Category filter -->
+        <div class="filter-row" id="cat-filter">
+          <button class="cat-btn active" data-cat="all">All</button>
+          <button class="cat-btn" data-cat="interactive"><i class="fas fa-mouse-pointer"></i> Interactive</button>
+          <button class="cat-btn" data-cat="video"><i class="fas fa-play"></i> Video Courses</button>
+          <button class="cat-btn" data-cat="books"><i class="fas fa-book"></i> Free Books</button>
+          <button class="cat-btn" data-cat="reference"><i class="fas fa-file-alt"></i> Reference</button>
+          <button class="cat-btn" data-cat="practice"><i class="fas fa-code"></i> Practice</button>
+          <button class="cat-btn" data-cat="tools"><i class="fas fa-wrench"></i> Tools</button>
+        </div>
+
+        <!-- ── INTERACTIVE LEARNING ──────────────────────── -->
+        <div class="resources-section" data-cat="interactive">
+          <h3>
+            <div class="res-icon" style="background:rgba(108,99,255,.15); color:var(--accent);"><i class="fas fa-mouse-pointer"></i></div>
+            Interactive Learning Platforms
+          </h3>
+          <div class="res-grid">
+
+            <a href="https://freecodecamp.org" target="_blank" rel="noopener" class="res-card" style="--card-color:#0a0a23;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-fire" style="color:orange;"></i> freeCodeCamp</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Full curriculum from zero to developer. HTML/CSS/JS, React, Python, Data Analysis, Machine Learning. 300+ hours. Earn real certificates.</div>
+              <div class="res-footer"><span class="res-url">freecodecamp.org</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://theodinproject.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#d32f2f;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-hammer" style="color:var(--red);"></i> The Odin Project</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Best free full-stack curriculum. Project-based, opinionated path. Covers HTML, CSS, JavaScript, Node.js, React, Ruby on Rails. Community-backed.</div>
+              <div class="res-footer"><span class="res-url">theodinproject.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://javascript.info" target="_blank" rel="noopener" class="res-card" style="--card-color:#f7df1e;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-js-square" style="color:#f7df1e;"></i> javascript.info</div>
+                <span class="res-tag tag-book">BOOK+</span>
+              </div>
+              <div class="res-desc">The best free JavaScript textbook online. Covers everything from basics to advanced patterns. Has interactive tasks at the end of every chapter.</div>
+              <div class="res-footer"><span class="res-url">javascript.info</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://sqlzoo.net" target="_blank" rel="noopener" class="res-card" style="--card-color:#336791;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-database" style="color:#336791;"></i> SQLZoo</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Interactive SQL in the browser. Run real queries, see real results. Covers SELECT, JOIN, aggregates, subqueries. Best free SQL practice site.</div>
+              <div class="res-footer"><span class="res-url">sqlzoo.net</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+            <a href="https://flexboxfroggy.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#43e97b;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-frog" style="color:var(--green);"></i> Flexbox Froggy</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Learn CSS Flexbox by moving frogs to lily pads. 24 levels. Genuinely fun. You'll know every flexbox property by the time you finish.</div>
+              <div class="res-footer"><span class="res-url">flexboxfroggy.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://cssgridgarden.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#43e97b;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-th" style="color:var(--green);"></i> CSS Grid Garden</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Learn CSS Grid by watering a garden. 28 levels. Pair this with Flexbox Froggy and you'll master CSS layouts completely.</div>
+              <div class="res-footer"><span class="res-url">cssgridgarden.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://futurecoder.io" target="_blank" rel="noopener" class="res-card" style="--card-color:#3776AB;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-python" style="color:#3776AB;"></i> Futurecoder</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Interactive Python in the browser. Beginner-friendly, completely free. Great for absolute beginners who find other resources too fast.</div>
+              <div class="res-footer"><span class="res-url">futurecoder.io</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+            <a href="https://sqlbolt.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#336791;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-bolt" style="color:var(--yellow);"></i> SQLBolt</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Interactive SQL lessons with exercises. Covers SELECT, WHERE, JOINs, aggregates, INSERT/UPDATE/DELETE. Clean and fast to get through.</div>
+              <div class="res-footer"><span class="res-url">sqlbolt.com</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- ── VIDEO COURSES ─────────────────────────────── -->
+        <div class="resources-section" data-cat="video">
+          <h3>
+            <div class="res-icon" style="background:rgba(243,139,168,.12); color:var(--red);"><i class="fas fa-play"></i></div>
+            Free Video Courses
+          </h3>
+          <div class="res-grid">
+
+            <a href="https://cs50.harvard.edu/x/" target="_blank" rel="noopener" class="res-card" style="--card-color:#a51c30;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-university" style="color:#a51c30;"></i> CS50x — Harvard</div>
+                <span class="res-tag tag-video">VIDEO</span>
+              </div>
+              <div class="res-desc">Harvard's Introduction to Computer Science. Free forever. C, Python, SQL, HTML/CSS/JS, Flask. Problem sets that will genuinely challenge you. The best first course.</div>
+              <div class="res-footer"><span class="res-url">cs50.harvard.edu/x</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://cs50.harvard.edu/python/" target="_blank" rel="noopener" class="res-card" style="--card-color:#a51c30;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-python" style="color:#3776AB;"></i> CS50P — Python</div>
+                <span class="res-tag tag-video">VIDEO</span>
+              </div>
+              <div class="res-desc">Harvard's dedicated Python course. Free. Covers Python from basics to libraries, OOP, file I/O, regular expressions, and a final project.</div>
+              <div class="res-footer"><span class="res-url">cs50.harvard.edu/python</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://fullstackopen.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#00a0e3;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-layer-group" style="color:#00a0e3;"></i> Full Stack Open</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">University of Helsinki. Deep dive into React, Node.js, MongoDB, TypeScript, GraphQL. The best free full-stack course. University-level depth.</div>
+              <div class="res-footer"><span class="res-url">fullstackopen.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://www.youtube.com/@TraversyMedia" target="_blank" rel="noopener" class="res-card" style="--card-color:#ff0000;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-youtube" style="color:#ff0000;"></i> Traversy Media</div>
+                <span class="res-tag tag-video">VIDEO</span>
+              </div>
+              <div class="res-desc">Brad Traversy's YouTube channel. Crash courses on every web technology — HTML, CSS, JavaScript, React, Node, Python, and more. Practical and fast.</div>
+              <div class="res-footer"><span class="res-url">youtube.com/@TraversyMedia</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://www.youtube.com/@Fireship" target="_blank" rel="noopener" class="res-card" style="--card-color:#ff6b35;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-youtube" style="color:#ff0000;"></i> Fireship</div>
+                <span class="res-tag tag-video">VIDEO</span>
+              </div>
+              <div class="res-desc">100-second concept videos and deep dives. The best channel for getting a quick understanding of any technology. Dense, funny, informative.</div>
+              <div class="res-footer"><span class="res-url">youtube.com/@Fireship</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/" target="_blank" rel="noopener" class="res-card" style="--card-color:#8b0000;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-graduation-cap" style="color:#8b0000;"></i> MIT Algorithms 6.006</div>
+                <span class="res-tag tag-video">VIDEO</span>
+              </div>
+              <div class="res-desc">MIT's Introduction to Algorithms — free lecture videos, assignments, and exams. The definitive algorithms course if you're aiming for Big Tech.</div>
+              <div class="res-footer"><span class="res-url">ocw.mit.edu</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://kaggle.com/learn" target="_blank" rel="noopener" class="res-card" style="--card-color:#20beff;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-chart-line" style="color:#20beff;"></i> Kaggle Learn</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Free Python, Pandas, SQL, Machine Learning, and Data Visualization courses from Kaggle. Short, practical, with real exercises. Great for data science.</div>
+              <div class="res-footer"><span class="res-url">kaggle.com/learn</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- ── FREE BOOKS ─────────────────────────────────── -->
+        <div class="resources-section" data-cat="books">
+          <h3>
+            <div class="res-icon" style="background:rgba(249,226,175,.1); color:var(--yellow);"><i class="fas fa-book-open"></i></div>
+            Free Books &amp; Reading
+          </h3>
+          <div class="res-grid">
+
+            <a href="https://eloquentjavascript.net" target="_blank" rel="noopener" class="res-card" style="--card-color:#f7df1e;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-book" style="color:var(--yellow);"></i> Eloquent JavaScript</div>
+                <span class="res-tag tag-book">FREE BOOK</span>
+              </div>
+              <div class="res-desc">Marijn Haverbeke's book on JavaScript. Free online, purchase optional. Covers language fundamentals, browser DOM, and Node.js. One of the best programming books ever written.</div>
+              <div class="res-footer"><span class="res-url">eloquentjavascript.net</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://automatetheboringstuff.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#3776AB;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-python" style="color:#3776AB;"></i> Automate the Boring Stuff</div>
+                <span class="res-tag tag-book">FREE BOOK</span>
+              </div>
+              <div class="res-desc">Al Sweigart's practical Python book. Free to read online. Learn Python by automating real tasks — PDFs, spreadsheets, emails, web scraping, and more.</div>
+              <div class="res-footer"><span class="res-url">automatetheboringstuff.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://github.com/getify/You-Dont-Know-JS" target="_blank" rel="noopener" class="res-card" style="--card-color:#f7df1e;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-github"></i> You Don't Know JS</div>
+                <span class="res-tag tag-book">FREE BOOK</span>
+              </div>
+              <div class="res-desc">Kyle Simpson's deep-dive series on JavaScript internals. 6 books, all free on GitHub. Essential reading once you know the basics — explains how JS actually works.</div>
+              <div class="res-footer"><span class="res-url">github.com/getify/You-Dont-Know-JS</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener" class="res-card" style="--card-color:#3776AB;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-python" style="color:#3776AB;"></i> Official Python Tutorial</div>
+                <span class="res-tag tag-ref">OFFICIAL</span>
+              </div>
+              <div class="res-desc">Python.org's own tutorial. Surprisingly readable and comprehensive. Covers the entire standard library. The source of truth when you're not sure about something.</div>
+              <div class="res-footer"><span class="res-url">docs.python.org/3/tutorial</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+            <a href="https://missing.csail.mit.edu" target="_blank" rel="noopener" class="res-card" style="--card-color:#8b0000;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-terminal" style="color:var(--accent);"></i> The Missing Semester (MIT)</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">MIT course on the tools nobody teaches in university — shell, Vim, Git, tmux, dotfiles, debugging, profiling. Every developer needs this.</div>
+              <div class="res-footer"><span class="res-url">missing.csail.mit.edu</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://inventwithpython.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#3776AB;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-gamepad" style="color:var(--accent);"></i> Invent With Python</div>
+                <span class="res-tag tag-book">FREE BOOK</span>
+              </div>
+              <div class="res-desc">Several free Python books by Al Sweigart — learn by building games, hacking ciphers, and making art. Great for beginners who want to build things immediately.</div>
+              <div class="res-footer"><span class="res-url">inventwithpython.com</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- ── REFERENCE ──────────────────────────────────── -->
+        <div class="resources-section" data-cat="reference">
+          <h3>
+            <div class="res-icon" style="background:rgba(166,173,200,.1); color:var(--text-sub);"><i class="fas fa-file-alt"></i></div>
+            Reference &amp; Documentation
+          </h3>
+          <div class="res-grid">
+
+            <a href="https://developer.mozilla.org" target="_blank" rel="noopener" class="res-card" style="--card-color:#e66000;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-firefox" style="color:#e66000;"></i> MDN Web Docs</div>
+                <span class="res-tag tag-ref">REFERENCE</span>
+              </div>
+              <div class="res-desc">The gold standard reference for HTML, CSS, and JavaScript. Every web developer has this open every single day. If something is on MDN, it's correct.</div>
+              <div class="res-footer"><span class="res-url">developer.mozilla.org</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://devdocs.io" target="_blank" rel="noopener" class="res-card" style="--card-color:#6c63ff;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-book-reader" style="color:var(--accent);"></i> DevDocs.io</div>
+                <span class="res-tag tag-ref">REFERENCE</span>
+              </div>
+              <div class="res-desc">One site with the documentation for every major language and framework — all searchable together. Works offline. Replaces 20 different documentation tabs.</div>
+              <div class="res-footer"><span class="res-url">devdocs.io</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://caniuse.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#dd4b39;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-check-double" style="color:var(--green);"></i> Can I Use</div>
+                <span class="res-tag tag-ref">REFERENCE</span>
+              </div>
+              <div class="res-desc">Does this CSS feature work in all browsers? This site answers that. Before using any new CSS or JS feature in production, check caniuse.com.</div>
+              <div class="res-footer"><span class="res-url">caniuse.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://css-tricks.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#264de4;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-css3-alt" style="color:#264de4;"></i> CSS-Tricks</div>
+                <span class="res-tag tag-ref">GUIDES</span>
+              </div>
+              <div class="res-desc">Decades of CSS articles, guides, and almanac. The Flexbox and Grid guides here are legendary. Every CSS question you'll ever have is answered.</div>
+              <div class="res-footer"><span class="res-url">css-tricks.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://pythontutor.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#3776AB;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-eye" style="color:var(--accent);"></i> Python Tutor</div>
+                <span class="res-tag tag-tool">VISUALIZER</span>
+              </div>
+              <div class="res-desc">Step through your code and watch exactly what happens — which variables exist, what the call stack looks like. Incredible for debugging and understanding.</div>
+              <div class="res-footer"><span class="res-url">pythontutor.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://regex101.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#6c63ff;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-search" style="color:var(--accent);"></i> Regex101</div>
+                <span class="res-tag tag-tool">TOOL</span>
+              </div>
+              <div class="res-desc">Test regular expressions with real-time highlighting and explanation. Every regex pattern is explained in plain English. You'll use this for life.</div>
+              <div class="res-footer"><span class="res-url">regex101.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- ── PRACTICE ───────────────────────────────────── -->
+        <div class="resources-section" data-cat="practice">
+          <h3>
+            <div class="res-icon" style="background:rgba(67,233,123,.1); color:var(--green);"><i class="fas fa-dumbbell"></i></div>
+            Practice &amp; Projects
+          </h3>
+          <div class="res-grid">
+
+            <a href="https://leetcode.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#ffa116;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-code" style="color:#ffa116;"></i> LeetCode</div>
+                <span class="res-tag tag-free">FREE TIER</span>
+              </div>
+              <div class="res-desc">The standard for coding interview prep. 2000+ problems. Start with Easy, progress to Medium. Aim for 100 problems before applying to big companies.</div>
+              <div class="res-footer"><span class="res-url">leetcode.com</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+            <a href="https://neetcode.io" target="_blank" rel="noopener" class="res-card" style="--card-color:#6c63ff;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-route" style="color:var(--accent);"></i> Neetcode.io</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Free roadmap of the most important LeetCode problems plus video solutions. Better than random LeetCode grinding — follow the roadmap systematically.</div>
+              <div class="res-footer"><span class="res-url">neetcode.io</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://frontendmentor.io" target="_blank" rel="noopener" class="res-card" style="--card-color:#3f54a3;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-paint-brush" style="color:#3f54a3;"></i> Frontend Mentor</div>
+                <span class="res-tag tag-free">FREE TIER</span>
+              </div>
+              <div class="res-desc">Real design mockups to build. Submit your solution and compare to others. The best way to build a frontend portfolio — you get a real brief and have to figure it out.</div>
+              <div class="res-footer"><span class="res-url">frontendmentor.io</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://codewars.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#ad2c27;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-khanda" style="color:#ad2c27;"></i> Codewars</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Gamified coding challenges ("kata") in any language. 8-kyu (easy) to 1-kyu (very hard). Ranking system keeps you motivated. Great for Python and JavaScript practice.</div>
+              <div class="res-footer"><span class="res-url">codewars.com</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+            <a href="https://visualgo.net" target="_blank" rel="noopener" class="res-card" style="--card-color:#6c63ff;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-project-diagram" style="color:var(--accent);"></i> VisuAlgo</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Animated visualizations of sorting algorithms, data structures, and graph traversals. Watch Quicksort happen step by step. Essential for understanding algorithms.</div>
+              <div class="res-footer"><span class="res-url">visualgo.net</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://github.com/firstcontributions/first-contributions" target="_blank" rel="noopener" class="res-card" style="--card-color:#333;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-github"></i> First Contributions</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">A gentle guide to making your first open source contribution on GitHub. Teaches the fork → branch → PR workflow in a safe, friendly environment.</div>
+              <div class="res-footer"><span class="res-url">github.com/firstcontributions</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- ── TOOLS ──────────────────────────────────────── -->
+        <div class="resources-section" data-cat="tools">
+          <h3>
+            <div class="res-icon" style="background:rgba(108,99,255,.1); color:var(--accent);"><i class="fas fa-tools"></i></div>
+            Tools Every Developer Uses
+          </h3>
+          <div class="res-grid">
+
+            <a href="https://code.visualstudio.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#007acc;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-edit" style="color:#007acc;"></i> VS Code</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">The most popular code editor in the world. Free, fast, extensible. Install Prettier, ESLint, GitLens, and a good theme. This is where you'll spend most of your time.</div>
+              <div class="res-footer"><span class="res-url">code.visualstudio.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://github.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#333;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-github"></i> GitHub</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Host your code, collaborate with others, build your portfolio. Every project you finish should be on GitHub. It's your CV as a developer.</div>
+              <div class="res-footer"><span class="res-url">github.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://stackblitz.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#1374ef;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-bolt" style="color:#1374ef;"></i> StackBlitz</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Full VS Code IDE in the browser. Run Node.js, React, Vue — instantly, no install. Share a working project with one link. Great for demos and quick experiments.</div>
+              <div class="res-footer"><span class="res-url">stackblitz.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://codepen.io" target="_blank" rel="noopener" class="res-card" style="--card-color:#000;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fab fa-codepen"></i> CodePen</div>
+                <span class="res-tag tag-free">FREE TIER</span>
+              </div>
+              <div class="res-desc">HTML/CSS/JS playground in the browser. Instant preview as you type. Huge community of examples to learn from. Perfect for CSS experiments and quick prototypes.</div>
+              <div class="res-footer"><span class="res-url">codepen.io</span><span class="res-stars">★★★★☆</span></div>
+            </a>
+
+            <a href="https://excalidraw.com" target="_blank" rel="noopener" class="res-card" style="--card-color:#6965db;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-draw-polygon" style="color:#6965db;"></i> Excalidraw</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Free whiteboard for diagrams. Draw architecture diagrams, ERDs, flowcharts. Sketch before you code. Works in the browser, no account needed.</div>
+              <div class="res-footer"><span class="res-url">excalidraw.com</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+            <a href="https://roadmap.sh" target="_blank" rel="noopener" class="res-card" style="--card-color:#ef4444;">
+              <div class="res-card-top">
+                <div class="res-card-name"><i class="fas fa-map" style="color:var(--red);"></i> Roadmap.sh</div>
+                <span class="res-tag tag-free">FREE</span>
+              </div>
+              <div class="res-desc">Community-driven learning roadmaps for every developer path. Very detailed. Good companion to the roadmaps here on Coder — see the bigger picture.</div>
+              <div class="res-footer"><span class="res-url">roadmap.sh</span><span class="res-stars">★★★★★</span></div>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Community note -->
+        <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:2rem; text-align:center; margin-top:1rem;">
+          <i class="fas fa-users" style="font-size:1.8rem; color:var(--accent); margin-bottom:.75rem; display:block;"></i>
+          <h3 style="font-weight:700; margin-bottom:.5rem;">Stuck? Ask the Community</h3>
+          <p style="color:var(--text-sub); font-size:.875rem; max-width:520px; margin:0 auto 1.25rem; line-height:1.6;">
+            Every developer hits walls. The fastest way past them is asking someone who already has. These communities are free and welcoming to beginners.
+          </p>
+          <div style="display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center;">
+            <a href="https://stackoverflow.com" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:.83rem; padding:.5rem 1rem;"><i class="fab fa-stack-overflow" style="color:#f48024;"></i> Stack Overflow</a>
+            <a href="https://discord.com/invite/freecodecamp" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:.83rem; padding:.5rem 1rem;"><i class="fab fa-discord" style="color:#5865f2;"></i> freeCodeCamp Discord</a>
+            <a href="https://reddit.com/r/learnprogramming" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:.83rem; padding:.5rem 1rem;"><i class="fab fa-reddit-alien" style="color:#ff4500;"></i> r/learnprogramming</a>
+            <a href="https://dev.to" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:.83rem; padding:.5rem 1rem;"><i class="fab fa-dev" style="color:var(--text);"></i> DEV Community</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Learn</h4><ul>
+          <li><a href="courses.html">All Courses</a></li>
+          <li><a href="roadmap.html">Roadmaps</a></li>
+          <li><a href="resources.html" class="active">Free Resources</a></li>
+          <li><a href="compiler.html">Compiler</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Company</h4><ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="leaderboard.html">Leaderboard</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="sitemap.html">Sitemap</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Coder. All rights reserved.</p>
+        <p>Built with <i class="fas fa-heart" style="color:var(--red)"></i> in Dubai, UAE</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ── Category filter ─────────────────────────────────── */
+    document.getElementById('cat-filter').addEventListener('click', e => {
+      const btn = e.target.closest('.cat-btn');
+      if (!btn) return;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      document.querySelectorAll('.resources-section').forEach(sec => {
+        if (cat === 'all' || sec.dataset.cat === cat) {
+          sec.style.display = '';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

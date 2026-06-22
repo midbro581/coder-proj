@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Compiler — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="compiler.html" class="active">Compiler</a>
+      <a href="team.html">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="compiler-layout">
+
+      <!-- Language Sidebar -->
+      <div class="lang-sidebar">
+        <h3>Language</h3>
+        <button class="lang-btn active" data-lang="python">
+          <i class="fab fa-python" style="color:#3776AB"></i> Python
+        </button>
+        <button class="lang-btn" data-lang="java">
+          <i class="fab fa-java" style="color:#ED8B00"></i> Java
+        </button>
+        <button class="lang-btn" data-lang="javascript">
+          <i class="fab fa-js-square" style="color:#F7DF1E"></i> JavaScript
+        </button>
+        <button class="lang-btn" data-lang="cpp">
+          <i class="fas fa-code" style="color:#00599C"></i> C++
+        </button>
+        <button class="lang-btn" data-lang="c">
+          <i class="fas fa-code" style="color:#A8B9CC"></i> C
+        </button>
+        <button class="lang-btn" data-lang="typescript">
+          <i class="fas fa-code" style="color:#3178C6"></i> TypeScript
+        </button>
+      </div>
+
+      <!-- Compiler Main -->
+      <div class="compiler-main">
+
+        <div class="compiler-header">
+          <h2>
+            <i class="fas fa-terminal" style="color:var(--accent)"></i>
+            <span id="current-lang-label">Python</span> Compiler
+          </h2>
+          <div class="compiler-actions">
+            <button class="btn-clear" id="btn-clear"><i class="fas fa-trash"></i> Clear</button>
+            <button class="btn-run" id="btn-run"><i class="fas fa-play"></i> Run Code</button>
+          </div>
+        </div>
+
+        <div class="editor-output">
+          <div class="editor-box">
+            <div class="editor-box-header">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+              <span style="margin-left:0.5rem;" id="editor-filename">main.py</span>
+            </div>
+            <textarea id="code-editor" spellcheck="false" autocorrect="off" autocapitalize="off"></textarea>
+          </div>
+
+          <div class="output-box">
+            <div class="output-box-header">
+              <i class="fas fa-terminal"></i> Output
+              <span id="run-time" style="margin-left:auto; color:var(--green); font-size:0.78rem;"></span>
+            </div>
+            <div id="output-display" class="pending">Click "Run Code" to execute your program...</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/compiler.js"></script>
+  <script>
+    // ── Pre-fill code from lesson.html "Try in Compiler" button ──
+    // lesson.js stores the code in localStorage before redirecting here.
+    document.addEventListener('DOMContentLoaded', () => {
+      const prefillCode = localStorage.getItem('coder_prefill_code');
+      const prefillLang = localStorage.getItem('coder_prefill_lang');
+      if (prefillCode && prefillLang) {
+        // Override the starter code with the lesson's code example
+        const editor = document.getElementById('code-editor');
+        if (editor) editor.value = prefillCode;
+        // Switch language if it's one we support
+        const supported = ['python', 'java', 'javascript', 'cpp', 'c'];
+        if (supported.includes(prefillLang)) {
+          // Trigger the language switch (setLanguage is defined in compiler.js)
+          // We need to wait until compiler.js has run its DOMContentLoaded,
+          // so we use a small delay or call after both scripts run.
+          // Since this script runs after compiler.js DOMContentLoaded registered,
+          // we call setLanguage directly (it's in global scope from compiler.js).
+          if (typeof setLanguage === 'function') {
+            setLanguage(prefillLang);
+            // Restore the prefill code (setLanguage overwrites it with starter)
+            if (editor) editor.value = prefillCode;
+          }
+        }
+        // Clear so it doesn't persist across page reloads
+        localStorage.removeItem('coder_prefill_code');
+        localStorage.removeItem('coder_prefill_lang');
+      }
+    });
+  </script>
+</body>
+</html>

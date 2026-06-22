@@ -1,0 +1,109 @@
+═══════════════════════════════════════════════════════════════════
+  CODER — REQUIREMENTS
+  What you need to install before you can run this project.
+═══════════════════════════════════════════════════════════════════
+
+You need FIVE things installed on your computer. Two are required to
+start the website (Node.js + XAMPP/MySQL). The other three are only
+needed if you want the in-browser COMPILER to actually run code
+(Python, Java, C/C++). Without them the website still works — but the
+"Run Code" button will fail with "not recognized" errors.
+
+
+───────────────────────────────────────────────────────────────────
+1. NODE.JS  (REQUIRED — runs the website server)
+───────────────────────────────────────────────────────────────────
+   Download:  https://nodejs.org    (pick the LTS version)
+   Verify:    Open Command Prompt and type:   node --version
+              Expected: v20.x.x  or  v22.x.x
+
+
+───────────────────────────────────────────────────────────────────
+2. XAMPP  (REQUIRED — provides MySQL/MariaDB + phpMyAdmin)
+───────────────────────────────────────────────────────────────────
+   Download:  https://www.apachefriends.org/download.html
+   Pick:      Windows 64-bit, PHP 8.x version
+   After install, start XAMPP Control Panel and click "Start" next
+   to BOTH:    - Apache
+               - MySQL
+
+   You will use phpMyAdmin (http://localhost/phpmyadmin) to import
+   the database — see README.txt for the import steps.
+
+
+───────────────────────────────────────────────────────────────────
+3. PYTHON 3.10+  (OPTIONAL — for running Python lessons)
+───────────────────────────────────────────────────────────────────
+   Download:  https://www.python.org/downloads/
+   IMPORTANT: When installing, CHECK "Add Python to PATH" at the
+              bottom of the installer.
+   Verify:    Open Command Prompt and type:   python --version
+              Expected: Python 3.10.x  or higher
+
+
+───────────────────────────────────────────────────────────────────
+4. JAVA JDK 17+  (OPTIONAL — for running Java lessons)
+───────────────────────────────────────────────────────────────────
+   Easiest way: install via Chocolatey (see step 5 first), then run:
+       choco install openjdk -y
+
+   Or download manually:
+       https://adoptium.net/    (pick "Temurin 21 LTS")
+   Verify:    javac --version
+              Expected: javac 21.x.x  (or whatever you installed)
+
+
+───────────────────────────────────────────────────────────────────
+5. MINGW (GCC + G++)  (OPTIONAL — for running C / C++ lessons)
+───────────────────────────────────────────────────────────────────
+   Easiest way is to install Chocolatey first:
+
+   a) Open PowerShell AS ADMINISTRATOR
+   b) Paste this command and press Enter:
+
+      Set-ExecutionPolicy Bypass -Scope Process -Force; `
+      [System.Net.ServicePointManager]::SecurityProtocol = `
+      [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
+      iex ((New-Object System.Net.WebClient).DownloadString( `
+      'https://community.chocolatey.org/install.ps1'))
+
+   c) Once Chocolatey is installed, in the same PowerShell window:
+        choco install mingw -y
+        choco install openjdk -y      (covers step 4 too)
+
+   d) CLOSE all PowerShell / Command Prompt windows and reopen
+      them so the new PATH is picked up.
+
+   Verify:    gcc --version
+              g++ --version
+              Expected: any version number, no error.
+
+
+───────────────────────────────────────────────────────────────────
+6. A MODERN BROWSER  (Chrome, Edge, Firefox)
+───────────────────────────────────────────────────────────────────
+   The site uses modern HTML5/CSS/JS. Anything from the last 3 years
+   is fine.
+
+
+───────────────────────────────────────────────────────────────────
+WHAT THE COMPILER NEEDS PER LANGUAGE
+───────────────────────────────────────────────────────────────────
+   Python      → python.exe (step 3)
+   JavaScript  → node.exe   (step 1 — already installed)
+   TypeScript  → ts-node    (auto-installed via npx on first run)
+   Java        → javac.exe  (step 4)
+   C           → gcc.exe    (step 5)
+   C++         → g++.exe    (step 5)
+
+
+───────────────────────────────────────────────────────────────────
+TROUBLESHOOTING
+───────────────────────────────────────────────────────────────────
+If after installing a tool you still get "'python' is not recognized"
+or similar, it means the Node server was started BEFORE the PATH was
+updated. Fix: stop the server (Ctrl+C in its window), close it, then
+re-run "npm start". The compiler also auto-detects tools at known
+locations on startup, so a restart is usually all you need.
+
+═══════════════════════════════════════════════════════════════════

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sitemap — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .sitemap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .sm-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .sm-section-header {
+      padding: 1.1rem 1.5rem;
+      background: var(--bg-card2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .sm-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: rgba(108,99,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); font-size: .85rem; flex-shrink: 0;
+    }
+    .sm-section-title { font-weight: 700; font-size: .95rem; }
+    .sm-links { padding: .5rem 0; }
+    .sm-link {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .65rem 1.5rem;
+      text-decoration: none; color: var(--text-sub);
+      font-size: .875rem;
+      transition: background .15s, color .15s;
+    }
+    .sm-link:hover { background: rgba(108,99,255,.06); color: var(--text); }
+    .sm-link-ico {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: var(--bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; color: var(--accent); flex-shrink: 0;
+    }
+    .sm-link-text strong {
+      display: block; font-weight: 600;
+      color: var(--text); font-size: .85rem; line-height: 1.3;
+    }
+    .sm-link-text span { font-size: .76rem; color: var(--text-muted); }
+    .sm-link:hover .sm-link-text strong { color: var(--accent); }
+    .sm-link:hover .sm-link-ico { border-color: var(--accent); }
+
+    /* XML sitemap box */
+    .xml-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem 2rem;
+      max-width: 540px;
+      margin: 2.5rem auto 0;
+      text-align: center;
+    }
+    .xml-box code {
+      display: inline-block;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .35rem .75rem;
+      font-size: .83rem;
+      color: var(--green);
+      margin-top: .6rem;
+      letter-spacing: .3px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="compiler.html">Compiler</a>
+      <a href="team.html">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-auth" id="navAuth">
+      <a href="login.html" class="btn-nav-login">Log In</a>
+      <a href="register.html" class="btn-nav-signup">Sign Up Free</a>
+    </div>
+    <div id="nav-user-info" style="display:none;">
+      <a href="profile.html" class="nav-profile-link" id="nav-profile-link"><i class="fas fa-user-circle"></i> <span id="nav-username"></span></a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <div class="page-hero">
+      <span class="section-tag">Navigation</span>
+      <h1>Sitemap</h1>
+      <p>Every page on Coder, organized by category. Find exactly what you're looking for.</p>
+    </div>
+
+    <section>
+      <div class="container">
+        <div class="sitemap-grid">
+
+          <!-- Learning -->
+          <div class="sm-section">
+            <div class="sm-section-header">
+              <div class="sm-icon"><i class="fas fa-book-open"></i></div>
+              <span class="sm-section-title">Learning</span>
+            </div>
+            <div class="sm-links">
+              <a href="index.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-home"></i></div>
+                <div class="sm-link-text">
+                  <strong>Home</strong>
+                  <span>Platform overview, featured courses &amp; stats</span>
+                </div>
+              </a>
+              <a href="courses.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-th-large"></i></div>
+                <div class="sm-link-text">
+                  <strong>All Courses</strong>
+                  <span>Browse all 6 programming language paths</span>
+                </div>
+              </a>
+              <a href="roadmap.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-map-signs"></i></div>
+                <div class="sm-link-text">
+                  <strong>Learning Roadmap</strong>
+                  <span>Step-by-step paths for Frontend, Python, Backend &amp; CS</span>
+                </div>
+              </a>
+              <a href="resources.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-external-link-alt"></i></div>
+                <div class="sm-link-text">
+                  <strong>Free Resources</strong>
+                  <span>Handpicked books, videos, tools &amp; practice sites</span>
+                </div>
+              </a>
+              <a href="course.html?id=1" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-layer-group"></i></div>
+                <div class="sm-link-text">
+                  <strong>Course Detail</strong>
+                  <span>Lesson list, progress bar, and course info</span>
+                </div>
+              </a>
+              <a href="lesson.html?course=python&amp;lesson=1" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-book-reader"></i></div>
+                <div class="sm-link-text">
+                  <strong>Lesson Page</strong>
+                  <span>Interactive lessons with code examples &amp; XP</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Tools -->
+          <div class="sm-section">
+            <div class="sm-section-header">
+              <div class="sm-icon"><i class="fas fa-terminal"></i></div>
+              <span class="sm-section-title">Tools</span>
+            </div>
+            <div class="sm-links">
+              <a href="compiler.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-play"></i></div>
+                <div class="sm-link-text">
+                  <strong>Live Compiler</strong>
+                  <span>Run Python, Java, JS, C++ and C in the browser</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Community -->
+          <div class="sm-section">
+            <div class="sm-section-header">
+              <div class="sm-icon"><i class="fas fa-users"></i></div>
+              <span class="sm-section-title">Community</span>
+            </div>
+            <div class="sm-links">
+              <a href="leaderboard.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-trophy"></i></div>
+                <div class="sm-link-text">
+                  <strong>Leaderboard</strong>
+                  <span>Top learners ranked by XP earned</span>
+                </div>
+              </a>
+              <a href="contact.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-envelope"></i></div>
+                <div class="sm-link-text">
+                  <strong>Contact Us</strong>
+                  <span>Send a message or find our office locations</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Account -->
+          <div class="sm-section">
+            <div class="sm-section-header">
+              <div class="sm-icon"><i class="fas fa-user-circle"></i></div>
+              <span class="sm-section-title">Your Account</span>
+            </div>
+            <div class="sm-links">
+              <a href="login.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-sign-in-alt"></i></div>
+                <div class="sm-link-text">
+                  <strong>Log In</strong>
+                  <span>Sign in to continue your learning journey</span>
+                </div>
+              </a>
+              <a href="register.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-user-plus"></i></div>
+                <div class="sm-link-text">
+                  <strong>Sign Up Free</strong>
+                  <span>Create a free account in under 30 seconds</span>
+                </div>
+              </a>
+              <a href="profile.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-chart-bar"></i></div>
+                <div class="sm-link-text">
+                  <strong>My Profile</strong>
+                  <span>XP, streaks, course progress &amp; activity feed</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Company -->
+          <div class="sm-section">
+            <div class="sm-section-header">
+              <div class="sm-icon"><i class="fas fa-building"></i></div>
+              <span class="sm-section-title">Company</span>
+            </div>
+            <div class="sm-links">
+              <a href="about.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-info-circle"></i></div>
+                <div class="sm-link-text">
+                  <strong>About Us</strong>
+                  <span>Our story, founders, history &amp; XSLT-rendered awards</span>
+                </div>
+              </a>
+              <a href="team.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-id-badge"></i></div>
+                <div class="sm-link-text">
+                  <strong>Our Team</strong>
+                  <span>Instructors, office image map &amp; timeline table</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Legal -->
+          <div class="sm-section">
+            <div class="sm-section-header">
+              <div class="sm-icon"><i class="fas fa-shield-alt"></i></div>
+              <span class="sm-section-title">Legal &amp; Info</span>
+            </div>
+            <div class="sm-links">
+              <a href="#" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-user-lock"></i></div>
+                <div class="sm-link-text">
+                  <strong>Privacy Policy</strong>
+                  <span>How we collect and protect your data</span>
+                </div>
+              </a>
+              <a href="#" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-file-contract"></i></div>
+                <div class="sm-link-text">
+                  <strong>Terms of Service</strong>
+                  <span>Platform rules and user agreement</span>
+                </div>
+              </a>
+              <a href="#" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-cookie-bite"></i></div>
+                <div class="sm-link-text">
+                  <strong>Cookie Policy</strong>
+                  <span>What cookies we use and why</span>
+                </div>
+              </a>
+              <a href="sitemap.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-sitemap"></i></div>
+                <div class="sm-link-text">
+                  <strong>Sitemap</strong>
+                  <span>You are here — every page in one place</span>
+                </div>
+              </a>
+              <a href="404.html" class="sm-link">
+                <div class="sm-link-ico"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="sm-link-text">
+                  <strong>404 Not Found</strong>
+                  <span>The page shown when a URL doesn't exist</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </div><!-- /sitemap-grid -->
+
+        <!-- XML Sitemap note -->
+        <div class="xml-box">
+          <i class="fas fa-code" style="font-size:1.6rem; color:var(--accent); margin-bottom:.75rem; display:block;"></i>
+          <h4 style="font-weight:700; margin-bottom:.5rem;">XML Sitemap for Search Engines</h4>
+          <p style="color:var(--text-sub); font-size:.875rem; margin-bottom:.75rem;">
+            A machine-readable XML sitemap is served at the path below for search engine crawlers (Google, Bing, etc.).
+          </p>
+          <code>/sitemap.xml</code>
+          <p style="color:var(--text-muted); font-size:.78rem; margin-top:.75rem;">
+            Last updated: June 2026 · 14 URLs indexed
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Learn</h4><ul>
+          <li><a href="courses.html">All Courses</a></li>
+          <li><a href="roadmap.html">Roadmaps</a></li>
+          <li><a href="resources.html">Free Resources</a></li>
+          <li><a href="compiler.html">Compiler</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Company</h4><ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="leaderboard.html">Leaderboard</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="sitemap.html" class="active">Sitemap</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Coder. All rights reserved.</p>
+        <p>Built with <i class="fas fa-heart" style="color:var(--red)"></i> in Dubai, UAE</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
