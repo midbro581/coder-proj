@@ -1,0 +1,345 @@
+{
+  "tracks": [
+    {
+      "id": "frontend",
+      "title": "Frontend Web Development",
+      "subtitle": "Build websites and web apps from scratch",
+      "icon": "fas fa-laptop-code",
+      "color": "#e44d26",
+      "duration": "6–12 months",
+      "jobs": ["Frontend Developer", "UI Developer", "Web Designer"],
+      "phases": [
+        {
+          "id": 1,
+          "name": "The Absolute Basics",
+          "summary": "Every website in the world starts here. No shortcuts.",
+          "topics": [
+            {"name": "How the Internet Works",  "type": "core",     "desc": "HTTP, DNS, browsers, servers, requests and responses"},
+            {"name": "HTML Structure",           "type": "core",     "desc": "Tags, nesting, attributes, document head vs body"},
+            {"name": "Text & Headings",          "type": "core",     "desc": "h1–h6, paragraphs, bold, italic, lists"},
+            {"name": "Links & Images",           "type": "core",     "desc": "Anchor tags, src, alt text, absolute vs relative paths"},
+            {"name": "Forms & Inputs",           "type": "core",     "desc": "input types, labels, buttons, required fields"},
+            {"name": "CSS Selectors",            "type": "core",     "desc": "element, class, id, pseudo-classes, specificity"},
+            {"name": "The Box Model",            "type": "core",     "desc": "margin, border, padding, width/height, box-sizing"},
+            {"name": "Colors & Backgrounds",     "type": "deep",     "desc": "hex, rgb, hsl, gradients, background-image"},
+            {"name": "Chrome DevTools",          "type": "tool",     "desc": "Inspect elements, debug CSS, view console errors"}
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Layouts That Actually Work",
+          "summary": "Stop fighting CSS. Learn Flexbox and Grid — they solve everything.",
+          "topics": [
+            {"name": "CSS Flexbox",              "type": "core",     "desc": "flex-direction, justify-content, align-items, gap — 80% of layouts"},
+            {"name": "CSS Grid",                 "type": "core",     "desc": "grid-template-columns, areas, span — complex 2D layouts"},
+            {"name": "Responsive Design",        "type": "core",     "desc": "viewport meta, media queries, mobile-first thinking"},
+            {"name": "CSS Variables",            "type": "deep",     "desc": "--custom-properties, theming, consistent design systems"},
+            {"name": "Positioning",              "type": "deep",     "desc": "relative, absolute, fixed, sticky — know when to use each"},
+            {"name": "CSS Transitions",          "type": "deep",     "desc": "hover effects, smooth changes, transition shorthand"},
+            {"name": "Semantic HTML",            "type": "core",     "desc": "header, nav, main, section, article, footer — why it matters"}
+          ]
+        },
+        {
+          "id": 3,
+          "name": "JavaScript Fundamentals",
+          "summary": "This is where pages go from static to alive. The hardest part — worth it.",
+          "topics": [
+            {"name": "Variables & Types",        "type": "core",     "desc": "var, let, const — and why const is almost always right"},
+            {"name": "Functions",                "type": "core",     "desc": "declaration, expression, arrow functions, parameters, return"},
+            {"name": "Arrays & Objects",         "type": "core",     "desc": "Creating, reading, modifying — the data you'll manipulate forever"},
+            {"name": "Conditionals & Loops",     "type": "core",     "desc": "if/else, ternary, for, while, forEach — flow control"},
+            {"name": "DOM Manipulation",         "type": "core",     "desc": "querySelector, innerHTML, classList, createElement, appendChild"},
+            {"name": "Events",                   "type": "core",     "desc": "addEventListener, click, submit, input, keydown, event.target"},
+            {"name": "Template Literals",        "type": "deep",     "desc": "Backtick strings, ${expressions}, multiline strings"},
+            {"name": "Debugging in Browser",     "type": "tool",     "desc": "console.log, breakpoints, watch variables — find bugs fast"}
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Modern JavaScript & Tools",
+          "summary": "The stuff every job posting asks for. Learn these and you're hireable.",
+          "topics": [
+            {"name": "ES6+ Features",            "type": "core",     "desc": "Destructuring, spread, rest, default params, optional chaining"},
+            {"name": "Promises & Async/Await",   "type": "core",     "desc": "Asynchronous code without callback hell — the modern way"},
+            {"name": "Fetch API & REST",         "type": "core",     "desc": "GET/POST requests, JSON parsing, consuming APIs"},
+            {"name": "Local Storage",            "type": "deep",     "desc": "Save data in the browser, read it on reload"},
+            {"name": "ES Modules (import/export)","type": "core",    "desc": "Split code into files, share functions and classes"},
+            {"name": "Git & GitHub",             "type": "tool",     "desc": "init, add, commit, push, pull, branches — version control"},
+            {"name": "npm & package.json",       "type": "tool",     "desc": "Install libraries, run scripts, understand dependencies"},
+            {"name": "Vite (Build Tool)",        "type": "tool",     "desc": "Fast dev server, hot reload, bundling for production"}
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Go Professional",
+          "summary": "Pick a framework, build real projects, start applying for jobs.",
+          "topics": [
+            {"name": "React Basics",             "type": "core",     "desc": "Components, JSX, props, state, useEffect — #1 frontend framework"},
+            {"name": "React Hooks",              "type": "deep",     "desc": "useState, useEffect, useContext, custom hooks"},
+            {"name": "Tailwind CSS",             "type": "optional", "desc": "Utility-first CSS — write styles without leaving HTML"},
+            {"name": "TypeScript",               "type": "optional", "desc": "JavaScript with types — catches bugs before they happen"},
+            {"name": "Testing (Jest / Vitest)",  "type": "deep",     "desc": "Unit tests, component tests — prove your code works"},
+            {"name": "Deploying (Netlify/Vercel)","type": "tool",    "desc": "Put your site online in 2 minutes — for free"},
+            {"name": "Build a Portfolio",        "type": "tool",     "desc": "3-5 real projects on GitHub + a portfolio site = job-ready"}
+          ]
+        }
+      ],
+      "resources": [
+        {"name": "freeCodeCamp", "url": "https://freecodecamp.org",                "desc": "Free full curriculum — Responsive Web Design, JS, React certificates"},
+        {"name": "The Odin Project", "url": "https://theodinproject.com",          "desc": "Best free full-stack course. Detailed, project-based, open source"},
+        {"name": "MDN Web Docs",    "url": "https://developer.mozilla.org",        "desc": "The reference. Bookmark this — you will use it every single day"},
+        {"name": "Flexbox Froggy",  "url": "https://flexboxfroggy.com",            "desc": "Learn Flexbox by moving frogs. Genuinely fun. 24 levels."},
+        {"name": "CSS Grid Garden", "url": "https://cssgridgarden.com",            "desc": "Learn CSS Grid by growing a garden. Visual and interactive."},
+        {"name": "javascript.info", "url": "https://javascript.info",              "desc": "The best free JavaScript textbook. Covers everything, deeply."},
+        {"name": "Frontend Mentor", "url": "https://frontendmentor.io",            "desc": "Real designs to build. Compare your solution to others."}
+      ]
+    },
+    {
+      "id": "python",
+      "title": "Python Programming",
+      "subtitle": "From first script to web apps, data science & automation",
+      "icon": "fab fa-python",
+      "color": "#3776AB",
+      "duration": "4–8 months",
+      "jobs": ["Python Developer", "Data Analyst", "Automation Engineer", "ML Engineer"],
+      "phases": [
+        {
+          "id": 1,
+          "name": "Python Basics",
+          "summary": "Python reads like English. Learn the fundamentals — this is the fastest language to pick up.",
+          "topics": [
+            {"name": "Installing Python & VS Code", "type": "tool",   "desc": "Get the environment ready — Python 3.x, pip, a good editor"},
+            {"name": "Variables & Data Types",     "type": "core",    "desc": "int, float, str, bool — assign, read, change"},
+            {"name": "Print & Input",              "type": "core",    "desc": "print(), input() — your first interactive programs"},
+            {"name": "Strings",                    "type": "core",    "desc": "Slicing, methods, f-strings, upper/lower, split/join"},
+            {"name": "Numbers & Math",             "type": "core",    "desc": "Arithmetic, int vs float, round(), abs(), math module"},
+            {"name": "If / Elif / Else",           "type": "core",    "desc": "Comparison operators, logical operators, nested conditions"},
+            {"name": "For Loops",                  "type": "core",    "desc": "range(), iterating over strings and lists, enumerate()"},
+            {"name": "While Loops",                "type": "deep",    "desc": "break, continue — when to use while vs for"}
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Data Structures",
+          "summary": "Python's built-in data types are incredibly powerful. Know them deeply.",
+          "topics": [
+            {"name": "Lists",                      "type": "core",    "desc": "append, remove, pop, sort, slice, len — you'll use these every day"},
+            {"name": "Tuples",                     "type": "core",    "desc": "Immutable sequences — when and why to use them"},
+            {"name": "Dictionaries",               "type": "core",    "desc": "key: value, get(), keys(), values(), items(), nested dicts"},
+            {"name": "Sets",                       "type": "core",    "desc": "Unique values, union, intersection — great for deduplication"},
+            {"name": "List Comprehensions",        "type": "deep",    "desc": "[x for x in y if z] — write loops in one beautiful line"},
+            {"name": "Functions",                  "type": "core",    "desc": "def, parameters, return, default args, *args, **kwargs"},
+            {"name": "Scope & Namespaces",         "type": "deep",    "desc": "local vs global, why closures work the way they do"}
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Intermediate Python",
+          "summary": "The gap between beginner and real developer. Push through this phase.",
+          "topics": [
+            {"name": "Classes & OOP",              "type": "core",    "desc": "__init__, self, methods, inheritance, __str__, encapsulation"},
+            {"name": "File I/O",                   "type": "core",    "desc": "open(), read, write, context managers (with statement)"},
+            {"name": "Error Handling",             "type": "core",    "desc": "try/except/finally, raise, custom exceptions, defensive coding"},
+            {"name": "Modules & import",           "type": "core",    "desc": "import, from, standard library — os, sys, datetime, json"},
+            {"name": "Virtual Environments",       "type": "tool",    "desc": "venv, pip freeze, requirements.txt — isolate dependencies"},
+            {"name": "Decorators",                 "type": "deep",    "desc": "@property, @staticmethod, writing your own decorators"},
+            {"name": "Generators",                 "type": "deep",    "desc": "yield, memory-efficient iteration, generator expressions"},
+            {"name": "Regular Expressions",        "type": "optional","desc": "re module — search, match, findall for text processing"}
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Choose Your Path",
+          "summary": "Python goes everywhere. Pick the direction that excites you most.",
+          "topics": [
+            {"name": "Flask (Web Apps)",           "type": "optional","desc": "routes, templates, forms, SQLAlchemy — build APIs and websites"},
+            {"name": "Django (Full-Stack Web)",    "type": "optional","desc": "ORM, admin panel, auth built-in — production-ready framework"},
+            {"name": "NumPy (Data Science)",       "type": "optional","desc": "Arrays, vectorized operations — foundation of all data work"},
+            {"name": "Pandas (Data Analysis)",     "type": "optional","desc": "DataFrames, read CSV, filter, group, plot — data in tables"},
+            {"name": "Matplotlib (Visualization)", "type": "optional","desc": "Bar charts, line plots, scatter — show data visually"},
+            {"name": "Automation & Scripting",     "type": "optional","desc": "Rename files, send emails, scrape data — real-world scripts"},
+            {"name": "scikit-learn (ML)",          "type": "optional","desc": "Train models, evaluate accuracy — machine learning in 10 lines"}
+          ]
+        }
+      ],
+      "resources": [
+        {"name": "Python.org Tutorial",            "url": "https://docs.python.org/3/tutorial/",         "desc": "The official Python tutorial — thorough and free forever"},
+        {"name": "Automate the Boring Stuff",      "url": "https://automatetheboringstuff.com",          "desc": "Free book by Al Sweigart. Practical Python with real projects."},
+        {"name": "CS50P (Harvard)",                "url": "https://cs50.harvard.edu/python/",            "desc": "Harvard's free Python course. Demanding but excellent."},
+        {"name": "Real Python",                    "url": "https://realpython.com",                      "desc": "In-depth tutorials. Many are free. High quality writing."},
+        {"name": "Futurecoder.io",                 "url": "https://futurecoder.io",                      "desc": "Interactive Python in the browser — beginner friendly, free"},
+        {"name": "Python Tutor",                   "url": "https://pythontutor.com",                     "desc": "Visualize exactly what your code does step by step. Great for debugging."},
+        {"name": "Kaggle (Free Courses)",          "url": "https://kaggle.com/learn",                    "desc": "Free Python, Pandas, SQL, ML courses from Kaggle. Good for data science."}
+      ]
+    },
+    {
+      "id": "backend",
+      "title": "Backend Development",
+      "subtitle": "Build servers, APIs and databases that power the web",
+      "icon": "fas fa-server",
+      "color": "#68a063",
+      "duration": "8–14 months",
+      "jobs": ["Backend Developer", "Full-Stack Developer", "API Developer", "DevOps Engineer"],
+      "phases": [
+        {
+          "id": 1,
+          "name": "Pick a Language",
+          "summary": "You need at least one language well. These three dominate backend jobs.",
+          "topics": [
+            {"name": "JavaScript / Node.js",       "type": "core",    "desc": "Same language as the browser. Huge ecosystem. Great for APIs."},
+            {"name": "Python",                     "type": "core",    "desc": "Readable, versatile. Flask and Django are excellent frameworks."},
+            {"name": "Java",                       "type": "optional","desc": "Enterprise standard. Spring Boot is very powerful."},
+            {"name": "Go (Golang)",                "type": "optional","desc": "Fast, simple, great for microservices. Growing fast in industry."},
+            {"name": "Learn One Well First",       "type": "tool",    "desc": "Don't jump between languages. Get one to production quality first."}
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Web Servers & APIs",
+          "summary": "Understanding HTTP deeply is non-negotiable for backend development.",
+          "topics": [
+            {"name": "HTTP Protocol",              "type": "core",    "desc": "Methods (GET/POST/PUT/DELETE), status codes, headers, body"},
+            {"name": "REST API Design",            "type": "core",    "desc": "Resources, endpoints, versioning, response structure"},
+            {"name": "Express.js or Flask",        "type": "core",    "desc": "Routing, middleware, request/response objects"},
+            {"name": "JSON & Data Formats",        "type": "core",    "desc": "Serialize data, parse JSON, XML basics, content-type headers"},
+            {"name": "Middleware",                 "type": "deep",    "desc": "Logging, error handling, CORS, body parsing — the request pipeline"},
+            {"name": "Environment Variables",      "type": "tool",    "desc": ".env files, process.env, never commit secrets to git"},
+            {"name": "Postman or Insomnia",        "type": "tool",    "desc": "Test your APIs without building a frontend first"}
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Databases",
+          "summary": "Data persistence is the core of every real application.",
+          "topics": [
+            {"name": "SQL Fundamentals",           "type": "core",    "desc": "SELECT, INSERT, UPDATE, DELETE — every backend dev must know SQL"},
+            {"name": "Database Design",            "type": "core",    "desc": "Tables, relationships, foreign keys, normalization, ERDs"},
+            {"name": "MySQL / PostgreSQL",         "type": "core",    "desc": "Set up a database, connect it to your app, run real queries"},
+            {"name": "Indexes & Performance",      "type": "deep",    "desc": "Why queries slow down, how indexes help, EXPLAIN queries"},
+            {"name": "ORMs (Sequelize/SQLAlchemy)","type": "deep",    "desc": "Write database queries in your language without raw SQL"},
+            {"name": "MongoDB (NoSQL)",            "type": "optional","desc": "Documents instead of tables — good to know, not a replacement"},
+            {"name": "Redis (Caching)",            "type": "optional","desc": "In-memory cache — make your app 100× faster for repeated data"}
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Auth & Security",
+          "summary": "Get this wrong and you'll make the news for the wrong reasons.",
+          "topics": [
+            {"name": "Password Hashing (bcrypt)",  "type": "core",    "desc": "Never store plain text passwords. Use bcrypt, argon2 or scrypt."},
+            {"name": "JWT (JSON Web Tokens)",      "type": "core",    "desc": "Stateless auth — sign tokens, verify on every request"},
+            {"name": "Sessions & Cookies",         "type": "core",    "desc": "Server-side state — how traditional auth works"},
+            {"name": "HTTPS & SSL/TLS",            "type": "core",    "desc": "Encrypt traffic — mandatory for anything real"},
+            {"name": "Input Validation",           "type": "core",    "desc": "Never trust user input. Validate server-side. Always."},
+            {"name": "SQL Injection Prevention",   "type": "core",    "desc": "Parameterized queries, ORMs — don't build SQL strings from input"},
+            {"name": "CORS",                       "type": "deep",    "desc": "Cross-Origin Resource Sharing — why your API blocks the frontend"}
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Production & DevOps",
+          "summary": "Writing code is 40% of the job. Running it reliably is the other 60%.",
+          "topics": [
+            {"name": "Linux Command Line",         "type": "core",    "desc": "Navigate, create files, permissions, processes — servers run Linux"},
+            {"name": "Git & GitHub",               "type": "tool",    "desc": "Branches, pull requests, merge conflicts — team collaboration"},
+            {"name": "Docker Basics",              "type": "deep",    "desc": "Containers, Dockerfile, docker-compose — same environment everywhere"},
+            {"name": "CI/CD Pipelines",            "type": "deep",    "desc": "GitHub Actions — test and deploy automatically on every push"},
+            {"name": "Cloud Basics (AWS/GCP)",     "type": "optional","desc": "EC2, S3, RDS — where real apps live"},
+            {"name": "Monitoring & Logging",       "type": "deep",    "desc": "Know when your app crashes before your users do"}
+          ]
+        }
+      ],
+      "resources": [
+        {"name": "The Odin Project",               "url": "https://theodinproject.com",                  "desc": "Full-stack curriculum with Node.js backend track. Free."},
+        {"name": "CS50W (Harvard)",                "url": "https://cs50.harvard.edu/web/",               "desc": "Harvard's Web Programming with Python & JavaScript. Free."},
+        {"name": "Full Stack Open",                "url": "https://fullstackopen.com",                   "desc": "Best free Node.js + React + SQL course. University of Helsinki."},
+        {"name": "MDN HTTP Guide",                 "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP", "desc": "Deep understanding of HTTP — required reading for backend devs"},
+        {"name": "SQLZoo",                         "url": "https://sqlzoo.net",                          "desc": "Interactive SQL exercises, browser-based, completely free"},
+        {"name": "DigitalOcean Tutorials",         "url": "https://digitalocean.com/community/tutorials","desc": "Thousands of tutorials on servers, Linux, Docker, databases — free"}
+      ]
+    },
+    {
+      "id": "cs",
+      "title": "Computer Science Fundamentals",
+      "subtitle": "The theory that makes you a better programmer",
+      "icon": "fas fa-microchip",
+      "color": "#a78bfa",
+      "duration": "Ongoing — study alongside your main language",
+      "jobs": ["Software Engineer", "SWE at Big Tech", "Systems Programmer", "Any senior role"],
+      "phases": [
+        {
+          "id": 1,
+          "name": "Think Like a Computer",
+          "summary": "Before algorithms, understand how computers actually work.",
+          "topics": [
+            {"name": "Binary & Hexadecimal",       "type": "core",    "desc": "How computers store numbers. Why 0xFF = 255."},
+            {"name": "How Memory Works",           "type": "core",    "desc": "RAM, stack vs heap, memory addresses, pointers (concept)"},
+            {"name": "Compilation vs Interpretation","type": "core",  "desc": "Why some languages are fast, others flexible"},
+            {"name": "Boolean Logic & Gates",      "type": "deep",    "desc": "AND, OR, NOT, XOR — the foundation of all computation"},
+            {"name": "Command Line",               "type": "tool",    "desc": "Navigate, compile, run programs — the real developer interface"}
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Data Structures",
+          "summary": "Choose the wrong data structure and your code is slow. Know them all.",
+          "topics": [
+            {"name": "Arrays",                     "type": "core",    "desc": "Indexed, fixed-size — O(1) access, slow insert/delete"},
+            {"name": "Linked Lists",               "type": "core",    "desc": "Nodes with pointers — fast insert/delete, slow search"},
+            {"name": "Stacks & Queues",            "type": "core",    "desc": "LIFO / FIFO — implement with arrays or linked lists"},
+            {"name": "Hash Tables",                "type": "core",    "desc": "Key-value, O(1) average — how Python dicts and JS objects work"},
+            {"name": "Binary Trees",               "type": "core",    "desc": "BST, traversals (in/pre/post-order), height, balance"},
+            {"name": "Graphs",                     "type": "deep",    "desc": "Adjacency lists/matrix, directed/undirected, weighted"},
+            {"name": "Heaps & Priority Queues",    "type": "deep",    "desc": "Min-heap, max-heap — implement in O(log n) time"}
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Algorithms",
+          "summary": "The reason Big Tech companies make you solve puzzles in interviews.",
+          "topics": [
+            {"name": "Big O Notation",             "type": "core",    "desc": "O(1), O(n), O(n²), O(log n) — measure how your code scales"},
+            {"name": "Sorting",                    "type": "core",    "desc": "Bubble, Selection, Merge, Quick — know Merge and Quick cold"},
+            {"name": "Binary Search",              "type": "core",    "desc": "Find in sorted array in O(log n) — classic and essential"},
+            {"name": "Recursion",                  "type": "core",    "desc": "Functions that call themselves. Base cases. Stack frames."},
+            {"name": "BFS & DFS",                  "type": "core",    "desc": "Breadth-first, depth-first — traversing trees and graphs"},
+            {"name": "Dynamic Programming",        "type": "deep",    "desc": "Memoization, tabulation — break hard problems into subproblems"},
+            {"name": "Two Pointers / Sliding Window","type":"deep",   "desc": "Common interview patterns — learn to recognize problem types"}
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Systems & Networks",
+          "summary": "How real software systems work under the hood.",
+          "topics": [
+            {"name": "Operating Systems",          "type": "core",    "desc": "Processes, threads, scheduling, virtual memory, file systems"},
+            {"name": "TCP/IP Networking",          "type": "core",    "desc": "IP, TCP vs UDP, DNS, sockets — how data travels the internet"},
+            {"name": "Concurrency",                "type": "deep",    "desc": "Threads, mutexes, race conditions, async — parallel execution"},
+            {"name": "Database Internals",         "type": "deep",    "desc": "B-trees, ACID, transactions, indexing — why SQL works fast"},
+            {"name": "Security Basics",            "type": "deep",    "desc": "Encryption, hashing, TLS, common attacks (SQL injection, XSS)"}
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Interview Preparation",
+          "summary": "Study the theory, then practice applying it. 100 problems minimum.",
+          "topics": [
+            {"name": "LeetCode (Easy, then Medium)",  "type": "core", "desc": "Do 75–150 problems. Focus on arrays, strings, trees, graphs"},
+            {"name": "System Design Basics",          "type": "deep", "desc": "Load balancers, caching, databases, scaling — for senior interviews"},
+            {"name": "Write Clean Code",              "type": "core", "desc": "Meaningful names, small functions, no magic numbers"},
+            {"name": "Contribute to Open Source",     "type": "tool", "desc": "Read others' code, send PRs — best real-world practice"},
+            {"name": "Build & Ship Projects",         "type": "tool", "desc": "3 solid projects > 50 toy scripts. Finish things."}
+          ]
+        }
+      ],
+      "resources": [
+        {"name": "CS50 (Harvard)",                 "url": "https://cs50.harvard.edu/x/",                 "desc": "Harvard's intro to CS. Absolutely free. The best starting point."},
+        {"name": "MIT OpenCourseWare 6.006",       "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/", "desc": "MIT's algorithms course. Lecture videos + assignments, free."},
+        {"name": "Neetcode.io",                    "url": "https://neetcode.io",                         "desc": "Free roadmap + video solutions for LeetCode patterns. Excellent."},
+        {"name": "Visualgo",                       "url": "https://visualgo.net",                        "desc": "Visualize sorting, trees, graphs — animations for every algorithm"},
+        {"name": "Khan Academy CS",                "url": "https://khanacademy.org/computing",           "desc": "Free CS theory, algorithms, and cryptography from Khan Academy"},
+        {"name": "The Missing Semester (MIT)",     "url": "https://missing.csail.mit.edu",               "desc": "Git, CLI, shell scripting, vim — the dev tools nobody teaches"}
+      ]
+    }
+  ]
+}

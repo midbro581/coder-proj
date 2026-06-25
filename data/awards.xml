@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE awards SYSTEM "../dtd/awards.dtd">
+<awards>
+  <award id="a1">
+    <title>Best EdTech Platform — UAE</title>
+    <organization>UAE National Technology Awards</organization>
+    <year>2021</year>
+    <description>Recognised for excellence in digital education and innovative teaching methods.</description>
+  </award>
+  <award id="a2">
+    <title>Top 10 EdTech Startups MENA</title>
+    <organization>Forbes Middle East</organization>
+    <year>2022</year>
+    <description>Featured as one of the most impactful education technology companies in the region.</description>
+  </award>
+  <award id="a3">
+    <title>Gold Award — E-Learning Excellence</title>
+    <organization>Gulf Education Technology Forum</organization>
+    <year>2023</year>
+    <description>Awarded for outstanding contribution to online STEM education across the GCC.</description>
+  </award>
+  <award id="a4">
+    <title>Best Coding Platform 2024</title>
+    <organization>Arab Tech Summit</organization>
+    <year>2024</year>
+    <description>Voted best coding education platform by over 10,000 developers and students.</description>
+  </award>
+</awards>

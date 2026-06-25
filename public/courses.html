@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courses — Coder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="courses.html" class="active">Courses</a>
+      <a href="team.html">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <button class="hamburger" id="hamburger" title="Toggle navigation menu" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <div class="page-hero">
+      <span class="section-tag">Learning Paths</span>
+      <h1>All Courses</h1>
+      <p>Choose your language and start your journey from beginner to professional.</p>
+    </div>
+
+    <!-- Filter Bar -->
+    <section class="pt-2-px-2">
+      <div class="container">
+        <div class="flex-wrap-center">
+          <span class="filter-label">Filter:</span>
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="Beginner">Beginner</button>
+          <button class="filter-btn" data-filter="Intermediate">Intermediate</button>
+          <button class="filter-btn" data-filter="Advanced">Advanced</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="courses-grid" id="courses-grid">
+          <div class="loading-container"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Course Detail Modal -->
+    <div id="course-modal" class="modal-overlay d-none">
+      <div class="modal-box">
+        <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Pages</h4><ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="courses.html">Courses</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 Coder. All rights reserved.</p></div>
+    </footer>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/courses.js"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coder — Learn to Code. One Lesson at a Time.</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="active">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="team.html">Team</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <button class="hamburger" id="hamburger" title="Toggle navigation menu" aria-label="Toggle navigation menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- Hero -->
+    <section class="hero">
+      <!-- Animated floating code snippets -->
+      <div class="hero-floats" aria-hidden="true">
+        <span class="hero-float">print("Hello, World!")</span>
+        <span class="hero-float">const x = 42;</span>
+        <span class="hero-float">for i in range(10):</span>
+        <span class="hero-float">System.out.println();</span>
+        <span class="hero-float">function greet(name) {</span>
+        <span class="hero-float">SELECT * FROM users;</span>
+        <span class="hero-float">int main() {</span>
+        <span class="hero-float">console.log("Coder!");</span>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-badge"><i class="fas fa-bolt"></i> #1 Coding Platform in the Middle East</div>
+        <h1>Learn to <span class="highlight">Code.</span><br />One Lesson at a Time.</h1>
+        <p>Master Python, JavaScript, Java, C++, HTML and SQL through interactive bite-sized lessons, a live in-browser
+          compiler, and real projects.</p>
+        <div class="hero-buttons">
+          <a href="courses.html" class="btn btn-primary"><i class="fas fa-rocket"></i> Start Learning Free</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">50K+</div>
+            <div class="stat-label">Students</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Courses</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">45+</div>
+            <div class="stat-label">Countries</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">4.9<i class="fas fa-star fs-13"></i></div>
+            <div class="stat-label">Rating</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Strip -->
+    <div class="features-strip">
+      <div class="features-row">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+          <h4>Expert Instructors</h4>
+          <p>Learn from engineers with industry experience.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-certificate"></i></div>
+          <h4>Earn XP &amp; Certs</h4>
+          <p>Track progress with XP points and earn certificates.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-users"></i></div>
+          <h4>Community</h4>
+          <p>Join 50,000+ learners worldwide.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h4>Learn Anywhere</h4>
+          <p>Fully responsive — desktop, tablet, or phone.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Courses Section -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Learning Paths</span>
+          <h2>Pick Your Language</h2>
+          <p>From beginner to advanced — structured paths to take you from zero to job-ready.</p>
+        </div>
+        <div class="courses-grid" id="home-courses">
+          <div class="loading-container">
+            <div class="spinner"></div>
+          </div>
+        </div>
+        <div class="text-center mt-25">
+          <a href="courses.html" class="btn btn-secondary">View All Courses <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="bg-card-bordered">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Simple Process</span>
+          <h2>How Coder Works</h2>
+          <p>Three steps to go from zero to writing real code.</p>
+        </div>
+        <div class="grid-auto-220 text-center">
+          <div class="card">
+            <div class="fs-25 mb-075">
+              <span class="gradient-text fw-800">01</span>
+            </div>
+            <h3 class="mb-05">Choose a Course</h3>
+            <p class="text-sub fs-0875">Pick from Python, JavaScript, Java, C++, HTML, or SQL
+              — whatever your goal is.</p>
+          </div>
+          <div class="card">
+            <div class="fs-25 mb-075">
+              <span class="gradient-text fw-800">02</span>
+            </div>
+            <h3 class="mb-05">Learn Step by Step</h3>
+            <p class="text-sub fs-0875">Read bite-sized lessons, study code examples, and
+              practice in the live compiler.</p>
+          </div>
+          <div class="card">
+            <div class="fs-25 mb-075">
+              <span class="gradient-text fw-800">03</span>
+            </div>
+            <h3 class="mb-05">Earn XP &amp; Level Up</h3>
+            <p class="text-sub fs-0875">Complete lessons to earn XP, maintain your streak, and
+              track progress on your profile.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Student Stories</span>
+          <h2>What Our Students Say</h2>
+          <p>Real results from real learners who changed their careers with Coder.</p>
+        </div>
+        <div class="testimonials-grid" id="home-testimonials">
+          <div class="loading-container">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-card-top-border text-center">
+      <div class="container max-w-640">
+        <span class="section-tag">Get Started Today</span>
+        <h2 class="fs-21 fw-800 mb-1 mt-05">Ready to Start Your Coding
+          Journey?</h2>
+        <p class="text-sub mb-2 fs-105">Join 50,000+ students already learning
+          on Coder. It's completely free to start.</p>
+        <div class="flex-center-wrap">
+          <a href="courses.html" class="btn btn-primary fs-1 btn-lg">Browse Courses <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Coder.</h3>
+          <p>Empowering the next generation of developers across the Middle East and beyond. Learn to code, build real
+            projects, and launch your career.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Coder. All rights reserved.</p>
+        <p>Built with <i class="fas fa-heart text-red"></i> in Dubai, UAE</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/courses.js"></script>
+</body>
+
+</html>
