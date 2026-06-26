@@ -1,10 +1,6 @@
 # Dependencies
 node_modules/
 
-# Environment variables (keep secrets safe!)
-.env
-.env.local
-.env.production
 
 # OS files
 .DS_Store

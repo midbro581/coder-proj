@@ -1,60 +1,50 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../db');
+﻿const express = require('express');
+const router = express.Router();
+const db = require('../db');
 
-// retrieves team
-router.get('/team', function(req, res) {
-  db.query("SELECT * FROM team ORDER BY id", function(err, results) {
-    if (err) {
-      res.status(500).json({ error: "Failed to fetch team." });
-      return;
-    }
-    res.json(results);
-  });
+router.get('/team', async (req, res) => {
+  try {
+    const [rows] = await db.execute('SELECT * FROM team ORDER BY id');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch team.' });
+  }
 });
 
-// retrieves founders
-router.get('/founders', function(req, res) {
-  db.query("SELECT * FROM founders ORDER BY id", function(err, results) {
-    if (err) {
-      res.status(500).json({ error: "Failed to fetch founders." });
-      return;
-    }
-    res.json(results);
-  });
+router.get('/founders', async (req, res) => {
+  try {
+    const [rows] = await db.execute('SELECT * FROM founders ORDER BY id');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch founders.' });
+  }
 });
 
-// retrieves history
-router.get('/history', function(req, res) {
-  db.query("SELECT * FROM company_history ORDER BY year_val", function(err, results) {
-    if (err) {
-      res.status(500).json({ error: "Failed to fetch history." });
-      return;
-    }
-    res.json(results);
-  });
+router.get('/history', async (req, res) => {
+  try {
+    const [rows] = await db.execute('SELECT * FROM company_history ORDER BY year_val');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch history.' });
+  }
 });
 
-// retrieves awards
-router.get('/awards', function(req, res) {
-  db.query("SELECT * FROM awards ORDER BY year_val DESC", function(err, results) {
-    if (err) {
-      res.status(500).json({ error: "Failed to fetch awards." });
-      return;
-    }
-    res.json(results);
-  });
+router.get('/awards', async (req, res) => {
+  try {
+    const [rows] = await db.execute('SELECT * FROM awards ORDER BY year_val DESC');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch awards.' });
+  }
 });
 
-// retrieves testimonials
-router.get('/testimonials', function(req, res) {
-  db.query("SELECT * FROM testimonials ORDER BY id", function(err, results) {
-    if (err) {
-      res.status(500).json({ error: "Failed to fetch testimonials." });
-      return;
-    }
-    res.json(results);
-  });
+router.get('/testimonials', async (req, res) => {
+  try {
+    const [rows] = await db.execute('SELECT * FROM testimonials ORDER BY id');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch testimonials.' });
+  }
 });
 
 module.exports = router;

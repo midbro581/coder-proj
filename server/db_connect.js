@@ -1,4 +1,4 @@
-//This connects the coder_db to the server
+﻿//This connects the coder_db to the server
 var mysql = require('mysql');
 
 var con = mysql.createConnection({

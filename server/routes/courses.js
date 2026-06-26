@@ -1,33 +1,24 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../db');
+﻿const express = require('express');
+const router = express.Router();
+const db = require('../db');
 
-// The code below gets all courses
-router.get('/', function(req, res) {
-  db.query("SELECT * FROM courses ORDER BY id", function(err, results) {
-    if (err) {
-      res.status(500).json({ error: "Failed to fetch courses." });
-      return;
-    }
-    res.json(results);
-  });
+router.get('/', async (req, res) => {
+  try {
+    const [rows] = await db.execute('SELECT * FROM courses ORDER BY id');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch courses.' });
+  }
 });
 
-// The code below will get the course by ID
-router.get('/:id', function(req, res) {
-  db.query("SELECT * FROM courses WHERE id = ?", [req.params.id], function(err, results) {
-    if (err) {
-      res.status(500).json({ error: "Failed to fetch course." });
-      return;
-    }
-
-    if (results.length === 0) {
-      res.status(404).json({ error: "Course not found." });
-      return;
-    }
-
-    res.json(results[0]);
-  });
+router.get('/:id', async (req, res) => {
+  try {
+    const [rows] = await db.execute('SELECT * FROM courses WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ error: 'Course not found.' });
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch course.' });
+  }
 });
 
 module.exports = router;

@@ -1,3 +1,13 @@
+﻿/* =============================================================
+   CODER — public/js/about.js
+   Data sources:
+     1. MySQL via Node.js API  → /api/content/history  → #history-timeline
+     2. XML + XSLT transform   → /data/awards.xml + awards.xsl → #awards-xslt-output
+     3. MySQL via Node.js API  → /api/content/founders → #founders-grid
+   ============================================================= */
+
+// -- Utility ---------------------------------------------------
+
 function escapeHtml(str) {
   return String(str || '')
     .replace(/&/g, '&amp;')
@@ -7,194 +17,187 @@ function escapeHtml(str) {
 }
 
 function setLoading(id, msg) {
-  var el = document.getElementById(id);
-  if (el) {
-    el.innerHTML =
-      '<div class="loading-container"><div class="spinner"></div>' +
-      (msg ? '<p style="color:var(--text-muted);margin-top:1rem;font-size:0.85rem;">' + msg + '</p>' : '') +
-      '</div>';
-  }
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = `<div class="loading-container"><div class="spinner"></div>${msg ? `<p style="color:var(--text-muted);margin-top:1rem;font-size:0.85rem;">${msg}</p>` : ''}</div>`;
 }
 
 function setError(id, msg) {
-  var el = document.getElementById(id);
-  if (el) {
-    el.innerHTML =
-      '<p style="color:var(--text-muted);text-align:center;padding:2rem;">' +
-      msg +
-      '</p>';
-  }
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = `<p style="color:var(--text-muted);text-align:center;padding:2rem;">${msg}</p>`;
 }
 
-function apiGet(url, callback) {
-  var req = new XMLHttpRequest();
-  req.open('GET', url, true);
+// ===============================================================
+// STEP 1 — MySQL: Company History Timeline
+// Endpoint: GET /api/content/history
+// Container: id="history-timeline"
+// ===============================================================
 
-  req.onload = function() {
-    if (req.status === 200) {
-      callback(null, JSON.parse(req.responseText));
-    } else {
-      callback(true, null);
-    }
-  };
-
-  req.onerror = function() {
-    callback(true, null);
-  };
-
-  req.send();
-}
-
-function loadCompanyHistory() {
-  var container = document.getElementById('history-timeline');
+async function loadCompanyHistory() {
+  const container = document.getElementById('history-timeline');
   if (!container) return;
 
   setLoading('history-timeline');
 
-  apiGet('/api/content/history', function(err, history) {
-    if (err || !history || !history.length) {
+  try {
+    const res = await fetch('/api/content/history');
+    if (!res.ok) throw new Error(`Server error ${res.status}`);
+    const history = await res.json();
+
+    if (!history.length) {
       setError('history-timeline', 'No history records found.');
       return;
     }
 
-    var html = '';
-    for (var i = 0; i < history.length; i++) {
-      var item = history[i];
-      var last = (i === history.length - 1);
+    container.innerHTML = history.map((item, i) => `
+      <div class="timeline-item" style="
+        display:grid;
+        grid-template-columns:80px 1fr;
+        gap:1.5rem;
+        padding:1.5rem 0;
+        border-bottom:1px solid var(--border);
+        align-items:start;
+        ${i === history.length - 1 ? 'border-bottom:none;' : ''}
+      ">
+        <div style="
+          text-align:center;
+          padding:0.6rem 0.5rem;
+          background:linear-gradient(135deg, var(--accent, #6c63ff), #a78bfa);
+          border-radius:10px;
+          font-weight:800;
+          font-size:0.95rem;
+          color:#fff;
+          letter-spacing:0.5px;
+          line-height:1.3;
+        ">${escapeHtml(String(item.year_val))}</div>
+        <div>
+          <h4 style="
+            font-size:1rem;
+            font-weight:700;
+            color:var(--text);
+            margin:0 0 0.4rem;
+          ">${escapeHtml(item.milestone)}</h4>
+          <p style="
+            color:var(--text-sub);
+            font-size:0.875rem;
+            line-height:1.7;
+            margin:0;
+          ">${escapeHtml(item.description)}</p>
+        </div>
+      </div>`).join('');
 
-      html +=
-        '<div class="timeline-item" style="' +
-        'display:grid; grid-template-columns:80px 1fr; gap:1.5rem; padding:1.5rem 0;' +
-        'border-bottom:1px solid var(--border); align-items:start;' +
-        (last ? 'border-bottom:none;' : '') +
-        '">' +
-
-        '<div style="text-align:center; padding:0.6rem 0.5rem;' +
-        'background:linear-gradient(135deg, var(--accent,#6c63ff), #a78bfa);' +
-        'border-radius:10px; font-weight:800; font-size:0.95rem; color:#fff;' +
-        'letter-spacing:0.5px; line-height:1.3;">' +
-        escapeHtml(String(item.year_val)) +
-        '</div>' +
-
-        '<div>' +
-        '<h4 style="font-size:1rem; font-weight:700; color:var(--text); margin:0 0 0.4rem;">' +
-        escapeHtml(item.milestone) +
-        '</h4>' +
-        '<p style="color:var(--text-sub); font-size:0.875rem; line-height:1.7; margin:0;">' +
-        escapeHtml(item.description) +
-        '</p>' +
-        '</div>' +
-
-        '</div>';
-    }
-
-    container.innerHTML = html;
-  });
+  } catch (err) {
+    console.error('loadCompanyHistory error:', err);
+    setError('history-timeline', 'Could not load company history. Is the server running?');
+  }
 }
 
-function loadAwards() {
-  var container = document.getElementById('awards-xslt-output');
+// ===============================================================
+// STEP 2 — XML + XSLT: Awards & Honours
+// Sources: /data/awards.xml  +  /data/awards.xsl
+// Container: id="awards-xslt-output"
+// ===============================================================
+
+async function loadAwards() {
+  const container = document.getElementById('awards-xslt-output');
   if (!container) return;
 
   setLoading('awards-xslt-output');
 
+  // Guard: XSLTProcessor is only available in real browsers, not all environments
   if (typeof XSLTProcessor === 'undefined') {
     setError('awards-xslt-output', 'XSLTProcessor not supported in this browser.');
     return;
   }
 
-  // this loads the xsl
-  apiGet('/data/awards.xml', function(err1, xmlText) {
-    if (err1 || !xmlText) {
-      setError('awards-xslt-output', 'Failed to load awards.xml');
-      return;
-    }
+  try {
+    // Fetch both files in parallel
+    const [xmlRes, xslRes] = await Promise.all([
+      fetch('/data/awards.xml'),
+      fetch('/data/awards.xsl')
+    ]);
 
-    // this loads teh xsl file
-    apiGet('/data/awards.xsl', function(err2, xslText) {
-      if (err2 || !xslText) {
-        setError('awards-xslt-output', 'Failed to load awards.xsl');
-        return;
-      }
+    if (!xmlRes.ok) throw new Error(`Failed to fetch awards.xml (${xmlRes.status})`);
+    if (!xslRes.ok) throw new Error(`Failed to fetch awards.xsl (${xslRes.status})`);
 
-      var parser = new DOMParser();
-      var xmlDoc = parser.parseFromString(xmlText, 'application/xml');
-      var xslDoc = parser.parseFromString(xslText, 'application/xml');
+    const [xmlText, xslText] = await Promise.all([
+      xmlRes.text(),
+      xslRes.text()
+    ]);
 
-      var xmlErr = xmlDoc.querySelector('parsererror');
-      var xslErr = xslDoc.querySelector('parsererror');
+    // Parse both documents
+    const parser     = new DOMParser();
+    const xmlDoc     = parser.parseFromString(xmlText, 'application/xml');
+    const xslDoc     = parser.parseFromString(xslText, 'application/xml');
 
-      if (xmlErr) {
-        setError('awards-xslt-output', 'awards.xml is malformed.');
-        return;
-      }
-      if (xslErr) {
-        setError('awards-xslt-output', 'awards.xsl is malformed.');
-        return;
-      }
+    // Check for parse errors
+    const xmlError = xmlDoc.querySelector('parsererror');
+    const xslError = xslDoc.querySelector('parsererror');
+    if (xmlError) throw new Error('awards.xml is malformed: ' + xmlError.textContent);
+    if (xslError) throw new Error('awards.xsl is malformed: ' + xslError.textContent);
 
-      var processor = new XSLTProcessor();
-      processor.importStylesheet(xslDoc);
+    // Apply XSLT transformation
+    const processor = new XSLTProcessor();
+    processor.importStylesheet(xslDoc);
+    const resultFragment = processor.transformToFragment(xmlDoc, document);
 
-      var result = processor.transformToFragment(xmlDoc, document);
+    // Clear spinner and append the transformed HTML
+    container.innerHTML = '';
+    container.appendChild(resultFragment);
 
-      container.innerHTML = '';
-      container.appendChild(result);
-    });
-  });
+  } catch (err) {
+    console.error('loadAwards (XSLT) error:', err);
+    setError('awards-xslt-output', `XSLT transform failed: ${err.message}`);
+  }
 }
 
-function loadFounders() {
-  var container = document.getElementById('founders-grid');
+// ===============================================================
+// BONUS — MySQL: Founders Grid
+// Endpoint: GET /api/content/founders
+// Container: id="founders-grid"
+// ===============================================================
+
+async function loadFounders() {
+  const container = document.getElementById('founders-grid');
   if (!container) return;
 
-  setLoading('founders-grid');
+  try {
+    const res = await fetch('/api/content/founders');
+    if (!res.ok) throw new Error(`Server error ${res.status}`);
+    const founders = await res.json();
 
-  apiGet('/api/content/founders', function(err, founders) {
-    if (err || !founders || !founders.length) {
+    if (!founders.length) {
       setError('founders-grid', 'No founder records found.');
       return;
     }
 
-    var html = '';
-    for (var i = 0; i < founders.length; i++) {
-      var f = founders[i];
+    container.innerHTML = founders.map(f => `
+      <div class="card" style="text-align:center; padding:2rem 1.5rem;">
+        <div style="
+          width:80px; height:80px; border-radius:50%;
+          background:linear-gradient(135deg, var(--accent,#6c63ff), #a78bfa);
+          display:flex; align-items:center; justify-content:center;
+          font-size:2rem; font-weight:800; color:#fff;
+          margin:0 auto 1rem; flex-shrink:0;
+        ">${escapeHtml(f.name[0])}</div>
+        <h4 style="font-size:1rem; font-weight:700; margin:0 0 0.25rem;">${escapeHtml(f.name)}</h4>
+        <p style="color:var(--accent,#6c63ff); font-size:0.82rem; font-weight:600; margin:0 0 0.75rem;">${escapeHtml(f.title)}</p>
+        <p style="color:var(--text-sub); font-size:0.85rem; line-height:1.7; margin:0;">${escapeHtml(f.bio)}</p>
+        ${f.linkedin && f.linkedin !== '#'
+          ? `<a href="${escapeHtml(f.linkedin)}" style="display:inline-block;margin-top:1rem;color:var(--accent);font-size:0.82rem;" target="_blank" rel="noopener">
+               <i class="fab fa-linkedin"></i> LinkedIn
+             </a>`
+          : ''}
+      </div>`).join('');
 
-      html +=
-        '<div class="card" style="text-align:center; padding:2rem 1.5rem;">' +
-          '<div style="width:80px; height:80px; border-radius:50%;' +
-          'background:linear-gradient(135deg, var(--accent,#6c63ff), #a78bfa);' +
-          'display:flex; align-items:center; justify-content:center;' +
-          'font-size:2rem; font-weight:800; color:#fff; margin:0 auto 1rem;">' +
-            escapeHtml(f.name[0]) +
-          '</div>' +
-
-          '<h4 style="font-size:1rem; font-weight:700; margin:0 0 0.25rem;">' +
-            escapeHtml(f.name) +
-          '</h4>' +
-
-          '<p style="color:var(--accent,#6c63ff); font-size:0.82rem; font-weight:600; margin:0 0 0.75rem;">' +
-            escapeHtml(f.title) +
-          '</p>' +
-
-          '<p style="color:var(--text-sub); font-size:0.85rem; line-height:1.7; margin:0;">' +
-            escapeHtml(f.bio) +
-          '</p>' +
-
-          (f.linkedin && f.linkedin !== '#'
-            ? '<a href="' + escapeHtml(f.linkedin) + '" style="display:inline-block;margin-top:1rem;color:var(--accent);font-size:0.82rem;" target="_blank" rel="noopener">' +
-                '<i class="fab fa-linkedin"></i> LinkedIn' +
-              '</a>'
-            : '') +
-
-        '</div>';
-    }
-
-    container.innerHTML = html;
-  });
+  } catch (err) {
+    console.error('loadFounders error:', err);
+    setError('founders-grid', 'Could not load founder data.');
+  }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+// -- Init ------------------------------------------------------
+
+document.addEventListener('DOMContentLoaded', () => {
   loadFounders();
   loadCompanyHistory();
   loadAwards();

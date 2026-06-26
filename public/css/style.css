@@ -1,11 +1,11 @@
-/* 
+﻿/* =============================================================
    CODER — Main Stylesheet  (SoloLearn-inspired purple/dark theme)
    External CSS file
-    */
+   ============================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
 
-/* ── CSS Variables ── */
+/* -- CSS Variables -- */
 :root {
   --bg:           #13131a;
   --bg-card:      #1e1e2e;
@@ -31,7 +31,7 @@
   --transition:   all 0.28s cubic-bezier(0.4,0,0.2,1);
 }
 
-/* ── Reset ── */
+/* -- Reset -- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
@@ -46,15 +46,15 @@ a:hover { color: var(--accent-hover); }
 img { max-width: 100%; height: auto; }
 ul { list-style: none; }
 
-/* ── Scrollbar ── */
+/* -- Scrollbar -- */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    NAVIGATION
-══════════════════════════════════════════════════ */
+================================================== */
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -172,12 +172,12 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 
-/* ── Page Wrapper ── */
+/* -- Page Wrapper -- */
 .page-wrapper { padding-top: 64px; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    HERO SECTION — animated floating code snippets
-══════════════════════════════════════════════════ */
+================================================== */
 .hero {
   min-height: calc(100vh - 64px);
   display: flex;
@@ -296,9 +296,9 @@ ul { list-style: none; }
   margin-top: 0.2rem;
 }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    BUTTONS
-══════════════════════════════════════════════════ */
+================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -340,9 +340,9 @@ ul { list-style: none; }
 }
 .btn-green:hover { background: #2ecc71; color: #000; transform: translateY(-2px); }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    SECTIONS
-══════════════════════════════════════════════════ */
+================================================== */
 section { padding: 5rem 2rem; }
 .container { max-width: 1200px; margin: 0 auto; }
 .section-header { text-align: center; margin-bottom: 3.5rem; }
@@ -368,7 +368,7 @@ section { padding: 5rem 2rem; }
   margin-bottom: 0.6rem;
 }
 
-/* ── Generic Card ── */
+/* -- Generic Card -- */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -382,9 +382,9 @@ section { padding: 5rem 2rem; }
   box-shadow: var(--shadow);
 }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    COURSE CARDS  (SoloLearn style — gradient header)
-══════════════════════════════════════════════════ */
+================================================== */
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -549,9 +549,9 @@ section { padding: 5rem 2rem; }
 .badge-intermediate { background: rgba(137,180,250,0.15); color: var(--blue); }
 .badge-advanced     { background: rgba(243,139,168,0.15); color: var(--red); }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    FEATURES STRIP
-══════════════════════════════════════════════════ */
+================================================== */
 .features-strip {
   background: var(--bg-card);
   border-top: 1px solid var(--border);
@@ -570,9 +570,9 @@ section { padding: 5rem 2rem; }
 .feature-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
 .feature-item p { color: var(--text-sub); font-size: 0.82rem; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    TEAM
-══════════════════════════════════════════════════ */
+================================================== */
 .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 1.5rem; }
 .team-card {
   background: var(--bg-card);
@@ -598,9 +598,9 @@ section { padding: 5rem 2rem; }
 .team-links a { color: var(--text-muted); font-size: 1rem; transition: var(--transition); }
 .team-links a:hover { color: var(--accent); }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    TESTIMONIALS
-══════════════════════════════════════════════════ */
+================================================== */
 .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.5rem; }
 .testimonial-card {
   background: var(--bg-card);
@@ -624,9 +624,9 @@ section { padding: 5rem 2rem; }
 .author-name { font-weight: 600; font-size: 0.9rem; }
 .author-course { color: var(--text-muted); font-size: 0.78rem; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    TIMELINE
-══════════════════════════════════════════════════ */
+================================================== */
 .timeline { position: relative; max-width: 700px; margin: 0 auto; }
 .timeline::before {
   content: '';
@@ -656,9 +656,9 @@ section { padding: 5rem 2rem; }
 .timeline-content h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
 .timeline-content p { color: var(--text-sub); font-size: 0.85rem; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    AWARDS
-══════════════════════════════════════════════════ */
+================================================== */
 .awards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1.25rem; }
 .award-card {
   background: var(--bg-card);
@@ -684,9 +684,9 @@ section { padding: 5rem 2rem; }
 .awards-table td:nth-child(2) { color: var(--accent); }
 .awards-table tbody tr:hover { background: rgba(255,255,255,0.03); }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    FOUNDERS
-══════════════════════════════════════════════════ */
+================================================== */
 .founders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px,1fr)); gap: 2rem; }
 .founder-card {
   background: var(--bg-card);
@@ -710,9 +710,9 @@ section { padding: 5rem 2rem; }
 .founder-title { color: var(--accent); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem; }
 .founder-bio { color: var(--text-sub); font-size: 0.88rem; line-height: 1.65; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    FORMS
-══════════════════════════════════════════════════ */
+================================================== */
 .form-group { margin-bottom: 1.25rem; }
 .form-group label { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text-sub); margin-bottom: 0.5rem; }
 .form-control {
@@ -735,9 +735,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 .input-error { border-color: var(--red) !important; }
 .input-success { border-color: var(--green) !important; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    AUTH PAGES
-══════════════════════════════════════════════════ */
+================================================== */
 .auth-page {
   min-height: calc(100vh - 64px);
   display: flex;
@@ -798,9 +798,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem;
 }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    COMPILER PAGE
-══════════════════════════════════════════════════ */
+================================================== */
 .compiler-layout {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -895,9 +895,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 #output-display.error   { color: var(--red); }
 #output-display.pending { color: var(--text-muted); font-style: italic; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    CONTACT PAGE
-══════════════════════════════════════════════════ */
+================================================== */
 .contact-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem; align-items: start; }
 .contact-info h2 { font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; }
 .contact-info p { color: var(--text-sub); line-height: 1.7; margin-bottom: 2rem; }
@@ -917,9 +917,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   border-radius: var(--radius); padding: 2rem;
 }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    PAGE HERO  (sub-page header)
-══════════════════════════════════════════════════ */
+================================================== */
 .page-hero {
   background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg) 100%);
   border-bottom: 1px solid var(--border);
@@ -937,9 +937,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 .page-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.75rem; position: relative; }
 .page-hero p { color: var(--text-sub); font-size: 1.05rem; max-width: 520px; margin: 0 auto; position: relative; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    COURSE DETAIL PAGE  (course.html)
-══════════════════════════════════════════════════ */
+================================================== */
 .course-detail-layout {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -1049,9 +1049,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 }
 .course-stat i { color: var(--accent); }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    LESSON PAGE  (lesson.html)
-══════════════════════════════════════════════════ */
+================================================== */
 .lesson-layout {
   display: block;
   min-height: calc(100vh - 64px);
@@ -1308,9 +1308,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 .btn-lesson-nav:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
 .btn-lesson-nav:disabled, .btn-lesson-nav.hidden { opacity: 0.3; cursor: not-allowed; transform: none; pointer-events: none; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    PROFILE PAGE
-══════════════════════════════════════════════════ */
+================================================== */
 .profile-layout {
   max-width: 1100px;
   margin: 0 auto;
@@ -1447,9 +1447,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 .activity-text p { font-size: 0.78rem; color: var(--text-muted); margin: 0; }
 .activity-xp { font-size: 0.8rem; font-weight: 700; color: var(--yellow); white-space: nowrap; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    FOOTER
-══════════════════════════════════════════════════ */
+================================================== */
 footer {
   background: var(--bg-card);
   border-top: 1px solid var(--border);
@@ -1488,9 +1488,9 @@ footer {
 }
 .social-links a:hover { color: var(--accent); border-color: var(--accent); background: rgba(108,99,255,0.1); }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    LOADING / SPINNER
-══════════════════════════════════════════════════ */
+================================================== */
 .spinner {
   width: 40px; height: 40px;
   border: 3px solid var(--border);
@@ -1502,9 +1502,9 @@ footer {
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-container { text-align: center; padding: 3rem; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    404 PAGE
-══════════════════════════════════════════════════ */
+================================================== */
 .not-found {
   min-height: calc(100vh - 64px);
   display: flex; align-items: center; justify-content: center;
@@ -1514,9 +1514,9 @@ footer {
 .not-found h2 { font-size: 1.5rem; margin-bottom: 1rem; }
 .not-found p  { color: var(--text-sub); margin-bottom: 2rem; }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    MODAL (courses page)
-══════════════════════════════════════════════════ */
+================================================== */
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.75);
@@ -1561,9 +1561,9 @@ footer {
   background: var(--accent); border-color: var(--accent); color: #fff;
 }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    RESPONSIVE
-══════════════════════════════════════════════════ */
+================================================== */
 @media (max-width: 1100px) {
   .profile-layout { grid-template-columns: 1fr; }
   .profile-card { position: static; }
@@ -1614,9 +1614,9 @@ footer {
   .profile-courses-grid { grid-template-columns: 1fr 1fr; }
 }
 
-/* ══════════════════════════════════════════════════
+/* ==================================================
    CONTACT PAGE — utility classes (replaces inline styles)
-══════════════════════════════════════════════════ */
+================================================== */
 
 /* nav-user-info hidden by default; shown via JS by removing this class */
 .nav-user-info-hidden { display: none; }

@@ -1,69 +1,59 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../db');
+﻿/*
+ * CODER — routes/comments.js
+ * GET  /api/comments  → fetch all testimonials ordered by newest first
+ * POST /api/comments  → submit a new contact/feedback message
+ */
 
-// retrieve all testimonials / comments
-router.get('/', function(req, res) {
-  db.query(
-    "SELECT id, name, subject, message, created_at FROM comments ORDER BY created_at DESC",
-    function(err, results) {
-      if (err) {
-        res.status(500).json({ error: "Failed to fetch testimonials." });
-        return;
-      }
-      res.json(results);
-    }
-  );
+const express = require('express');
+const router  = express.Router();
+const db      = require('../db');
+
+// -- GET all testimonials --------------------------------------
+router.get('/', async (req, res) => {
+  try {
+    const [rows] = await db.execute(
+      'SELECT id, name, subject, message, created_at FROM comments ORDER BY created_at DESC'
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error('GET /api/comments error:', err);
+    res.status(500).json({ error: 'Failed to fetch testimonials.' });
+  }
 });
 
-// feedback / contact message
-router.post('/', function(req, res) {
-  var name = req.body.name;
-  var email = req.body.email;
-  var subject = req.body.subject;
-  var message = req.body.message;
+// -- POST new feedback / contact message -----------------------
+router.post('/', async (req, res) => {
+  const { name, email, subject, message } = req.body;
 
-  //fields needed
+  // Required field validation
   if (!name || !email || !message) {
-    res.status(400).json({ error: "Name, email, and message are required." });
-    return;
+    return res.status(400).json({ error: 'Name, email, and message are required.' });
   }
 
-  // Email validation
-  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // Email format validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    res.status(400).json({ error: "Invalid email address." });
-    return;
+    return res.status(400).json({ error: 'Invalid email address.' });
   }
 
-  // Message lenght requirement
+  // Message length validation
   if (message.trim().length < 10) {
-    res.status(400).json({ error: "Message must be at least 10 characters." });
-    return;
+    return res.status(400).json({ error: 'Message must be at least 10 characters.' });
   }
 
-  // sanitization
-  function sanitize(str) {
-    return str ? str.replace(/<[^>]*>/g, "").trim() : "";
+  // Strip HTML tags to prevent XSS
+  const sanitize = (str) => str ? str.replace(/<[^>]*>/g, '').trim() : '';
+
+  try {
+    await db.execute(
+      'INSERT INTO comments (name, email, subject, message) VALUES (?, ?, ?, ?)',
+      [sanitize(name), sanitize(email), sanitize(subject), sanitize(message)]
+    );
+    res.status(201).json({ message: 'Thank you! Your message has been received.' });
+  } catch (err) {
+    console.error('POST /api/comments error:', err);
+    res.status(500).json({ error: 'Failed to save your message. Please try again.' });
   }
-
-  var cleanName = sanitize(name);
-  var cleanEmail = sanitize(email);
-  var cleanSubject = sanitize(subject);
-  var cleanMessage = sanitize(message);
-
-  db.query(
-    "INSERT INTO comments (name, email, subject, message) VALUES (?, ?, ?, ?)",
-    [cleanName, cleanEmail, cleanSubject, cleanMessage],
-    function(err) {
-      if (err) {
-        res.status(500).json({ error: "Failed to save your message. Please try again." });
-        return;
-      }
-
-      res.status(201).json({ message: "Thank you! Your message has been received." });
-    }
-  );
 });
 
 module.exports = router;
