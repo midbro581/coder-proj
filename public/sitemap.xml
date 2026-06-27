@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>http://localhost:3001/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>http://localhost:3001/courses</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>http://localhost:3001/roadmap</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>http://localhost:3001/resources</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>http://localhost:3001/compiler</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>http://localhost:3001/leaderboard</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>http://localhost:3001/about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>http://localhost:3001/team</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>http://localhost:3001/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>http://localhost:3001/login</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
-  <url><loc>http://localhost:3001/register</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
-  <url><loc>http://localhost:3001/sitemap</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>http://localhost:3001/index.html</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>http://localhost:3001/courses.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>http://localhost:3001/about.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>http://localhost:3001/team.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>http://localhost:3001/contact.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

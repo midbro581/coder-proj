@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,26 +8,32 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
 
-  <nav class="navbar">
-    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="courses.html">Courses</a>
-      <a href="team.html" class="active">Team</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <button class="hamburger" id="hamburger" title="Toggle navigation menu" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
-  </nav>
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="nav-brand"><img src="images/logo.svg" alt="Coder Logo" class="logo">
+        Coder<span>.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="team.html" class="active">Team</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="hamburger" id="hamburger" title="Toggle navigation menu"
+        aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
+    </nav>
+  </header>
 
-  <div class="page-wrapper">
+  <main class="page-wrapper">
 
     <div class="page-hero">
       <span class="section-tag">The People Behind Coder</span>
       <h1>Meet Our Team</h1>
-      <p>Three Computer Science students at the <strong>University of Wollongong in Dubai</strong> who started Coder in 2026 — their first company — to help people truly understand coding from scratch.</p>
+      <p>Three Computer Science students at the <strong>University of Wollongong in Dubai</strong> who started Coder in
+        2026 — their first company — to help people truly understand coding from scratch.</p>
     </div>
 
     <section>
@@ -37,7 +44,9 @@
           <p>Built by students, for students. Coder is our first company and we write every line of it ourselves.</p>
         </div>
         <div class="team-grid" id="team-grid">
-          <div class="loading-container"><div class="spinner"></div></div>
+          <div class="loading-container">
+            <div class="spinner"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -59,7 +68,7 @@
           <div class="card text-center">
             <div class="team-icon"><i class="fas fa-laptop-code"></i></div>
             <h4 class="mb-03">Built Online</h4>
-            <p class="team-desc">Every lesson, the compiler, and the platform — written by 3 students from their laptops.</p>
+            <p class="team-desc">Every lesson and the platform — written by 3 students from their laptops.</p>
           </div>
         </div>
       </div>
@@ -83,7 +92,11 @@
               </tr>
             </thead>
             <tbody id="progress-tbody">
-              <tr><td colspan="3"><div class="spinner"></div></td></tr>
+              <tr>
+                <td colspan="3">
+                  <div class="spinner"></div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -101,24 +114,33 @@
             <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
           </div>
         </div>
-        <div class="footer-col"><h4>Pages</h4><ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="courses.html">Courses</a></li>
-          <li><a href="team.html">Team</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul></div>
-        <div class="footer-col"><h4>Legal</h4><ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-        </ul></div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-bottom"><p>&copy; 2026 Coder. All rights reserved.</p></div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Coder. All rights reserved.</p>
+      </div>
     </footer>
 
-  </div>
+  </main>
 
   <script src="js/main.js"></script>
   <script src="js/team.js"></script>
 </body>
+
 </html>

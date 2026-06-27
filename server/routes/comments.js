@@ -1,59 +1,54 @@
-﻿/*
- * CODER — routes/comments.js
- * GET  /api/comments  → fetch all testimonials ordered by newest first
- * POST /api/comments  → submit a new contact/feedback message
- */
+var db = require('../db');
 
-const express = require('express');
-const router  = express.Router();
-const db      = require('../db');
+function getComments(req, res) {
+  db.query('SELECT id, name, subject, message, created_at FROM comments ORDER BY created_at DESC', function(err, result) {
+    if (err) {
+      res.writeHead(500, {'Content-Type': 'application/json'});
+      return res.end(JSON.stringify({ error: 'Failed to fetch testimonials.' }));
+    }
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(result));
+  });
+}
 
-// -- GET all testimonials --------------------------------------
-router.get('/', async (req, res) => {
-  try {
-    const [rows] = await db.execute(
-      'SELECT id, name, subject, message, created_at FROM comments ORDER BY created_at DESC'
-    );
-    res.json(rows);
-  } catch (err) {
-    console.error('GET /api/comments error:', err);
-    res.status(500).json({ error: 'Failed to fetch testimonials.' });
-  }
-});
+function postComment(req, res) {
+  var body = '';
+  req.on('data', function(chunk){ body += chunk; });
+  req.on('end', function(){ 
+    try {
+      var data = JSON.parse(body);
+      if (!data.name || !data.email || !data.message) {
+        res.writeHead(400, {'Content-Type': 'application/json'});
+        return res.end(JSON.stringify({ error: 'Name, email, and message are required.' }));
+      }
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+        res.writeHead(400, {'Content-Type': 'application/json'});
+        return res.end(JSON.stringify({ error: 'Invalid email address.' }));
+      }
+      if (data.message.trim().length < 10) {
+        res.writeHead(400, {'Content-Type': 'application/json'});
+        return res.end(JSON.stringify({ error: 'Message must be at least 10 characters.' }));
+      }
+      var sanitize = function(str) { return str ? str.replace(/<[^>]*>/g, '').trim() : ''; };
+      db.query('INSERT INTO comments (name, email, subject, message) VALUES (?, ?, ?, ?)', 
+        [sanitize(data.name), sanitize(data.email), sanitize(data.subject), sanitize(data.message)], 
+        function(err, result) {
+          if (err) {
+            res.writeHead(500, {'Content-Type': 'application/json'});
+            return res.end(JSON.stringify({ error: 'Failed to save your message. Please try again.' }));
+          }
+          res.writeHead(201, {'Content-Type': 'application/json'});
+          res.end(JSON.stringify({ message: 'Thank you! Your message has been received.' }));
+      });
+    } catch (e) {
+      res.writeHead(400, {'Content-Type': 'application/json'});
+      res.end(JSON.stringify({ error: 'Invalid JSON body.' }));
+    }
+  });
+}
 
-// -- POST new feedback / contact message -----------------------
-router.post('/', async (req, res) => {
-  const { name, email, subject, message } = req.body;
-
-  // Required field validation
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: 'Name, email, and message are required.' });
-  }
-
-  // Email format validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ error: 'Invalid email address.' });
-  }
-
-  // Message length validation
-  if (message.trim().length < 10) {
-    return res.status(400).json({ error: 'Message must be at least 10 characters.' });
-  }
-
-  // Strip HTML tags to prevent XSS
-  const sanitize = (str) => str ? str.replace(/<[^>]*>/g, '').trim() : '';
-
-  try {
-    await db.execute(
-      'INSERT INTO comments (name, email, subject, message) VALUES (?, ?, ?, ?)',
-      [sanitize(name), sanitize(email), sanitize(subject), sanitize(message)]
-    );
-    res.status(201).json({ message: 'Thank you! Your message has been received.' });
-  } catch (err) {
-    console.error('POST /api/comments error:', err);
-    res.status(500).json({ error: 'Failed to save your message. Please try again.' });
-  }
-});
-
-module.exports = router;
+module.exports = {
+  getComments: getComments,
+  postComment: postComment
+};

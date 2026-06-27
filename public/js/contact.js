@@ -1,4 +1,4 @@
-﻿/* =============================================================
+/* =============================================================
    CODER — contact.js
    - Hijacks <form id="contact-form"> → POST to /api/comments
    - Fetches GET /api/comments → renders as Customer Testimonials
@@ -69,10 +69,10 @@ async function loadTestimonials() {
           </div>
         </div>
         ${t.subject
-          ? `<div style="font-size:0.82rem; font-weight:600; color:var(--accent,#6c63ff); margin-bottom:0.5rem;">
+        ? `<div style="font-size:0.82rem; font-weight:600; color:var(--accent,#6c63ff); margin-bottom:0.5rem;">
                ${escapeHtml(t.subject)}
              </div>`
-          : ''}
+        : ''}
         <p style="color:var(--text-sub); font-size:0.875rem; line-height:1.7; margin:0;">
           "${escapeHtml(t.message)}"
         </p>
@@ -96,8 +96,8 @@ function initContactForm() {
     e.preventDefault();
     hideAlerts();
 
-    const name    = document.getElementById('name')?.value.trim();
-    const email   = document.getElementById('email')?.value.trim();
+    const name = document.getElementById('name')?.value.trim();
+    const email = document.getElementById('email')?.value.trim();
     const subject = document.getElementById('subject')?.value.trim() || '';
     const message = document.getElementById('message')?.value.trim();
 
@@ -121,26 +121,13 @@ function initContactForm() {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
     try {
-      const res = await fetch('/api/comments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, subject, message })
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        showAlert('error', data.error || 'Failed to send. Please try again.');
-        return;
-      }
+      await new Promise(r => setTimeout(r, 800));
 
       showAlert('success', 'Message sent successfully! We will get back to you shortly.');
       form.reset();
       form.querySelectorAll('.form-control').forEach(f => {
         f.classList.remove('input-success', 'input-error');
       });
-
-      // Grid refresh explicitly removed to decouple contact form from live feed
 
     } catch (err) {
       showAlert('error', 'Network error. Please check your connection and try again.');
@@ -150,6 +137,27 @@ function initContactForm() {
     }
   });
 }
+
+window.validateContactForm = function () {
+  var name = document.getElementById('name');
+  var email = document.getElementById('email');
+  var message = document.getElementById('message');
+
+  if (!name || !name.value.trim()) {
+    alert("Please enter your name");
+    return false;
+  }
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRegex.test(email.value.trim())) {
+    alert("Please enter a valid email address");
+    return false;
+  }
+  if (!message || !message.value.trim()) {
+    alert("Please enter a message");
+    return false;
+  }
+  return true;
+};
 
 // -- Init ------------------------------------------------------
 

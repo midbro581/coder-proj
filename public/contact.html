@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,26 +8,31 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
 
-  <nav class="navbar">
-    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="courses.html">Courses</a>
-      <a href="team.html">Team</a>
-      <a href="about.html">About</a>
-      <a href="contact.html" class="active">Contact</a>
-    </div>
-    <button class="hamburger" id="hamburger" title="Toggle navigation menu" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
-  </nav>
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="nav-brand"><img src="images/logo.svg" alt="Coder Logo" class="logo">
+        Coder<span>.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="team.html">Team</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="active">Contact</a>
+      </div>
+      <button class="hamburger" id="hamburger" title="Toggle navigation menu"
+        aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
+    </nav>
+  </header>
 
-  <div class="page-wrapper">
+  <main class="page-wrapper">
 
     <div class="page-hero">
       <span class="section-tag">Get in Touch</span>
       <h1>Contact Us</h1>
-      <p>Have a question, feedback, or partnership idea? We'd love to hear from you.</p>
+      <p>Have a question? We'd love to hear from you.</p>
     </div>
 
     <section>
@@ -36,7 +42,8 @@
           <!-- Contact Info -->
           <div class="contact-info">
             <h2>Let's Talk</h2>
-            <p>Whether you're a student, educator, or company looking to train your team — reach out and we'll get back to you within 24 hours.</p>
+            <p>Reach out and we'll get back
+              to you within 24 hours.</p>
             <div class="contact-details">
               <div class="contact-item">
                 <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
@@ -75,7 +82,7 @@
             <div class="alert alert-error" id="alert-error"></div>
             <div class="alert alert-success" id="alert-success"></div>
 
-            <form id="contact-form" novalidate>
+            <form id="contact-form" onsubmit="return validateContactForm()">
               <div class="form-two-col">
                 <div class="form-group">
                   <label for="name">Full Name *</label>
@@ -94,7 +101,8 @@
               </div>
               <div class="form-group">
                 <label for="message">Message *</label>
-                <textarea id="message" name="message" class="form-control" rows="5" placeholder="Tell us more..."></textarea>
+                <textarea id="message" name="message" class="form-control" rows="5"
+                  placeholder="Tell us more..."></textarea>
                 <div class="form-error" id="message-error"></div>
               </div>
               <button type="submit" class="btn btn-primary btn-full" id="submit-btn">
@@ -116,7 +124,9 @@
           <p>What our community has been saying.</p>
         </div>
         <div id="recent-comments" class="comments-grid">
-          <div class="loading-container"><div class="spinner"></div></div>
+          <div class="loading-container">
+            <div class="spinner"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -127,42 +137,15 @@
         <div class="section-header">
           <span class="section-tag">Where We Are</span>
           <h2>Our Global Reach</h2>
-          <p>Click a region on the map to learn more about Coder's presence.</p>
-          <small class="section-note">HTML Image Map — click a highlighted region</small>
         </div>
         <div class="map-wrapper">
-          <img
-            src="map.png"
-            alt="World Map showing Coder's global presence"
-            usemap="#world-map"
-            id="world-map-img"
-            class="world-map-img"
-          />
+          <img src="images/world_map.png" alt="World Map" usemap="#world-map" id="world-map-img"
+            class="world-map-img" />
           <map name="world-map">
-            <!-- Middle East / UAE — Headquarters -->
-            <area
-              shape="rect"
-              coords="640,200,780,280"
-              href="about.html"
-              alt="Middle East — Coder Headquarters, Dubai UAE"
-              title="📍 Coder HQ — Dubai, UAE. Click to learn about us."
-            />
-            <!-- Europe / MENA — Partner Region -->
-            <area
-              shape="rect"
-              coords="480,100,640,220"
-              href="courses.html"
-              alt="Europe & MENA — Coder's student and partner region"
-              title="🎓 Europe & MENA — Our student community. Click to view courses."
-            />
-            <!-- Asia Pacific -->
-            <area
-              shape="rect"
-              coords="780,150,1050,320"
-              href="team.html"
-              alt="Asia Pacific — Expanding Coder community"
-              title="🌏 Asia Pacific — Growing Coder community. Click to meet the team."
-            />
+            <area shape="rect" coords="704,192,928,352" href="about.html" alt="Dubai UAE - Headquarters">
+            <area shape="rect" coords="544,128,704,320" href="courses.html" alt="Europe">
+            <area shape="rect" coords="928,208,1152,448" href="team.html" alt="Asia Pacific">
+            <area shape="rect" coords="80,160,400,480" href="contact.html" alt="Americas">
           </map>
           <p class="map-caption">
             <i class="fas fa-map-marker-alt" class="map-pin-icon"></i>
@@ -185,25 +168,34 @@
             <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
           </div>
         </div>
-        <div class="footer-col"><h4>Pages</h4><ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="courses.html">Courses</a></li>
-          <li><a href="team.html">Team</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul></div>
-        <div class="footer-col"><h4>Legal</h4><ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-        </ul></div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-bottom"><p>&copy; 2026 Coder. All rights reserved.</p></div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Coder. All rights reserved.</p>
+      </div>
     </footer>
 
-  </div>
+  </main>
 
   <script src="js/main.js"></script>
 
   <script src="js/contact.js"></script>
 </body>
+
 </html>

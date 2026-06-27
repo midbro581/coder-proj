@@ -1,4 +1,4 @@
-﻿/* =============================================================
+/* =============================================================
    CODER — team.js
    Loads team members and history table from API
    ============================================================= */
@@ -18,10 +18,7 @@ async function loadTeam() {
         <h3>${m.name}</h3>
         <div class="team-role">${m.role}</div>
         <p class="team-bio">${m.bio}</p>
-        <div class="team-links">
-          <a href="${m.linkedin || '#'}" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-          <a href="${m.github || '#'}" title="GitHub" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        </div>
+
       </div>`).join('');
   } catch {
     el.innerHTML = '<p style="color:var(--text-muted); text-align:center;">Failed to load team members.</p>';

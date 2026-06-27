@@ -1,50 +1,64 @@
-﻿const express = require('express');
-const router = express.Router();
-const db = require('../db');
+var db = require('../db');
 
-router.get('/team', async (req, res) => {
-  try {
-    const [rows] = await db.execute('SELECT * FROM team ORDER BY id');
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch team.' });
-  }
-});
+function getTeam(req, res) {
+  db.query('SELECT * FROM team ORDER BY id', function(err, result) {
+    if (err) {
+      res.writeHead(500, {'Content-Type': 'application/json'});
+      return res.end(JSON.stringify({ error: 'Failed to fetch team.' }));
+    }
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(result));
+  });
+}
 
-router.get('/founders', async (req, res) => {
-  try {
-    const [rows] = await db.execute('SELECT * FROM founders ORDER BY id');
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch founders.' });
-  }
-});
+function getFounders(req, res) {
+  db.query('SELECT * FROM founders ORDER BY id', function(err, result) {
+    if (err) {
+      res.writeHead(500, {'Content-Type': 'application/json'});
+      return res.end(JSON.stringify({ error: 'Failed to fetch founders.' }));
+    }
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(result));
+  });
+}
 
-router.get('/history', async (req, res) => {
-  try {
-    const [rows] = await db.execute('SELECT * FROM company_history ORDER BY year_val');
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch history.' });
-  }
-});
+function getHistory(req, res) {
+  db.query('SELECT * FROM company_history ORDER BY year_val', function(err, result) {
+    if (err) {
+      res.writeHead(500, {'Content-Type': 'application/json'});
+      return res.end(JSON.stringify({ error: 'Failed to fetch history.' }));
+    }
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(result));
+  });
+}
 
-router.get('/awards', async (req, res) => {
-  try {
-    const [rows] = await db.execute('SELECT * FROM awards ORDER BY year_val DESC');
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch awards.' });
-  }
-});
+function getAwards(req, res) {
+  db.query('SELECT * FROM awards ORDER BY year_val DESC', function(err, result) {
+    if (err) {
+      res.writeHead(500, {'Content-Type': 'application/json'});
+      return res.end(JSON.stringify({ error: 'Failed to fetch awards.' }));
+    }
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(result));
+  });
+}
 
-router.get('/testimonials', async (req, res) => {
-  try {
-    const [rows] = await db.execute('SELECT * FROM testimonials ORDER BY id');
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch testimonials.' });
-  }
-});
+function getTestimonials(req, res) {
+  db.query('SELECT * FROM testimonials ORDER BY id', function(err, result) {
+    if (err) {
+      res.writeHead(500, {'Content-Type': 'application/json'});
+      return res.end(JSON.stringify({ error: 'Failed to fetch testimonials.' }));
+    }
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(result));
+  });
+}
 
-module.exports = router;
+module.exports = {
+  getTeam: getTeam,
+  getFounders: getFounders,
+  getHistory: getHistory,
+  getAwards: getAwards,
+  getTestimonials: getTestimonials
+};

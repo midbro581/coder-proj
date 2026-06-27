@@ -12,21 +12,24 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar">
-    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html" class="active">Home</a>
-      <a href="courses.html">Courses</a>
-      <a href="team.html">Team</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <button class="hamburger" id="hamburger" title="Toggle navigation menu" aria-label="Toggle navigation menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="nav-brand"><img src="images/logo.svg" alt="Coder Logo" class="logo">
+        Coder<span>.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="active">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="team.html">Team</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="hamburger" id="hamburger" title="Toggle navigation menu" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
 
-  <div class="page-wrapper">
+  <main class="page-wrapper">
 
     <!-- Hero -->
     <section class="hero">
@@ -36,17 +39,16 @@
         <span class="hero-float">const x = 42;</span>
         <span class="hero-float">for i in range(10):</span>
         <span class="hero-float">System.out.println();</span>
-        <span class="hero-float">function greet(name) {</span>
+        <span class="hero-float">function greet(name) </span>
         <span class="hero-float">SELECT * FROM users;</span>
-        <span class="hero-float">int main() {</span>
+        <span class="hero-float">int main() </span>
         <span class="hero-float">console.log("Coder!");</span>
       </div>
 
       <div class="hero-content">
         <div class="hero-badge"><i class="fas fa-bolt"></i> #1 Coding Platform in the Middle East</div>
         <h1>Learn to <span class="highlight">Code.</span><br />One Lesson at a Time.</h1>
-        <p>Master Python, JavaScript, Java, C++, HTML and SQL through interactive bite-sized lessons, a live in-browser
-          compiler, and real projects.</p>
+        <p>Master Python, JavaScript, Java, C++, HTML and SQL through interactive bite-sized lessons.</p>
         <div class="hero-buttons">
           <a href="courses.html" class="btn btn-primary"><i class="fas fa-rocket"></i> Start Learning Free</a>
         </div>
@@ -178,7 +180,8 @@
         <p class="text-sub mb-2 fs-105">Join 50,000+ students already learning
           on Coder. It's completely free to start.</p>
         <div class="flex-center-wrap">
-          <a href="courses.html" class="btn btn-primary fs-1 btn-lg">Browse Courses <i class="fas fa-arrow-right"></i></a>
+          <a href="courses.html" class="btn btn-primary fs-1 btn-lg">Browse Courses <i
+              class="fas fa-arrow-right"></i></a>
         </div>
       </div>
     </section>
@@ -221,8 +224,7 @@
         <p>Built with <i class="fas fa-heart text-red"></i> in Dubai, UAE</p>
       </div>
     </footer>
-
-  </div>
+  </main>
 
   <script src="js/main.js"></script>
   <script src="js/courses.js"></script>

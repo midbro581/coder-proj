@@ -1,7 +1,6 @@
 # Dependencies
 node_modules/
 
-
 # OS files
 .DS_Store
 Thumbs.db
@@ -18,3 +17,9 @@ build/
 # IDE
 .vscode/
 .idea/
+
+# PDF and Report Files
+*.pdf
+CSIT128_Assignment2_Report.html
+CSIT128_Assignment2_Report_files/
+compile_report.js

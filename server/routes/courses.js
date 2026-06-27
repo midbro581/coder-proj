@@ -1,24 +1,32 @@
-﻿const express = require('express');
-const router = express.Router();
-const db = require('../db');
+var db = require('../db');
 
-router.get('/', async (req, res) => {
-  try {
-    const [rows] = await db.execute('SELECT * FROM courses ORDER BY id');
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch courses.' });
-  }
-});
+function getCourses(req, res) {
+  db.query('SELECT * FROM courses ORDER BY id', function(err, result) {
+    if (err) {
+      res.writeHead(500, {'Content-Type': 'application/json'});
+      return res.end(JSON.stringify({ error: 'Failed to fetch courses.' }));
+    }
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(result));
+  });
+}
 
-router.get('/:id', async (req, res) => {
-  try {
-    const [rows] = await db.execute('SELECT * FROM courses WHERE id = ?', [req.params.id]);
-    if (rows.length === 0) return res.status(404).json({ error: 'Course not found.' });
-    res.json(rows[0]);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch course.' });
-  }
-});
+function getCourseById(req, res, id) {
+  db.query('SELECT * FROM courses WHERE id = ?', [id], function(err, result) {
+    if (err) {
+      res.writeHead(500, {'Content-Type': 'application/json'});
+      return res.end(JSON.stringify({ error: 'Failed to fetch course.' }));
+    }
+    if (result.length === 0) {
+      res.writeHead(404, {'Content-Type': 'application/json'});
+      return res.end(JSON.stringify({ error: 'Course not found.' }));
+    }
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(result[0]));
+  });
+}
 
-module.exports = router;
+module.exports = {
+  getCourses: getCourses,
+  getCourseById: getCourseById
+};

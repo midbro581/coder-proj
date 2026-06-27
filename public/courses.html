@@ -9,8 +9,9 @@
 </head>
 <body>
 
+  <header>
   <nav class="navbar">
-    <a href="index.html" class="nav-brand">Coder<span>.</span></a>
+    <a href="index.html" class="nav-brand"><img src="images/logo.svg" alt="Coder Logo" class="logo"> Coder<span>.</span></a>
     <div class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="courses.html" class="active">Courses</a>
@@ -20,8 +21,9 @@
     </div>
     <button class="hamburger" id="hamburger" title="Toggle navigation menu" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
   </nav>
+  </header>
 
-  <div class="page-wrapper">
+  <main class="page-wrapper">
 
     <div class="page-hero">
       <span class="section-tag">Learning Paths</span>
@@ -53,7 +55,7 @@
     <!-- Course Detail Modal -->
     <div id="course-modal" class="modal-overlay d-none">
       <div class="modal-box">
-        <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+        <button class="modal-close" id="modal-close" title="Close" aria-label="Close"><i class="fas fa-times"></i></button>
         <div id="modal-content"></div>
       </div>
     </div>
@@ -83,7 +85,7 @@
       </div>
       <div class="footer-bottom"><p>&copy; 2026 Coder. All rights reserved.</p></div>
     </footer>
-  </div>
+  </main>
 
   <script src="js/main.js"></script>
   <script src="js/courses.js"></script>
