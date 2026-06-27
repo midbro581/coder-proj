@@ -20,9 +20,9 @@ Coder is a dynamic, 5-page enterprise web application serving as a corporate pro
 
 ## Quick Start Guide
 
-1. Install dependencies: run `npm install` (this will install `mysql` and `mysql2`).
+1. Install dependencies: run `npm install`.
 2. Update your SQL username and password inside `create_table.js`, `insert_data.js`, and `server/db.js`.
-3. Build the database schemas: run `node create_table.js`
+3. Build the database: run `node create_table.js`
 4. Seed the database records: run `node insert_data.js`
 5. Run the server: run `node server/server.js`
-6. Open browser: `<http://localhost:8080>` (or access it from your phone via your computer's local IP on port 8080).
+6. Open browser: `<http://localhost:8080>` .
